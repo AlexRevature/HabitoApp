@@ -1,0 +1,557 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXContainerItemProxy section */
+		FFAA2AC42D52BB7B0061AD64 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FFAA2AAB2D52BB790061AD64 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FFAA2AB22D52BB790061AD64;
+			remoteInfo = HabitoApp;
+		};
+		FFAA2ACE2D52BB7B0061AD64 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FFAA2AAB2D52BB790061AD64 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FFAA2AB22D52BB790061AD64;
+			remoteInfo = HabitoApp;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		FFAA2AB32D52BB790061AD64 /* HabitoApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HabitoApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		FFAA2AC32D52BB7B0061AD64 /* HabitoAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HabitoAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		FFAA2ACD2D52BB7B0061AD64 /* HabitoAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HabitoAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		FFAA2AB52D52BB790061AD64 /* HabitoApp */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = HabitoApp;
+			sourceTree = "<group>";
+		};
+		FFAA2AC62D52BB7B0061AD64 /* HabitoAppTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = HabitoAppTests;
+			sourceTree = "<group>";
+		};
+		FFAA2AD02D52BB7B0061AD64 /* HabitoAppUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = HabitoAppUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		FFAA2AB02D52BB790061AD64 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FFAA2AC02D52BB7B0061AD64 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FFAA2ACA2D52BB7B0061AD64 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		FFAA2AAA2D52BB790061AD64 = {
+			isa = PBXGroup;
+			children = (
+				FFAA2AB52D52BB790061AD64 /* HabitoApp */,
+				FFAA2AC62D52BB7B0061AD64 /* HabitoAppTests */,
+				FFAA2AD02D52BB7B0061AD64 /* HabitoAppUITests */,
+				FFAA2AB42D52BB790061AD64 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		FFAA2AB42D52BB790061AD64 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				FFAA2AB32D52BB790061AD64 /* HabitoApp.app */,
+				FFAA2AC32D52BB7B0061AD64 /* HabitoAppTests.xctest */,
+				FFAA2ACD2D52BB7B0061AD64 /* HabitoAppUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		FFAA2AB22D52BB790061AD64 /* HabitoApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FFAA2AD72D52BB7B0061AD64 /* Build configuration list for PBXNativeTarget "HabitoApp" */;
+			buildPhases = (
+				FFAA2AAF2D52BB790061AD64 /* Sources */,
+				FFAA2AB02D52BB790061AD64 /* Frameworks */,
+				FFAA2AB12D52BB790061AD64 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				FFAA2AB52D52BB790061AD64 /* HabitoApp */,
+			);
+			name = HabitoApp;
+			packageProductDependencies = (
+			);
+			productName = HabitoApp;
+			productReference = FFAA2AB32D52BB790061AD64 /* HabitoApp.app */;
+			productType = "com.apple.product-type.application";
+		};
+		FFAA2AC22D52BB7B0061AD64 /* HabitoAppTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FFAA2ADA2D52BB7B0061AD64 /* Build configuration list for PBXNativeTarget "HabitoAppTests" */;
+			buildPhases = (
+				FFAA2ABF2D52BB7B0061AD64 /* Sources */,
+				FFAA2AC02D52BB7B0061AD64 /* Frameworks */,
+				FFAA2AC12D52BB7B0061AD64 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				FFAA2AC52D52BB7B0061AD64 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				FFAA2AC62D52BB7B0061AD64 /* HabitoAppTests */,
+			);
+			name = HabitoAppTests;
+			packageProductDependencies = (
+			);
+			productName = HabitoAppTests;
+			productReference = FFAA2AC32D52BB7B0061AD64 /* HabitoAppTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		FFAA2ACC2D52BB7B0061AD64 /* HabitoAppUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FFAA2ADD2D52BB7B0061AD64 /* Build configuration list for PBXNativeTarget "HabitoAppUITests" */;
+			buildPhases = (
+				FFAA2AC92D52BB7B0061AD64 /* Sources */,
+				FFAA2ACA2D52BB7B0061AD64 /* Frameworks */,
+				FFAA2ACB2D52BB7B0061AD64 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				FFAA2ACF2D52BB7B0061AD64 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				FFAA2AD02D52BB7B0061AD64 /* HabitoAppUITests */,
+			);
+			name = HabitoAppUITests;
+			packageProductDependencies = (
+			);
+			productName = HabitoAppUITests;
+			productReference = FFAA2ACD2D52BB7B0061AD64 /* HabitoAppUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		FFAA2AAB2D52BB790061AD64 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1620;
+				LastUpgradeCheck = 1620;
+				TargetAttributes = {
+					FFAA2AB22D52BB790061AD64 = {
+						CreatedOnToolsVersion = 16.2;
+					};
+					FFAA2AC22D52BB7B0061AD64 = {
+						CreatedOnToolsVersion = 16.2;
+						TestTargetID = FFAA2AB22D52BB790061AD64;
+					};
+					FFAA2ACC2D52BB7B0061AD64 = {
+						CreatedOnToolsVersion = 16.2;
+						TestTargetID = FFAA2AB22D52BB790061AD64;
+					};
+				};
+			};
+			buildConfigurationList = FFAA2AAE2D52BB790061AD64 /* Build configuration list for PBXProject "HabitoApp" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = FFAA2AAA2D52BB790061AD64;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = FFAA2AB42D52BB790061AD64 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				FFAA2AB22D52BB790061AD64 /* HabitoApp */,
+				FFAA2AC22D52BB7B0061AD64 /* HabitoAppTests */,
+				FFAA2ACC2D52BB7B0061AD64 /* HabitoAppUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		FFAA2AB12D52BB790061AD64 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FFAA2AC12D52BB7B0061AD64 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FFAA2ACB2D52BB7B0061AD64 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		FFAA2AAF2D52BB790061AD64 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FFAA2ABF2D52BB7B0061AD64 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FFAA2AC92D52BB7B0061AD64 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		FFAA2AC52D52BB7B0061AD64 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FFAA2AB22D52BB790061AD64 /* HabitoApp */;
+			targetProxy = FFAA2AC42D52BB7B0061AD64 /* PBXContainerItemProxy */;
+		};
+		FFAA2ACF2D52BB7B0061AD64 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FFAA2AB22D52BB790061AD64 /* HabitoApp */;
+			targetProxy = FFAA2ACE2D52BB7B0061AD64 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		FFAA2AD52D52BB7B0061AD64 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		FFAA2AD62D52BB7B0061AD64 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		FFAA2AD82D52BB7B0061AD64 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"HabitoApp/Preview Content\"";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = Revature.HabitoApp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		FFAA2AD92D52BB7B0061AD64 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"HabitoApp/Preview Content\"";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = Revature.HabitoApp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		FFAA2ADB2D52BB7B0061AD64 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = Revature.HabitoAppTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HabitoApp.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/HabitoApp";
+			};
+			name = Debug;
+		};
+		FFAA2ADC2D52BB7B0061AD64 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = Revature.HabitoAppTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HabitoApp.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/HabitoApp";
+			};
+			name = Release;
+		};
+		FFAA2ADE2D52BB7B0061AD64 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = Revature.HabitoAppUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = HabitoApp;
+			};
+			name = Debug;
+		};
+		FFAA2ADF2D52BB7B0061AD64 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = Revature.HabitoAppUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = HabitoApp;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		FFAA2AAE2D52BB790061AD64 /* Build configuration list for PBXProject "HabitoApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FFAA2AD52D52BB7B0061AD64 /* Debug */,
+				FFAA2AD62D52BB7B0061AD64 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FFAA2AD72D52BB7B0061AD64 /* Build configuration list for PBXNativeTarget "HabitoApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FFAA2AD82D52BB7B0061AD64 /* Debug */,
+				FFAA2AD92D52BB7B0061AD64 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FFAA2ADA2D52BB7B0061AD64 /* Build configuration list for PBXNativeTarget "HabitoAppTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FFAA2ADB2D52BB7B0061AD64 /* Debug */,
+				FFAA2ADC2D52BB7B0061AD64 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FFAA2ADD2D52BB7B0061AD64 /* Build configuration list for PBXNativeTarget "HabitoAppUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FFAA2ADE2D52BB7B0061AD64 /* Debug */,
+				FFAA2ADF2D52BB7B0061AD64 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = FFAA2AAB2D52BB790061AD64 /* Project object */;
+}
