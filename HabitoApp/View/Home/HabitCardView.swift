@@ -12,6 +12,7 @@ struct HabitCardView: View {
 
     var title: String
     var subtitle: String
+    var image: UIImage
 
     var body: some View {
         VStack {
@@ -23,9 +24,12 @@ struct HabitCardView: View {
                 VStack {
                     Text(title)
                         .font(.title2)
+                        .foregroundStyle(.white)
+                        .tint(.white)
                         .frame(maxWidth: .infinity, alignment: .leading)
                     Text(subtitle)
                         .font(.callout)
+                        .foregroundStyle(.white)
                         .frame(maxWidth: .infinity, alignment: .leading)
 
                     HStack {
@@ -41,6 +45,14 @@ struct HabitCardView: View {
         .overlay(
             RoundedRectangle(cornerRadius: 20).stroke(Color.black, lineWidth: 1)
         )
+        .background {
+            Image(uiImage: image)
+                .resizable()
+                .scaledToFill()
+                .opacity(0.9)
+                .background(.green)
+        }
+        .clipShape(RoundedRectangle(cornerRadius: 20))
     }
 }
 
@@ -58,10 +70,8 @@ private struct IncrementButton: View {
             }
         }
         .padding(EdgeInsets(top: 6, leading: 10, bottom: 6, trailing: 10))
-        .overlay(
-            RoundedRectangle(cornerRadius: 10).stroke(Color.black, lineWidth: 1)
-        )
-        .padding(.top, 1)
+        .background()
+        .clipShape(RoundedRectangle(cornerRadius: 10))
     }
 }
 
@@ -71,7 +81,7 @@ private struct PercentageCircle: View {
     var body: some View {
         ZStack {
             Circle()
-                .stroke(Color.gray.opacity(0.3), lineWidth: 8)
+                .stroke(Color.white.opacity(0.9), lineWidth: 8)
 
             Circle()
                 .trim(from: 0, to: percentage)
@@ -80,6 +90,7 @@ private struct PercentageCircle: View {
 
             Text("\(Int(percentage * 100))%")
                 .font(.title2)
+                .foregroundStyle(.white)
                 .bold()
         }
     }
@@ -90,5 +101,5 @@ private struct PercentageCircle: View {
     var title = "Title"
     var subtitle = "Subtitle"
 
-    HabitCardView(number: $count, title: title, subtitle: subtitle)
+    HabitCardView(number: $count, title: title, subtitle: subtitle, image: UIImage(named: "sample")!)
 }

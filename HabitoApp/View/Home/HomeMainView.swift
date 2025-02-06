@@ -12,21 +12,34 @@ struct HomeMainView: View {
     @State var tCount = 0
 
     var body: some View {
-        VStack {
+        ScrollView {
             UserBar(name: "John")
+                .padding(.top, 20)
             LongButton(text: "Complete your daily habits!") {
                 print("Help")
             }
-            .padding(.init(top: 20, leading: 20, bottom: 5, trailing: 20))
-            HabitCardView(number: $tCount, title: "Drink Water", subtitle: "Now!")
+            .padding(.init(top: 15, leading: 20, bottom: 5, trailing: 20))
+            HabitCardView(number: $tCount, title: "Drink Water", subtitle: "Now!", image: UIImage(named: "sample")!)
                 .padding(.horizontal, 20)
             LongButton(text: "Keep up your challenges!") {
                 print("Help")
             }
             .padding(.init(top: 20, leading: 20, bottom: 5, trailing: 20))
-            ChallengeCardView(dayNumber: 10, totalDays: 30, challengeTitle: "Help")
+            ChallengeCardView(dayNumber: 10, totalDays: 30, challengeTitle: "Keep Fit!", image: UIImage(named: "sample")!)
                 .padding(.horizontal, 20)
-            Spacer()
+            LongButton(text: "Try some healthy recipes!") {
+                print("Help")
+            }
+            .padding(.init(top: 20, leading: 20, bottom: 5, trailing: 20))
+            RecipeCardView(image: UIImage(named: "sample")!)
+                .padding(.horizontal, 20)
+            LongButton(text: "Try some healthy recipes!") {
+                print("Help")
+            }
+            .padding(.init(top: 15, leading: 20, bottom: 5, trailing: 20))
+            GuideCardView(title: "This habit", subtitle: "Is Rad", image: UIImage(named: "sample")!)
+                .padding(.horizontal, 20)
+                .padding(.bottom, 30)
 
         }
 
@@ -65,9 +78,7 @@ private struct LongButton: View {
 
     var body: some View {
         Button (
-            action: {
-                action()
-            },
+            action: action,
             label: {
                 HStack {
                     Text(text)

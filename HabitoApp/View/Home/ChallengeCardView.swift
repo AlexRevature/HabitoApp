@@ -12,16 +12,20 @@ struct ChallengeCardView: View {
     var dayNumber: Int
     var totalDays: Int
     var challengeTitle: String
+    var image: UIImage
 
     var body: some View {
         VStack {
             Text("Today's Challenge")
                 .font(.headline)
+                .foregroundStyle(.white)
                 .frame(maxWidth: .infinity)
             Text("Day \(dayNumber) of \(totalDays)")
                 .font(.callout)
+                .foregroundStyle(.white)
             Text(challengeTitle)
                 .font(.title2)
+                .foregroundStyle(.white)
                 .padding(.top, 5)
 
             Button(
@@ -39,12 +43,17 @@ struct ChallengeCardView: View {
             .padding (.top, 0.5)
         }
         .padding()
-        .overlay(
-            RoundedRectangle(cornerRadius: 20).stroke(Color.black, lineWidth: 1)
-        )
+        .background {
+            Image(uiImage: image)
+                .resizable()
+                .scaledToFill()
+                .opacity(0.9)
+                .background(.green)
+        }
+        .clipShape(RoundedRectangle(cornerRadius: 20))
     }
 }
 
 #Preview {
-    ChallengeCardView(dayNumber: 10, totalDays: 30, challengeTitle: "Challenge Title")
+    ChallengeCardView(dayNumber: 10, totalDays: 30, challengeTitle: "Challenge Title", image: UIImage(named: "sample")!)
 }
