@@ -6,10 +6,6 @@
 	objectVersion = 77;
 	objects = {
 
-/* Begin PBXBuildFile section */
-		8AE8FB592D550097007F71C5 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8AE8FB582D550097007F71C5 /* CoreData.framework */; };
-/* End PBXBuildFile section */
-
 /* Begin PBXContainerItemProxy section */
 		FFAA2AC42D52BB7B0061AD64 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -28,7 +24,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		8AE8FB582D550097007F71C5 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		8AE8FB6C2D550844007F71C5 /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
+		8AE8FB6D2D550871007F71C5 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		FFAA2AB32D52BB790061AD64 /* HabitoApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HabitoApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FFAA2AC32D52BB7B0061AD64 /* HabitoAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HabitoAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FFAA2ACD2D52BB7B0061AD64 /* HabitoAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HabitoAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -57,7 +54,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8AE8FB592D550097007F71C5 /* CoreData.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -81,7 +77,8 @@
 		8AE8FB562D54FFBE007F71C5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				8AE8FB582D550097007F71C5 /* CoreData.framework */,
+				8AE8FB6D2D550871007F71C5 /* libsqlite3.tbd */,
+				8AE8FB6C2D550844007F71C5 /* libsqlite3.0.tbd */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
