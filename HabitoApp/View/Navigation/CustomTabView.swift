@@ -9,7 +9,24 @@ import SwiftUI
 
 struct CustomTabView: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        TabView {
+            Tab("Home", systemImage: "house") {
+                HomeMainView()
+            }
+
+            Tab("Recipes", systemImage: "fork.knife") {
+                Text("Recipes")
+            }
+
+            Tab("Data Analysis", systemImage: "list.clipboard") {
+                Text("Data")
+            }
+
+            Tab("Profile", systemImage: "person") {
+                Text("Profile")
+            }
+        }
+        .tint(.green)
     }
 }
 
