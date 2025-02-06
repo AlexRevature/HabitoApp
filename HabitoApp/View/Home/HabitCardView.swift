@@ -98,8 +98,8 @@ private struct PercentageCircle: View {
 
 #Preview {
     @Previewable @State var count = 0
-    var title = "Title"
-    var subtitle = "Subtitle"
+    let title = "Title"
+    let subtitle = "Subtitle"
 
     HabitCardView(number: $count, title: title, subtitle: subtitle, image: UIImage(named: "sample")!)
 }
