@@ -11,7 +11,8 @@ import SwiftUI
 struct HabitoApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView().environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
     }
+    let persistenceController = PersistenceController.shared
 }
