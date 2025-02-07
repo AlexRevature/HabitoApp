@@ -11,7 +11,10 @@ struct CustomTabView: View {
     var body: some View {
         TabView {
             Tab("Home", systemImage: "house") {
-                HomeMainView()
+                NavigationStack {
+                    HomeMainView()
+                }
+                .tint(.black)
             }
 
             Tab("Recipes", systemImage: "fork.knife") {
@@ -29,6 +32,7 @@ struct CustomTabView: View {
         .tint(.green)
     }
 }
+
 
 #Preview {
     CustomTabView()

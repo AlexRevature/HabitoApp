@@ -15,34 +15,25 @@ struct HomeMainView: View {
         ScrollView {
             UserBar(name: "John")
                 .padding(.top, 20)
-            LongButton(text: "Complete your daily habits!") {
-                print("Help")
-            }
+            LongNavigationButton(text: "Follow new habits!") { HabitMainView() }
             .padding(.init(top: 15, leading: 20, bottom: 5, trailing: 20))
             HabitCardView(number: $tCount, title: "Drink Water", subtitle: "Now!", image: UIImage(named: "sample")!)
                 .padding(.horizontal, 20)
-            LongButton(text: "Keep up your challenges!") {
-                print("Help")
-            }
+            LongNavigationButton(text: "Keep up your challenges!") { Text("") }
             .padding(.init(top: 20, leading: 20, bottom: 5, trailing: 20))
             ChallengeCardView(dayNumber: 10, totalDays: 30, challengeTitle: "Keep Fit!", image: UIImage(named: "sample")!)
                 .padding(.horizontal, 20)
-            LongButton(text: "Try some healthy recipes!") {
-                print("Help")
-            }
+            LongNavigationButton(text: "Try some healthy recipes!") { Text("") }
             .padding(.init(top: 20, leading: 20, bottom: 5, trailing: 20))
             RecipeCardView(image: UIImage(named: "sample")!)
                 .padding(.horizontal, 20)
-            LongButton(text: "Try some healthy recipes!") {
-                print("Help")
-            }
+            LongNavigationButton(text: "Look at some guides!") { Text("") }
             .padding(.init(top: 15, leading: 20, bottom: 5, trailing: 20))
             GuideCardView(title: "This habit", subtitle: "Is Rad", image: UIImage(named: "sample")!)
                 .padding(.horizontal, 20)
                 .padding(.bottom, 30)
 
         }
-
     }
 
 }
@@ -71,26 +62,31 @@ private struct UserBar: View {
     }
 }
 
-private struct LongButton: View {
+private struct LongNavigationButton <Destination>: View where Destination: View {
 
     var text: String
-    var action: () -> Void
+    var destination: () -> Destination
+
+    init(text: String, @ViewBuilder destination: @escaping () -> Destination) {
+        self.text = text
+        self.destination = destination
+    }
 
     var body: some View {
-        Button (
-            action: action,
-            label: {
-                HStack {
-                    Text(text)
-                    Spacer()
-                    Image(systemName: "chevron.right")
-                }
-                .tint(.black)
+        NavigationLink(destination: destination) {
+            HStack {
+                Text(text)
+                Spacer()
+                Image(systemName: "chevron.right")
             }
-        )
+            .tint(.black)
+        }
+        .zIndex(1)
     }
 }
 
 #Preview {
-    HomeMainView()
+    NavigationStack {
+        HomeMainView()
+    }
 }

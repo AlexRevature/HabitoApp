@@ -20,7 +20,6 @@ struct HabitMainView: View {
                 }
             }
             .frame(maxWidth: .infinity)
-            .padding(.top, 10)
             HabitListView()
                 .padding(.horizontal, 8)
 
@@ -62,8 +61,9 @@ struct CustomPicker<Data, Content>: View where Data: Hashable, Content: View {
                         }
                 }
             }
-            .padding(.horizontal, 10)
+//            .padding(.horizontal, 10)
             .padding(.vertical, 5)
+            .frame(maxWidth: .infinity)
             .background(
                 RoundedRectangle(cornerRadius: 6.0)
                     .fill(backgroundColor)
