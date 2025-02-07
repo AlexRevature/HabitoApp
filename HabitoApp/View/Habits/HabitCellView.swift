@@ -29,8 +29,10 @@ struct HabitCellView: View {
                             Text(subtitle)
                         }
                         Spacer()
-                        Button("+") {
-                            print("t")
+                        NavigationLink() {
+                            HabitTrackView(mainMessage: "Hey There!", secondaryMessage: "You're using Whatsapp", image: UIImage(systemName: "circle")!)
+                        } label: {
+                            Image(systemName: "chevron.right")
                         }
                     }
                     LineProgress(percentage: 0.5)

@@ -10,24 +10,29 @@ import SwiftUI
 struct HomeMainView: View {
 
     @State var tCount = 0
+    @State var viewModel = HomeViewModel()
 
     var body: some View {
         ScrollView {
-            UserBar(name: "John")
+            UserBar(name: viewModel.userInfo?.name ?? "")
                 .padding(.top, 20)
-            LongNavigationButton(text: "Follow new habits!") { HabitMainView() }
+
+            LongNavigationButton(text: viewModel.habitGroup?.buttonText ?? "") { HabitMainView() }
             .padding(.init(top: 15, leading: 20, bottom: 5, trailing: 20))
             HabitCardView(number: $tCount, title: "Drink Water", subtitle: "Now!", image: UIImage(named: "sample")!)
                 .padding(.horizontal, 20)
-            LongNavigationButton(text: "Keep up your challenges!") { Text("") }
+
+            LongNavigationButton(text: viewModel.challengeInfo?.buttonText ?? "") { Text("") }
             .padding(.init(top: 20, leading: 20, bottom: 5, trailing: 20))
             ChallengeCardView(dayNumber: 10, totalDays: 30, challengeTitle: "Keep Fit!", image: UIImage(named: "sample")!)
                 .padding(.horizontal, 20)
-            LongNavigationButton(text: "Try some healthy recipes!") { Text("") }
+
+            LongNavigationButton(text: viewModel.recipeInfo?.buttonText ?? "") { Text("") }
             .padding(.init(top: 20, leading: 20, bottom: 5, trailing: 20))
             RecipeCardView(image: UIImage(named: "sample")!)
                 .padding(.horizontal, 20)
-            LongNavigationButton(text: "Look at some guides!") { Text("") }
+
+            LongNavigationButton(text: viewModel.guideInfo?.buttonText ?? "") { Text("") }
             .padding(.init(top: 15, leading: 20, bottom: 5, trailing: 20))
             GuideCardView(title: "This habit", subtitle: "Is Rad", image: UIImage(named: "sample")!)
                 .padding(.horizontal, 20)
@@ -85,8 +90,8 @@ private struct LongNavigationButton <Destination>: View where Destination: View 
     }
 }
 
-#Preview {
-    NavigationStack {
-        HomeMainView()
-    }
-}
+//#Preview {
+//    NavigationStack {
+//        HomeMainView()
+//    }
+//}

@@ -26,7 +26,7 @@ struct CustomTabView: View {
             }
 
             Tab("Profile", systemImage: "person") {
-                Text("Profile")
+                ProfileMainView()
             }
         }
         .tint(.green)
