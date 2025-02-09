@@ -1,15 +1,9 @@
-//
-//  RecipeModel.swift
-//  HabitoApp
-//
-//  Created by Alex Cabrera on 2/6/25.
-//
-
 import Foundation
 import SQLite3
 
 struct Recipe {
     let id: Int64
+    let title: String
     let ingredients: String
     let instructions: String
 }
@@ -42,6 +36,7 @@ class RecipeModel {
         let createTableQuery = """
             CREATE TABLE IF NOT EXISTS Recipe (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
+                title TEXT,
                 ingredients TEXT,
                 instructions TEXT
             );
@@ -58,8 +53,8 @@ class RecipeModel {
         }
     }
     
-    func addRecipe(ingredients: String, instructions: String) {
-        let insertQuery = "INSERT INTO Recipe (ingredients, instructions) VALUES (?, ?);"
+    func addRecipe(title: String, ingredients: String, instructions: String) {
+        let insertQuery = "INSERT INTO Recipe (title, ingredients, instructions) VALUES (?, ?, ?);"
         var stmt: OpaquePointer?
         
         
@@ -69,14 +64,21 @@ class RecipeModel {
             return
         }
         
-        if sqlite3_bind_text(stmt, 1, ingredients, -1, SQLITE_TRANSIENT) != SQLITE_OK {
+        if sqlite3_bind_text(stmt, 1, title, -1, SQLITE_TRANSIENT) != SQLITE_OK {
+            let errmsg = String(cString: sqlite3_errmsg(db))
+            print("Error binding title: \(errmsg)")
+            sqlite3_finalize(stmt)
+            return
+        }
+        
+        if sqlite3_bind_text(stmt, 2, ingredients, -1, SQLITE_TRANSIENT) != SQLITE_OK {
             let errmsg = String(cString: sqlite3_errmsg(db))
             print("Error binding ingredients: \(errmsg)")
             sqlite3_finalize(stmt)
             return
         }
         
-        if sqlite3_bind_text(stmt, 2, instructions, -1, SQLITE_TRANSIENT) != SQLITE_OK {
+        if sqlite3_bind_text(stmt, 3, instructions, -1, SQLITE_TRANSIENT) != SQLITE_OK {
             let errmsg = String(cString: sqlite3_errmsg(db))
             print("Error binding instructions: \(errmsg)")
             sqlite3_finalize(stmt)
@@ -92,7 +94,7 @@ class RecipeModel {
     }
     
     func getRecipes() -> [Recipe] {
-        let query = "SELECT id, ingredients, instructions FROM Recipe;"
+        let query = "SELECT id, title, ingredients, instructions FROM Recipe;"
         var stmt: OpaquePointer?
         var recipes = [Recipe]()
         
@@ -105,15 +107,17 @@ class RecipeModel {
         while sqlite3_step(stmt) == SQLITE_ROW {
             let id = sqlite3_column_int64(stmt, 0)
             
-            guard let ingredientsCStr = sqlite3_column_text(stmt, 1),
-                  let instructionsCStr = sqlite3_column_text(stmt, 2) else {
+            guard let titleCStr = sqlite3_column_text(stmt, 1),
+                  let ingredientsCStr = sqlite3_column_text(stmt, 2),
+                  let instructionsCStr = sqlite3_column_text(stmt, 3) else {
                 continue
             }
             
+            let title = String(cString: titleCStr)
             let ingredients = String(cString: ingredientsCStr)
             let instructions = String(cString: instructionsCStr)
             
-            let recipe = Recipe(id: id, ingredients: ingredients, instructions: instructions)
+            let recipe = Recipe(id: id, title: title, ingredients: ingredients, instructions: instructions)
             recipes.append(recipe)
         }
         

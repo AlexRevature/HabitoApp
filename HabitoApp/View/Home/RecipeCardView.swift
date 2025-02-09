@@ -20,6 +20,7 @@ struct RecipeCardView: View {
     @State private var recipes: [Recipe] = []
     
     // MARK: - Structured Add Recipe Form State
+    @State private var title: String = "" // Add state for recipe title
     @State private var ingredients: [Ingredient] = [Ingredient(text: "")]
     @State private var steps: [RecipeStep] = [RecipeStep(text: "")]
     
@@ -49,8 +50,14 @@ struct RecipeCardView: View {
             // MARK: - List of Available Recipes
             List(recipes, id: \.id) { recipe in
                 VStack(alignment: .leading, spacing: 4) {
-                    Text(recipe.ingredients)
+                    Text(recipe.title)  // Display the recipe title
                         .font(.headline)
+                        .foregroundColor(.primary)
+                    
+                    Text(recipe.ingredients)
+                        .font(.subheadline)
+                        .foregroundColor(.secondary)
+                    
                     Text(recipe.instructions)
                         .font(.subheadline)
                         .foregroundColor(.secondary)
@@ -79,10 +86,14 @@ struct RecipeCardView: View {
         }) {
             NavigationView {
                 Form {
+                    // MARK: Title Section
+                    Section(header: Text("Title")) {
+                        TextField("Recipe Title", text: $title)
+                    }
+                    
                     // MARK: Ingredients Section
                     Section(header: Text("Ingredients")) {
                         ForEach($ingredients) { $ingredient in
-                            // Compute the index safely by looking up the id.
                             let index = ingredients.firstIndex(where: { $0.id == $ingredient.wrappedValue.id }) ?? 0
                             TextField("Ingredient \(index + 1)", text: $ingredient.text)
                         }
@@ -115,7 +126,6 @@ struct RecipeCardView: View {
                     }
                     ToolbarItem(placement: .confirmationAction) {
                         Button("Save") {
-                            // Join the structured arrays into single strings.
                             let joinedIngredients = ingredients
                                 .map { $0.text }
                                 .filter { !$0.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty }
@@ -126,18 +136,17 @@ struct RecipeCardView: View {
                                 .filter { !$0.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty }
                                 .joined(separator: "\n")
                             
-                            RecipeModel.shared.addRecipe(ingredients: joinedIngredients, instructions: joinedSteps)
+                            RecipeModel.shared.addRecipe(title: title, ingredients: joinedIngredients, instructions: joinedSteps)
                             
                             showingAddRecipe = false
                             recipes = RecipeModel.shared.getRecipes()
                         }
-                        .disabled(
+                        .disabled(title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ||
                             ingredients.allSatisfy { $0.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty } ||
                             steps.allSatisfy { $0.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty }
                         )
                     }
                 }
-                // Clear the form once the sheet fully disappears.
                 .onDisappear {
                     clearForm()
                 }
@@ -147,6 +156,7 @@ struct RecipeCardView: View {
     
     /// Resets the add recipe form to its initial state.
     private func clearForm() {
+        title = ""
         ingredients = [Ingredient(text: "")]
         steps = [RecipeStep(text: "")]
     }
