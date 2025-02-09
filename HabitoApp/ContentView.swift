@@ -9,16 +9,32 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        NavigationView {
+            VStack(spacing: 20) {
+                Image(systemName: "globe")
+                    .imageScale(.large)
+                    .foregroundStyle(.tint)
+                Text("Hello, world!")
+                
+                // NavigationLink to navigate to the recipe view.
+                NavigationLink(destination: RecipeCardView(image: UIImage(named: "sample")!)) {
+                    Text("Go to Recipes")
+                        .font(.headline)
+                        .padding()
+                        .frame(maxWidth: .infinity)
+                        .background(Color.blue)
+                        .foregroundColor(.white)
+                        .cornerRadius(10)
+                        .padding(.horizontal)
+                }
+            }
+            .padding()
+            .navigationTitle("Main View")
         }
-        .padding()
     }
 }
 
 #Preview {
     ContentView()
 }
+
