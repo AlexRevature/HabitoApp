@@ -8,37 +8,77 @@
 import SwiftUI
 
 struct HabitMainView: View {
-    @State private var favoriteColor = 0
-    var selectedItem = 1
+    @State var initialDate = Date()
 
     var body: some View {
         VStack {
-            CustomPicker(sources: [1,2,3,4,5], selection: selectedItem) { item in
-                VStack {
-                    Text("Thu")
-                    Text("15")
+            HStack {
+                let source = createDates(date: initialDate, num: 5)
+                CustomPicker(sources: source) { item in
+                    VStack {
+                        let (dayNum, weekDay) = getDateComponents(date: item)
+                        Text(weekDay)
+                        Text("\(dayNum)")
+                    }
                 }
+                calendarButton
+                    .padding(.leading, 7)
             }
             .frame(maxWidth: .infinity)
+            .padding(.bottom, 4)
+            .background(.customSecondary)
             HabitListView()
                 .padding(.horizontal, 8)
 
 
         }
     }
+
+    func createDates(date: Date, num: Int) -> [Date] {
+        var dateList = [date]
+        for num in (1..<num) {
+            let newDate = Calendar.current.date(byAdding: .day, value: num, to: date)
+            dateList.append(newDate ?? Date())
+        }
+        return dateList
+    }
+
+    func getDateComponents(date: Date) -> (Int, String) {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "E"
+        let weekDay = formatter.string(from: date)
+        let dayNum = Calendar.current.component(.day, from: date)
+
+        return (dayNum, weekDay)
+    }
+
+    var calendarButton: some View {
+
+        Image(systemName: "chevron.right.2")
+            .tint(.black)
+            .overlay {
+                DatePicker(
+                     "",
+                     selection: $initialDate,
+                     displayedComponents: [.date]
+                 )
+                  .blendMode(.destinationOver)
+            }
+    }
 }
 
 struct CustomPicker<Data, Content>: View where Data: Hashable, Content: View {
 
-    let sources: [Data]
     @State var selection: Data?
+
+    let sources: [Data]
     let itemBuilder: (Data) -> Content
     var backgroundColor = Color.init(uiColor: .customSecondary)
 
-    init(sources: [Data], selection: Data?, @ViewBuilder itemBuilder: @escaping (Data) -> Content) {
+    init(sources: [Data], @ViewBuilder itemBuilder: @escaping (Data) -> Content) {
 
         self.sources = sources
-        self.selection = selection
+        self.selection = sources[0]
         self.itemBuilder = itemBuilder
     }
 
@@ -61,14 +101,13 @@ struct CustomPicker<Data, Content>: View where Data: Hashable, Content: View {
                         }
                 }
             }
-//            .padding(.horizontal, 10)
             .padding(.vertical, 5)
-            .frame(maxWidth: .infinity)
-            .background(
-                RoundedRectangle(cornerRadius: 6.0)
-                    .fill(backgroundColor)
-            )
+//            .frame(maxWidth: .infinity)
+//            .background(backgroundColor)
 
+        }
+        .onChange(of: sources) {
+            selection = sources[0]
         }
     }
 
