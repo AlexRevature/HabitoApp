@@ -19,21 +19,21 @@ class ProfileViewModel {
     }
 
     private func fetchTestUserInfo() -> ProfileUserInfo {
-        return ProfileUserInfo(name: "John Swift", email: "test@test.com", image: UIImage(systemName: "person.circle")!)
+        return ProfileUserInfo(name: "Joanna Swift", email: "test@test.com", phone: "(987) 456-1234", image: UIImage(named: "profile")!, password: "password")
     }
 
     func fetchActionList() -> [ProfileActionInfo<AnyView>] {
         let selectOptions = [
-            ProfileActionInfo(actionImage: UIImage(systemName: "person")!, text: "Personal data", tintColor: .black) {
+            ProfileActionInfo(imageName: "person", text: "Personal data", tintColor: .black) {
                 AnyView(Text(""))
             },
-            ProfileActionInfo(actionImage: UIImage(systemName: "person")!, text: "Help", tintColor: .black) {
+            ProfileActionInfo(imageName: "questionmark.circle", text: "Help", tintColor: .black) {
                 AnyView(Text(""))
             },
-            ProfileActionInfo(actionImage: UIImage(systemName: "person")!, text: "Delete account", tintColor: .black) {
+            ProfileActionInfo(imageName: "trash", text: "Delete account", tintColor: .black) {
                 AnyView(Text(""))
             },
-            ProfileActionInfo(actionImage: UIImage(systemName: "person")!, text: "Log out", tintColor: .red) {
+            ProfileActionInfo(imageName: "power", text: "Log out", tintColor: .red) {
                 AnyView(Text(""))
             }
         ]
@@ -45,19 +45,21 @@ struct ProfileUserInfo: Identifiable {
     var id = UUID()
     var name: String
     var email: String
+    var phone: String
     var image: UIImage
+    var password: String
 
 }
 
 struct ProfileActionInfo<Destination>: Identifiable where Destination: View {
     var id = UUID()
-    let actionImage: UIImage
+    let imageName: String
     let text: String
     let tintColor: Color
     let destination: () -> Destination
 
-    init(actionImage: UIImage, text: String, tintColor: Color, @ViewBuilder destination: @escaping () -> Destination) {
-        self.actionImage = actionImage
+    init(imageName: String, text: String, tintColor: Color, @ViewBuilder destination: @escaping () -> Destination) {
+        self.imageName = imageName
         self.text = text
         self.tintColor = tintColor
         self.destination = destination

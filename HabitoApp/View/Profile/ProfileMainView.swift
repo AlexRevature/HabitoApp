@@ -16,10 +16,12 @@ struct ProfileMainView: View {
             Image(uiImage: viewModel.userInfo?.image ?? UIImage(systemName: "person.circle")!)
                 .resizable()
                 .scaledToFit()
-                .frame(maxWidth: 120)
+                .clipShape(Circle())
+                .frame(maxWidth: 170)
                 .padding(.top, 30)
                 .padding(.bottom, 2)
             Text(viewModel.userInfo?.name ?? "Empty")
+                .bold()
             Text(viewModel.userInfo?.email ?? "N/A")
                 .padding(.bottom, 15)
             LayerInfo()
@@ -27,7 +29,7 @@ struct ProfileMainView: View {
 
             List {
                 ForEach(viewModel.actionList) { rowInfo in
-                    ActionRow(image: rowInfo.actionImage, text: rowInfo.text)
+                    ActionRow(imageName: rowInfo.imageName, text: rowInfo.text, tint: rowInfo.tintColor)
                 }
             }
             Spacer()
@@ -37,19 +39,21 @@ struct ProfileMainView: View {
 
 private struct ActionRow: View {
 
-    var image: UIImage
+    var imageName: String
     var text: String
+    var tint: Color
 
     var body: some View {
         NavigationLink {
             Text("")
         } label: {
             HStack {
-                Image(uiImage: image)
+                Image(systemName: imageName)
                     .padding(.trailing, 8)
                 Text(text)
                 Spacer()
             }
+            .foregroundStyle(tint)
             .padding(.vertical, 8)
         }
     }
@@ -80,8 +84,8 @@ private struct LayerCell: View {
 }
 
 
-//#Preview {
-//    NavigationStack {
-//        ProfileMainView()
-//    }
-//}
+#Preview {
+    NavigationStack {
+        ProfileMainView()
+    }
+}
