@@ -8,10 +8,12 @@
 import SwiftUI
 
 struct HabitListView: View {
+    var habits: [HabitInfoFull]
+
     var body: some View {
         ScrollView {
-            ForEach(0..<4) { idx in
-                HabitCellView(title: "Test \(idx)", subtitle: "Subtitle", percentage: 0.5, mainImage: UIImage(systemName: "square")!, backImage: UIImage(named: "back")!)
+            ForEach(habits) { habit in
+                HabitCellView(title: habit.title, subtitle: habit.subtitle, percentage: 0.5, mainImage: habit.image, backImage: habit.backImage)
                     .padding(.vertical, 12)
                     .padding(.horizontal, 10)
             }
@@ -20,5 +22,6 @@ struct HabitListView: View {
 }
 
 #Preview {
-    HabitListView()
+    var viewModel = HabitViewModel()
+    HabitListView(habits: viewModel.getHabits(date: Date()))
 }

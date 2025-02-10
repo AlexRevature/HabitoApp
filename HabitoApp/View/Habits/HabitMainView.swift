@@ -8,13 +8,21 @@
 import SwiftUI
 
 struct HabitMainView: View {
-    @State var initialDate = Date()
+    @State var initialDate: Date
+    @State var selection: Date
+    @State var viewModel = HabitViewModel()
+
+    init() {
+        let currentDate = Date()
+        initialDate = currentDate
+        selection = currentDate
+    }
 
     var body: some View {
         VStack {
             HStack {
                 let source = createDates(date: initialDate, num: 5)
-                CustomPicker(sources: source) { item in
+                CustomPicker(sources: source, selection: $selection) { item in
                     VStack {
                         let (dayNum, weekDay) = getDateComponents(date: item)
                         Text(weekDay)
@@ -27,7 +35,7 @@ struct HabitMainView: View {
             .frame(maxWidth: .infinity)
             .padding(.bottom, 4)
             .background(.customSecondary)
-            HabitListView()
+            HabitListView(habits: viewModel.getHabits(date: selection))
                 .padding(.horizontal, 8)
 
 
@@ -69,18 +77,10 @@ struct HabitMainView: View {
 
 struct CustomPicker<Data, Content>: View where Data: Hashable, Content: View {
 
-    @State var selection: Data?
-
     let sources: [Data]
+    @Binding var selection: Data
     let itemBuilder: (Data) -> Content
     var backgroundColor = Color.init(uiColor: .customSecondary)
-
-    init(sources: [Data], @ViewBuilder itemBuilder: @escaping (Data) -> Content) {
-
-        self.sources = sources
-        self.selection = sources[0]
-        self.itemBuilder = itemBuilder
-    }
 
     var body: some View {
         ZStack(alignment: .center) {
@@ -102,9 +102,6 @@ struct CustomPicker<Data, Content>: View where Data: Hashable, Content: View {
                 }
             }
             .padding(.vertical, 5)
-//            .frame(maxWidth: .infinity)
-//            .background(backgroundColor)
-
         }
         .onChange(of: sources) {
             selection = sources[0]
