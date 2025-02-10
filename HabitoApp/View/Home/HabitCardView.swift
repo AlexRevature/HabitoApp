@@ -8,51 +8,78 @@
 import SwiftUI
 
 struct HabitCardView: View {
-    @Binding var number: Int
 
-    var title: String
-    var subtitle: String
-    var image: UIImage
+    @Binding var habitInfoList: [HomeHabitInfo]
+    @State var currentCard: HomeHabitInfo
+    @State var currentIndex: Int
+
+    init(habitInfoList: Binding<[HomeHabitInfo]>) {
+        _habitInfoList = habitInfoList
+        currentIndex = 0
+        currentCard = habitInfoList[0].wrappedValue
+    }
 
     var body: some View {
-        VStack {
-            HStack {
-                PercentageCircle(percentage: 0.5)
-                    .frame(maxWidth: 70, maxHeight: 70)
-                    .padding(.leading, 6)
-
-                VStack {
-                    Text(title)
-                        .font(.title2)
-                        .foregroundStyle(.white)
-                        .tint(.white)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                    Text(subtitle)
-                        .font(.callout)
-                        .foregroundStyle(.white)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-
-                    HStack {
-                        IncrementButton(count: $number)
-
-                        Spacer()
-                    }
-                }
-                .padding(.leading, 20)
-            }
-        }
+        frontView
         .padding()
-        .overlay(
-            RoundedRectangle(cornerRadius: 20).stroke(Color.black, lineWidth: 1)
-        )
         .background {
-            Image(uiImage: image)
+            Image(uiImage: currentCard.image)
                 .resizable()
                 .scaledToFill()
                 .opacity(0.9)
                 .background(.green)
         }
         .clipShape(RoundedRectangle(cornerRadius: 20))
+    }
+
+    var frontView: some View {
+        VStack {
+            HStack {
+                moveButton(imageName: "chevron.left", step: -1)
+                PercentageCircle(percentage: 0.5)
+                    .frame(maxWidth: 70, maxHeight: 70)
+                    .padding(.leading, 6)
+
+                VStack {
+                    titleStack(title: currentCard.title, subtitle: currentCard.subtitle)
+
+                    HStack {
+                        IncrementButton(count: $habitInfoList[currentIndex].count)
+                        Spacer()
+                    }
+                }
+                .padding(.leading, 20)
+                moveButton(imageName: "chevron.right", step: 1)
+            }
+        }
+    }
+
+    private func titleStack(title: String, subtitle: String) -> some View {
+        VStack {
+            Text(title)
+                .font(.title2)
+                .foregroundStyle(.white)
+                .tint(.white)
+                .frame(maxWidth: .infinity, alignment: .leading)
+            Text(subtitle)
+                .font(.callout)
+                .foregroundStyle(.white)
+                .frame(maxWidth: .infinity, alignment: .leading)
+        }
+    }
+
+    private func moveButton(imageName: String, step: Int) -> some View {
+        Button {
+            var newIndex = (self.currentIndex + step) % habitInfoList.count
+            if newIndex < 0 {
+                newIndex = habitInfoList.count + newIndex
+            }
+            self.currentCard = self.habitInfoList[newIndex]
+            self.currentIndex = newIndex
+        } label: {
+            Image(systemName: imageName)
+        }
+        .tint(.black)
     }
 }
 
@@ -97,9 +124,10 @@ private struct PercentageCircle: View {
 }
 
 #Preview {
-    @Previewable @State var count = 0
+    @Previewable @State var tmp = HomeViewModel().habitGroup!
+
     let title = "Title"
     let subtitle = "Subtitle"
 
-    HabitCardView(number: $count, title: title, subtitle: subtitle, image: UIImage(named: "sample")!)
+    HabitCardView(habitInfoList: $tmp.habitInfoList)
 }

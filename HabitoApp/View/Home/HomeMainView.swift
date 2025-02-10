@@ -14,30 +14,52 @@ struct HomeMainView: View {
 
     var body: some View {
         ScrollView {
-            UserBar(name: viewModel.userInfo?.name ?? "")
+            UserBar(userInfo: viewModel.userInfo)
                 .padding(.top, 20)
 
-            LongNavigationButton(text: viewModel.habitGroup?.buttonText ?? "") { HabitMainView() }
-            .padding(.init(top: 15, leading: 20, bottom: 5, trailing: 20))
-            HabitCardView(number: $tCount, title: "Drink Water", subtitle: "Now!", image: UIImage(named: "sample")!)
-                .padding(.horizontal, 20)
+            habitStack(buttonText: viewModel.habitGroup!.buttonText, habitList: Binding($viewModel.habitGroup)!.habitInfoList)
 
-            LongNavigationButton(text: viewModel.challengeInfo?.buttonText ?? "") { Text("") }
+            challengeStack(info: viewModel.challengeInfo!)
+            recipeStack(info: viewModel.recipeInfo!)
+            guideStack(info: viewModel.guideInfo!)
+
+        }
+    }
+
+    func habitStack(buttonText: String, habitList: Binding<[HomeHabitInfo]>) -> some View {
+        VStack {
+            LongNavigationButton(text: buttonText) { HabitMainView() }
+                .padding(.init(top: 15, leading: 20, bottom: 5, trailing: 20))
+            HabitCardView(habitInfoList: habitList)
+                .padding(.horizontal, 20)
+        }
+    }
+
+    func challengeStack(info: ChallengeCardInfo) -> some View {
+        VStack {
+            LongNavigationButton(text: info.buttonText) { Text("") }
             .padding(.init(top: 20, leading: 20, bottom: 5, trailing: 20))
-            ChallengeCardView(dayNumber: 10, totalDays: 30, challengeTitle: "Keep Fit!", image: UIImage(named: "sample")!)
+            ChallengeCardView(dayNumber: info.dayNumber, totalDays: info.totalDays, challengeTitle: info.challengeText, image: info.image)
                 .padding(.horizontal, 20)
+        }
+    }
 
-            LongNavigationButton(text: viewModel.recipeInfo?.buttonText ?? "") { Text("") }
+    func recipeStack(info: RecipeCardInfo) -> some View {
+        VStack {
+            LongNavigationButton(text: info.buttonText) { Text("") }
             .padding(.init(top: 20, leading: 20, bottom: 5, trailing: 20))
-            RecipeCardView(image: UIImage(named: "sample")!)
+            RecipeCardView(image: info.imageList.first!)
                 .padding(.horizontal, 20)
+        }
+    }
 
-            LongNavigationButton(text: viewModel.guideInfo?.buttonText ?? "") { Text("") }
+    func guideStack(info: GuideCardInfo) -> some View {
+        VStack {
+            LongNavigationButton(text: info.buttonText) { Text("") }
             .padding(.init(top: 15, leading: 20, bottom: 5, trailing: 20))
-            GuideCardView(title: "This habit", subtitle: "Is Rad", image: UIImage(named: "sample")!)
+            GuideCardView(title: info.title, subtitle: info.subtitle, image: info.image)
                 .padding(.horizontal, 20)
                 .padding(.bottom, 30)
-
         }
     }
 
@@ -45,18 +67,18 @@ struct HomeMainView: View {
 
 private struct UserBar: View {
 
-    var name: String
+    var userInfo: UserBarInfo?
 
     var body: some View {
         VStack{
             HStack {
-                Image(systemName: "person.circle")
+                Image(uiImage: userInfo?.image ?? UIImage(systemName: "person.circle")!)
                     .resizable()
                     .scaledToFit()
                     .frame(maxWidth: 60, maxHeight: 60)
                 VStack(alignment: .leading) {
-                    Text("Good Morning, \(name)!")
-                    Text("Ready to achieve your goals?")
+                    Text("\(userInfo?.greeting ?? "No greeting"), \(userInfo?.name ?? "No Name")!")
+                    Text(userInfo?.message ?? "No message")
                 }
                 .padding(.leading, 12)
                 Spacer()
@@ -90,8 +112,8 @@ private struct LongNavigationButton <Destination>: View where Destination: View 
     }
 }
 
-//#Preview {
-//    NavigationStack {
-//        HomeMainView()
-//    }
-//}
+#Preview {
+    NavigationStack {
+        HomeMainView()
+    }
+}
