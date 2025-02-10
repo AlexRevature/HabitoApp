@@ -13,7 +13,7 @@ struct HabitListView: View {
     var body: some View {
         ScrollView {
             ForEach(habits) { habit in
-                HabitCellView(title: habit.title, subtitle: habit.subtitle, percentage: 0.5, mainImage: habit.image, backImage: habit.backImage)
+                HabitCellView(title: habit.title, subtitle: habit.subtitle, percentage: Double(habit.count) / Double(habit.total), mainImage: habit.image, backImage: habit.backImage)
                     .padding(.vertical, 12)
                     .padding(.horizontal, 10)
             }
