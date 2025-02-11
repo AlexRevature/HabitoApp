@@ -14,21 +14,23 @@ struct HabitTrackView: View {
     var image: UIImage
 
     @State var value = 0.0
+    var currentValue: Int
+    var totalValue: Int
 
     var body: some View {
         VStack {
-            Text("Main message")
+            Text(mainMessage)
                 .font(.title)
-            Text("Secondary message")
+            Text(secondaryMessage)
                 .padding(.bottom, 100)
-            Image(systemName: "square")
+            Image(uiImage: image)
                 .resizable()
                 .scaledToFit()
                 .frame(maxWidth: 200)
                 .padding(.bottom, 70)
             Slider(
                     value: $value,
-                    in: 0...20,
+                    in: 0...Double(totalValue),
                     step: 1
                 )
                 .tint(.green)
@@ -46,9 +48,12 @@ struct HabitTrackView: View {
             Spacer()
         }
         .padding(.top, 80)
+//        .onChange(of: value) {
+//            currentValue = Int(value)
+//        }
     }
 }
 
 #Preview {
-    HabitTrackView(mainMessage: "Main message", secondaryMessage: "Secondary message", image: UIImage(systemName: "square")!)
+    HabitTrackView(mainMessage: "Main message", secondaryMessage: "Secondary message", image: UIImage(systemName: "square")!, currentValue: 0, totalValue: 20)
 }

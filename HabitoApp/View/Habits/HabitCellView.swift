@@ -30,12 +30,12 @@ struct HabitCellView: View {
                         }
                         Spacer()
                         NavigationLink() {
-                            HabitTrackView(mainMessage: "Hey There!", secondaryMessage: "You're using Whatsapp", image: UIImage(systemName: "circle")!)
+                            HabitTrackView(mainMessage: "Hey There!", secondaryMessage: "You're using Whatsapp", image: UIImage(systemName: "circle")!, currentValue: 0, totalValue: 20)
                         } label: {
                             Image(systemName: "chevron.right")
                         }
                     }
-                    LineProgress(percentage: 0.5)
+                    LineProgress(percentage: percentage)
                         .frame(maxHeight: 10)
                 }
                 .padding(.leading, 5)
