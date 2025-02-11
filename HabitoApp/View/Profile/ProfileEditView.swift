@@ -10,9 +10,9 @@ import PhotosUI
 
 struct ProfileEditView: View {
 
+    @Bindable var viewModel: ProfileViewModel
     @State var password: String = ""
     @State var passwordVerify: String = ""
-    @State var info: ProfileUserInfo
     @State private var photoSelection: PhotosPickerItem?
 
     var body: some View {
@@ -27,7 +27,7 @@ struct ProfileEditView: View {
     var userInfo: some View {
         VStack {
             ZStack {
-                Image(uiImage: info.image)
+                Image(uiImage: viewModel.userInfo!.image)
                     .resizable()
                     .scaledToFill()
                     .clipShape(Circle())
@@ -49,9 +49,7 @@ struct ProfileEditView: View {
 
                         Task {
                             if let loaded = try? await photoSelection?.loadTransferable(type: Data.self) {
-
-                                info.image = UIImage(data: loaded)!
-                                print("Done")
+                                viewModel.userInfo!.image = UIImage(data: loaded)!
                             } else {
                                 print("Failed")
                             }
@@ -75,15 +73,15 @@ struct ProfileEditView: View {
         VStack(alignment: .leading) {
             Text("Username")
                 .font(.headline)
-            wrappedTextField(placeholder: "Username", record: $info.name)
+            wrappedTextField(placeholder: "Username", record: Binding($viewModel.userInfo)!.name)
                 .padding(.bottom, 10)
             Text("Email")
                 .font(.headline)
-            wrappedTextField(placeholder: "Email", record: $info.email)
+            wrappedTextField(placeholder: "Email", record: Binding($viewModel.userInfo)!.email)
                 .padding(.bottom, 10)
             Text("Phone Number")
                 .font(.headline)
-            wrappedTextField(placeholder: "Phone Number", record: $info.phone)
+            wrappedTextField(placeholder: "Phone Number", record: Binding($viewModel.userInfo)!.phone)
                 .padding(.bottom, 10)
             Text("Password")
                 .font(.headline)
@@ -118,7 +116,7 @@ struct ProfileEditView: View {
     }
 }
 
-#Preview {
-    let viewModel = ProfileViewModel()
-    ProfileEditView(info: viewModel.userInfo!)
-}
+//#Preview {
+//    let viewModel = ProfileViewModel()
+//    ProfileEditView(info: viewModel.userInfo!)
+//}

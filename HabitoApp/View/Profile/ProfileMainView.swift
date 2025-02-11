@@ -15,9 +15,9 @@ struct ProfileMainView: View {
         VStack {
             Image(uiImage: viewModel.userInfo?.image ?? UIImage(systemName: "person.circle")!)
                 .resizable()
-                .scaledToFit()
+                .scaledToFill()
                 .clipShape(Circle())
-                .frame(maxWidth: 170)
+                .frame(width: 140, height: 140)
                 .padding(.top, 30)
                 .padding(.bottom, 2)
             Text(viewModel.userInfo?.name ?? "Empty")
