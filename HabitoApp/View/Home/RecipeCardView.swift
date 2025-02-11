@@ -10,7 +10,7 @@ import SwiftUI
 struct RecipeCardView: View {
 
     var image: UIImage
-
+    var recipes = RecipeModel.shared.getRecipes()
     var body: some View {
         VStack {
             HStack {
@@ -29,9 +29,10 @@ struct RecipeCardView: View {
                     .background(.green)
             }
             .clipShape(RoundedRectangle(cornerRadius: 20))
-            List(RecipeModel.shared.getRecipes(), id: \.id){
+            List(recipes, id: \.id){
                 recipe in NavigationLink(destination: RecipeListView(recipe: recipe)){
                     VStack{
+                        Image(uiImage: UIImage(named: "mainscene")!)
                         Text(recipe.title).foregroundColor(.primary)
                     }
                 }

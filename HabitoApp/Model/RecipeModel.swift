@@ -127,7 +127,11 @@ class RecipeModel {
     }
     
     func addTestRecipes(){
-        addRecipe(title: "test title", ingredients: "test ingredients", instructions: "test instructions")
-        addRecipe(title: "test title 2", ingredients: "test ingredients 2", instructions: "test instructions 2")
+        // Check if there are already any recipes in the database
+        let existingRecipes = getRecipes()
+        if existingRecipes.isEmpty {
+            addRecipe(title: "test title", ingredients: "test ingredients", instructions: "test instructions")
+            addRecipe(title: "test title 2", ingredients: "test ingredients 2", instructions: "test instructions 2")
+        }
     }
 }
