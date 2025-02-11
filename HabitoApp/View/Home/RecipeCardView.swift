@@ -29,6 +29,13 @@ struct RecipeCardView: View {
                     .background(.green)
             }
             .clipShape(RoundedRectangle(cornerRadius: 20))
+            List(RecipeModel.shared.getRecipes(), id: \.id){
+                recipe in NavigationLink(destination: RecipeListView(recipe: recipe)){
+                    VStack{
+                        Text(recipe.title).foregroundColor(.primary)
+                    }
+                }
+            }
         }
     }
 }

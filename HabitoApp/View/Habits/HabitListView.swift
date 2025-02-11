@@ -22,6 +22,6 @@ struct HabitListView: View {
 }
 
 #Preview {
-    var viewModel = HabitViewModel()
+    let viewModel = HabitViewModel()
     HabitListView(habits: viewModel.getHabits(date: Date()))
 }

@@ -8,11 +8,18 @@
 import SwiftUI
 
 struct RecipeListView: View {
+    var recipe: Recipe
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack {
+            Text(recipe.title).font(.largeTitle).fontWeight(.bold).foregroundColor(.primary)
+            Text(recipe.ingredients).foregroundColor(.primary)
+            Text(recipe.instructions).foregroundColor(.primary)
+            
+        }.padding()
     }
 }
 
 #Preview {
-    RecipeListView()
+    let recipe = Recipe(id: 0, title: "Test", ingredients: "test", instructions: "test")
+    RecipeListView(recipe: recipe)
 }

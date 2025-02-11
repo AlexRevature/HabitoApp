@@ -126,8 +126,5 @@ private struct PercentageCircle: View {
 #Preview {
     @Previewable @State var tmp = HomeViewModel().habitGroup!
 
-    let title = "Title"
-    let subtitle = "Subtitle"
-
     HabitCardView(habitInfoList: $tmp.habitInfoList)
 }

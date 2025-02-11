@@ -45,6 +45,7 @@ class RecipeModel {
             let errmsg = String(cString: sqlite3_errmsg(db))
             fatalError("Error creating table: \(errmsg)")
         }
+        addTestRecipes()
     }
     
     deinit {
@@ -123,5 +124,10 @@ class RecipeModel {
         
         sqlite3_finalize(stmt)
         return recipes
+    }
+    
+    func addTestRecipes(){
+        addRecipe(title: "test title", ingredients: "test ingredients", instructions: "test instructions")
+        addRecipe(title: "test title 2", ingredients: "test ingredients 2", instructions: "test instructions 2")
     }
 }
