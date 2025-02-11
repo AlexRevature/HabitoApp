@@ -6,15 +6,17 @@
 //
 
 import SwiftUI
+import PhotosUI
 
 struct ProfileEditView: View {
 
     @State var password: String = ""
     @State var passwordVerify: String = ""
     @State var info: ProfileUserInfo
+    @State private var photoSelection: PhotosPickerItem?
 
     var body: some View {
-        VStack {
+        ScrollView {
             userInfo
             entries
                 .padding(.horizontal, 25)
@@ -25,23 +27,40 @@ struct ProfileEditView: View {
     var userInfo: some View {
         VStack {
             ZStack {
-                Image(.profile)
+                Image(uiImage: info.image)
                     .resizable()
-                    .scaledToFit()
+                    .scaledToFill()
                     .clipShape(Circle())
+                    .frame(width: 160, height: 160)
+                    .clipped()
+                    .padding(.bottom, 8)
                 VStack {
                     Spacer()
-                    Image(systemName: "pencil.circle.fill")
-                        .resizable()
-                        .foregroundStyle(.customPrimary)
-                        .scaledToFit()
-                        .frame(maxWidth: 30, maxHeight: 30)
-                        .background(.white)
-                        .clipShape(Circle())
-                        .padding(.bottom, 18)
+                    PhotosPicker(selection: $photoSelection, matching: .images) {
+                        Image(systemName: "pencil.circle.fill")
+                            .resizable()
+                            .foregroundStyle(.customPrimary)
+                            .scaledToFit()
+                            .frame(maxWidth: 30, maxHeight: 30)
+                            .background(.white)
+                            .clipShape(Circle())
+                    }
+                    .onChange(of: photoSelection) {
+
+                        Task {
+                            if let loaded = try? await photoSelection?.loadTransferable(type: Data.self) {
+
+                                info.image = UIImage(data: loaded)!
+                                print("Done")
+                            } else {
+                                print("Failed")
+                            }
+                        }
+                    }
                 }
             }
-            .frame(maxWidth: 170, maxHeight: 170)
+//            .frame(width: 200, height: 200)
+//            .background(.yellow)
             .padding(.top, 30)
             .padding(.bottom, 2)
 
