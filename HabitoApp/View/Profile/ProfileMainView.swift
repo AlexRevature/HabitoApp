@@ -29,7 +29,7 @@ struct ProfileMainView: View {
 
             List {
                 ForEach(viewModel.actionList) { rowInfo in
-                    ActionRow(imageName: rowInfo.imageName, text: rowInfo.text, tint: rowInfo.tintColor)
+                    ActionRow(imageName: rowInfo.imageName, text: rowInfo.text, tint: rowInfo.tintColor, destination: rowInfo.destination)
                 }
             }
             Spacer()
@@ -37,16 +37,23 @@ struct ProfileMainView: View {
     }
 }
 
-private struct ActionRow: View {
+private struct ActionRow<Destination>: View where Destination: View {
 
     var imageName: String
     var text: String
     var tint: Color
+    var destination: () -> Destination
+
+    init(imageName: String, text: String, tint: Color, @ViewBuilder destination: @escaping () -> Destination) {
+
+        self.imageName = imageName
+        self.text = text
+        self.tint = tint
+        self.destination = destination
+    }
 
     var body: some View {
-        NavigationLink {
-            Text("")
-        } label: {
+        NavigationLink(destination: destination) {
             HStack {
                 Image(systemName: imageName)
                     .padding(.trailing, 8)

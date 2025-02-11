@@ -12,10 +12,10 @@ import SwiftUI
 class HabitViewModel {
 
     let testHabits = [
-        HabitInfoFull(title: "Drink Water", subtitle: "Maybe more?", image: UIImage(systemName: "square")!, backImage: UIImage(named: "back")!, trackImage: UIImage(systemName: "square")!, count: 6, total: 10),
-        HabitInfoFull(title: "Drink Wine", subtitle: "Maybe more?", image: UIImage(systemName: "square")!, backImage: UIImage(named: "back")!, trackImage: UIImage(systemName: "square")!, count: 5, total: 10),
-        HabitInfoFull(title: "Drink Soda", subtitle: "Maybe more?", image: UIImage(systemName: "square")!, backImage: UIImage(named: "back")!, trackImage: UIImage(systemName: "square")!, count: 7, total: 10),
-        HabitInfoFull(title: "Drink Juice", subtitle: "Maybe more?", image: UIImage(systemName: "square")!, backImage: UIImage(named: "back")!, trackImage: UIImage(systemName: "square")!, count: 1, total: 10)
+        HabitInfoFull(title: "Drink Water", subtitle: "Maybe more?", image: UIImage(systemName: "square")!, backImage: UIImage(named: "back")!, trackImage: UIImage(systemName: "circle")!, count: 6, total: 10),
+        HabitInfoFull(title: "Drink Wine", subtitle: "Maybe more?", image: UIImage(systemName: "square")!, backImage: UIImage(named: "back")!, trackImage: UIImage(systemName: "circle")!, count: 5, total: 10),
+        HabitInfoFull(title: "Drink Soda", subtitle: "Maybe more?", image: UIImage(systemName: "square")!, backImage: UIImage(named: "back")!, trackImage: UIImage(systemName: "circle")!, count: 7, total: 10),
+        HabitInfoFull(title: "Drink Juice", subtitle: "Maybe more?", image: UIImage(systemName: "square")!, backImage: UIImage(named: "back")!, trackImage: UIImage(systemName: "circle")!, count: 1, total: 10)
     ]
 
     // Note: Time should be stripped from the date

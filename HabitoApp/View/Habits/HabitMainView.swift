@@ -8,14 +8,20 @@
 import SwiftUI
 
 struct HabitMainView: View {
+
+    @State var viewModel: HabitViewModel
     @State var initialDate: Date
     @State var selection: Date
-    @State var viewModel = HabitViewModel()
+    @State var selectedHabits: [HabitInfoFull]
 
     init() {
+        let viewModel = HabitViewModel()
         let currentDate = Date()
-        initialDate = currentDate
-        selection = currentDate
+
+        self.viewModel = viewModel
+        self.initialDate = currentDate
+        self.selection = currentDate
+        self.selectedHabits = viewModel.getHabits(date: currentDate)
     }
 
     var body: some View {
@@ -35,11 +41,14 @@ struct HabitMainView: View {
             .frame(maxWidth: .infinity)
             .padding(.bottom, 4)
             .background(.customSecondary)
-            HabitListView(habits: viewModel.getHabits(date: selection))
+            HabitListView(habits: $selectedHabits)
                 .padding(.horizontal, 8)
 
-
         }
+        .onChange(of: selection) {
+            self.selectedHabits = viewModel.getHabits(date: selection)
+        }
+
     }
 
     func createDates(date: Date, num: Int) -> [Date] {
@@ -65,12 +74,17 @@ struct HabitMainView: View {
         Image(systemName: "chevron.right.2")
             .tint(.black)
             .overlay {
+                // Hacky, gets a date picker, blends it with
+                // image so that it is hidden, and clipped
+                // to better follow image boundaries
                 DatePicker(
                      "",
                      selection: $initialDate,
                      displayedComponents: [.date]
-                 )
-                  .blendMode(.destinationOver)
+                )
+                .contentShape(Circle())
+                .blendMode(.destinationOver)
+                .frame(maxWidth: 10, maxHeight: 10)
             }
     }
 }

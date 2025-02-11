@@ -9,33 +9,29 @@ import SwiftUI
 
 struct HabitCellView: View {
 
-    var title: String
-    var subtitle: String
-    var percentage: Double
-    var mainImage: UIImage
-    var backImage: UIImage
+    @Binding var info: HabitInfoFull
 
     var body: some View {
         VStack {
             HStack {
-                Image(uiImage: mainImage)
+                Image(uiImage: info.image)
                     .resizable()
                     .scaledToFit()
                     .frame(maxWidth: 80, maxHeight: 80)
                 VStack {
                     HStack{
                         VStack(alignment: .leading) {
-                            Text(title)
-                            Text(subtitle)
+                            Text(info.title)
+                            Text(info.subtitle)
                         }
                         Spacer()
                         NavigationLink() {
-                            HabitTrackView(mainMessage: "Hey There!", secondaryMessage: "You're using Whatsapp", image: UIImage(systemName: "circle")!, currentValue: 0, totalValue: 20)
+                            HabitTrackView(info: $info)
                         } label: {
                             Image(systemName: "chevron.right")
                         }
                     }
-                    LineProgress(percentage: percentage)
+                    LineProgress(percentage: Double(info.count) / Double(info.total))
                         .frame(maxHeight: 10)
                 }
                 .padding(.leading, 5)
@@ -43,7 +39,7 @@ struct HabitCellView: View {
         }
         .padding()
         .background {
-            Image(uiImage: backImage)
+            Image(uiImage: info.backImage)
                 .resizable()
                 .scaledToFill()
                 .opacity(0.8)
@@ -70,6 +66,6 @@ struct LineProgress: View {
 }
 
 
-#Preview {
-    HabitCellView(title: "Test Habit", subtitle: "Progress", percentage: 0.5, mainImage: UIImage(systemName: "square")!, backImage: UIImage(named: "back")!)
-}
+//#Preview {
+//    HabitCellView(title: "Test Habit", subtitle: "Progress", percentage: 0.5, mainImage: UIImage(systemName: "square")!, backImage: UIImage(named: "back")!)
+//}

@@ -24,13 +24,27 @@ struct ProfileEditView: View {
 
     var userInfo: some View {
         VStack {
-            Image(.profile)
-                .resizable()
-                .scaledToFit()
-                .clipShape(Circle())
-                .frame(maxWidth: 170)
-                .padding(.top, 30)
-                .padding(.bottom, 2)
+            ZStack {
+                Image(.profile)
+                    .resizable()
+                    .scaledToFit()
+                    .clipShape(Circle())
+                VStack {
+                    Spacer()
+                    Image(systemName: "pencil.circle.fill")
+                        .resizable()
+                        .foregroundStyle(.customPrimary)
+                        .scaledToFit()
+                        .frame(maxWidth: 30, maxHeight: 30)
+                        .background(.white)
+                        .clipShape(Circle())
+                        .padding(.bottom, 18)
+                }
+            }
+            .frame(maxWidth: 170, maxHeight: 170)
+            .padding(.top, 30)
+            .padding(.bottom, 2)
+
             Text("Empty")
                 .bold()
             Text("N/A")

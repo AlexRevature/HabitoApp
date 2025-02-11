@@ -31,8 +31,8 @@ class HomeViewModel {
         habitGroup = HabitCardInfo(
             buttonText: "Follow new habits!",
             habitInfoList: [
-                HomeHabitInfo(title: "Drink water", subtitle: "Now!", image: UIImage(named: "back")!, count: 0),
-                HomeHabitInfo(title: "Do Something", subtitle: "Now!", image: UIImage(named: "sample")!, count: 0)
+                HomeHabitInfo(title: "Drink water", subtitle: "Now!", image: UIImage(named: "back")!, count: 0, total: 10),
+                HomeHabitInfo(title: "Do Something", subtitle: "Now!", image: UIImage(named: "sample")!, count: 0, total: 10)
             ]
         )
 
@@ -78,6 +78,7 @@ struct HomeHabitInfo: Identifiable {
     var subtitle: String
     var image: UIImage
     var count: Int
+    var total: Int
 }
 
 struct ChallengeCardInfo {

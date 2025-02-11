@@ -26,7 +26,7 @@ struct HabitCardView: View {
             Image(uiImage: currentCard.image)
                 .resizable()
                 .scaledToFill()
-                .opacity(0.9)
+                .opacity(0.75)
                 .background(.green)
         }
         .clipShape(RoundedRectangle(cornerRadius: 20))
@@ -36,7 +36,7 @@ struct HabitCardView: View {
         VStack {
             HStack {
                 moveButton(imageName: "chevron.left", step: -1)
-                PercentageCircle(percentage: 0.5)
+                PercentageCircle(percentage: Double(habitInfoList[currentIndex].count) / Double(currentCard.total))
                     .frame(maxWidth: 70, maxHeight: 70)
                     .padding(.leading, 6)
 
@@ -44,7 +44,7 @@ struct HabitCardView: View {
                     titleStack(title: currentCard.title, subtitle: currentCard.subtitle)
 
                     HStack {
-                        IncrementButton(count: $habitInfoList[currentIndex].count)
+                        IncrementButton(count: $habitInfoList[currentIndex].count, total: currentCard.total)
                         Spacer()
                     }
                 }
@@ -85,16 +85,23 @@ struct HabitCardView: View {
 
 private struct IncrementButton: View {
     @Binding var count: Int
+    var total: Int
 
     var body: some View {
         HStack {
             Button("-") {
-                count -= 1
+                if count > 0 {
+                    count -= 1
+                }
             }
+            .disabled(count <= 0)
             Text("\(count)")
             Button("+") {
-                count += 1
+                if count < total {
+                    count += 1
+                }
             }
+            .disabled(count >= total)
         }
         .padding(EdgeInsets(top: 6, leading: 10, bottom: 6, trailing: 10))
         .background()
@@ -125,6 +132,5 @@ private struct PercentageCircle: View {
 
 #Preview {
     @Previewable @State var tmp = HomeViewModel().habitGroup!
-
     HabitCardView(habitInfoList: $tmp.habitInfoList)
 }

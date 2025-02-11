@@ -8,12 +8,12 @@
 import SwiftUI
 
 struct HabitListView: View {
-    var habits: [HabitInfoFull]
+    @Binding var habits: [HabitInfoFull]
 
     var body: some View {
         ScrollView {
-            ForEach(habits) { habit in
-                HabitCellView(title: habit.title, subtitle: habit.subtitle, percentage: Double(habit.count) / Double(habit.total), mainImage: habit.image, backImage: habit.backImage)
+            ForEach($habits) { habit in
+                HabitCellView(info: habit)
                     .padding(.vertical, 12)
                     .padding(.horizontal, 10)
             }
@@ -21,7 +21,7 @@ struct HabitListView: View {
     }
 }
 
-#Preview {
-    let viewModel = HabitViewModel()
-    HabitListView(habits: viewModel.getHabits(date: Date()))
-}
+//#Preview {
+//    let viewModel = HabitViewModel()
+//    HabitListView(habits: viewModel.getHabits(date: Date()))
+//}

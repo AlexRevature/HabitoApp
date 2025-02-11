@@ -9,28 +9,28 @@ import SwiftUI
 
 struct HabitTrackView: View {
 
-    var mainMessage: String
-    var secondaryMessage: String
-    var image: UIImage
+    @Binding var info: HabitInfoFull
+    @State var value: Double
 
-    @State var value = 0.0
-    var currentValue: Int
-    var totalValue: Int
+    init(info: Binding<HabitInfoFull>) {
+        self._info = info
+        self.value = Double(info.wrappedValue.count)
+    }
 
     var body: some View {
         VStack {
-            Text(mainMessage)
+            Text(info.title)
                 .font(.title)
-            Text(secondaryMessage)
+            Text(info.subtitle)
                 .padding(.bottom, 100)
-            Image(uiImage: image)
+            Image(uiImage: info.trackImage)
                 .resizable()
                 .scaledToFit()
                 .frame(maxWidth: 200)
                 .padding(.bottom, 70)
             Slider(
                     value: $value,
-                    in: 0...Double(totalValue),
+                    in: 0...Double(info.total),
                     step: 1
                 )
                 .tint(.green)
@@ -48,12 +48,12 @@ struct HabitTrackView: View {
             Spacer()
         }
         .padding(.top, 80)
-//        .onChange(of: value) {
-//            currentValue = Int(value)
-//        }
+        .onChange(of: value) {
+            info.count = Int(value)
+        }
     }
 }
 
-#Preview {
-    HabitTrackView(mainMessage: "Main message", secondaryMessage: "Secondary message", image: UIImage(systemName: "square")!, currentValue: 0, totalValue: 20)
-}
+//#Preview {
+//    HabitTrackView(mainMessage: "Main message", secondaryMessage: "Secondary message", image: UIImage(systemName: "square")!, currentValue: 0, totalValue: 20)
+//}

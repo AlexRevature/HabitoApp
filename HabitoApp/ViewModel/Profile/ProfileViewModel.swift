@@ -11,10 +11,10 @@ import SwiftUI
 class ProfileViewModel {
 
     var userInfo: ProfileUserInfo?
-    var actionList =  [ProfileActionInfo<AnyView>]()
+    var actionList = [ProfileActionInfo<AnyView>]()
 
     init() {
-        userInfo = fetchTestUserInfo() // Actual data may fetched async
+        userInfo = fetchTestUserInfo() // Actual data may be fetched async
         actionList = fetchActionList() // Could be async if destinations load slowly
     }
 
@@ -25,7 +25,7 @@ class ProfileViewModel {
     func fetchActionList() -> [ProfileActionInfo<AnyView>] {
         let selectOptions = [
             ProfileActionInfo(imageName: "person", text: "Personal data", tintColor: .black) {
-                AnyView(Text(""))
+                AnyView(ProfileEditView(info: self.userInfo!))
             },
             ProfileActionInfo(imageName: "questionmark.circle", text: "Help", tintColor: .black) {
                 AnyView(Text(""))
