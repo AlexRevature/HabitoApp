@@ -20,6 +20,6 @@ struct RecipeListView: View {
 }
 
 #Preview {
-    let recipe = Recipe(id: 0, title: "Test", ingredients: "test", instructions: "test", calories: "0")
+    let recipe = Recipe(id: 0, title: "Test", ingredients: "test", instructions: "test", calories: "0", imageName: "mainscene")
     RecipeListView(recipe: recipe)
 }
