@@ -13,7 +13,7 @@ struct RecipeMainView: View {
         List(recipes, id: \.id){
                 recipe in NavigationLink(destination: RecipeListView(recipe: recipe)){
                     VStack{
-                        Image(uiImage: UIImage(named: "mainscene")!)
+                        Image(uiImage: UIImage(named: "mainscene")!).clipShape(RoundedRectangle(cornerRadius: 20))
                         Text(recipe.title).foregroundColor(.primary)
                     }
                 }
@@ -23,5 +23,7 @@ struct RecipeMainView: View {
 
 
 #Preview {
-    RecipeMainView()
+    NavigationStack{
+        RecipeMainView()
+    }
 }
