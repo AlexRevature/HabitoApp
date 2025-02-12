@@ -84,5 +84,21 @@
             landmarkType = "24">
          </BreakpointContent>
       </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "EF52B240-89F1-46FD-9DC7-1E23277E977B"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../../../var/folders/td/r05yfk4x6kvcz75pkz6z3xr80000gn/T/swift-generated-sources/@__swiftmacro_9HabitoApp0025RecipeListViewswift_jqFBgfMX21_0_33_DDB02FEC67B5580F2357746FDD2F6276Ll7PreviewfMf_.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1"
+            endingLineNumber = "1"
+            landmarkName = "$s9HabitoApp0025RecipeListViewswift_jqFBgfMX21_0_33_DDB02FEC67B5580F2357746FDD2F6276Ll7PreviewfMf_15PreviewRegistryfMu_"
+            landmarkType = "37">
+         </BreakpointContent>
+      </BreakpointProxy>
    </Breakpoints>
 </Bucket>
