@@ -12,10 +12,10 @@ import SwiftUI
 class HabitViewModel {
 
     let testHabits = [
-        HabitInfoFull(title: "Drink Water", subtitle: "Maybe more?", image: UIImage(systemName: "square")!, backImage: UIImage(named: "back")!, trackImage: UIImage(systemName: "circle")!, count: 6, total: 10),
-        HabitInfoFull(title: "Drink Wine", subtitle: "Maybe more?", image: UIImage(systemName: "square")!, backImage: UIImage(named: "back")!, trackImage: UIImage(systemName: "circle")!, count: 5, total: 10),
-        HabitInfoFull(title: "Drink Soda", subtitle: "Maybe more?", image: UIImage(systemName: "square")!, backImage: UIImage(named: "back")!, trackImage: UIImage(systemName: "circle")!, count: 7, total: 10),
-        HabitInfoFull(title: "Drink Juice", subtitle: "Maybe more?", image: UIImage(systemName: "square")!, backImage: UIImage(named: "back")!, trackImage: UIImage(systemName: "circle")!, count: 1, total: 10)
+        HabitInfoFull(title: "Drink", message: "Maybe more?", image: UIImage(named: "water")!, backImage: UIImage(named: "back")!, trackImage: UIImage(systemName: "circle")!, count: 6, total: 10, unit: "glasses"),
+        HabitInfoFull(title: "Walking", message: "Maybe more?", image: UIImage(named: "running")!, backImage: UIImage(named: "back")!, trackImage: UIImage(systemName: "circle")!, count: 5, total: 10, unit: "steps"),
+        HabitInfoFull(title: "Sleep", message: "Maybe more?", image: UIImage(named: "sleep")!, backImage: UIImage(named: "back")!, trackImage: UIImage(systemName: "circle")!, count: 7, total: 10, unit: "hours"),
+        HabitInfoFull(title: "Exericse", message: "Maybe more?", image: UIImage(named: "yoga")!, backImage: UIImage(named: "back")!, trackImage: UIImage(systemName: "circle")!, count: 1, total: 10, unit: "minutes")
     ]
 
     // Note: Time should be stripped from the date
@@ -34,10 +34,11 @@ class HabitViewModel {
 struct HabitInfoFull: Identifiable {
     var id = UUID()
     var title: String
-    var subtitle: String
+    var message: String
     var image: UIImage
     var backImage: UIImage
     var trackImage: UIImage
     var count: Int
     var total: Int
+    var unit: String
 }

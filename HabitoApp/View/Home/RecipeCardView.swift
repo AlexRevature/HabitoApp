@@ -29,14 +29,6 @@ struct RecipeCardView: View {
                     .background(.green)
             }
             .clipShape(RoundedRectangle(cornerRadius: 20))
-            List(recipes, id: \.id){
-                recipe in NavigationLink(destination: RecipeListView(recipe: recipe)){
-                    VStack{
-                        Image(uiImage: UIImage(named: "mainscene")!)
-                        Text(recipe.title).foregroundColor(.primary)
-                    }
-                }
-            }
         }
     }
 }

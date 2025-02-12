@@ -32,6 +32,7 @@ struct HomeMainView: View {
                 .padding(.init(top: 15, leading: 20, bottom: 5, trailing: 20))
             HabitCardView(habitInfoList: habitList)
                 .padding(.horizontal, 20)
+//                .frame(height: 300)
         }
     }
 
