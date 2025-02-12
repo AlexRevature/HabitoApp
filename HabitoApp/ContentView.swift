@@ -17,7 +17,7 @@ struct ContentView: View {
                 Text("Hello, world!")
                 
                 // NavigationLink to navigate to the recipe view.
-                NavigationLink(destination: RecipeCardView(image: UIImage(named: "sample")!)) {
+                NavigationLink(destination: RecipeMainView()) {
                     Text("Go to Recipes")
                         .font(.headline)
                         .padding()
