@@ -57,8 +57,6 @@ struct ProfileEditView: View {
                     }
                 }
             }
-//            .frame(width: 200, height: 200)
-//            .background(.yellow)
             .padding(.top, 30)
             .padding(.bottom, 2)
 

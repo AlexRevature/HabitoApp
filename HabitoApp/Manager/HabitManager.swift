@@ -155,11 +155,11 @@ class HabitManager {
 
             let backLength = sqlite3_column_bytes(stmt, 4)
             let rawBackImage = sqlite3_column_blob(stmt, 4)
-            let backImage = Data(bytes: rawImage!, count: Int(backLength))
+            let backImage = Data(bytes: rawBackImage!, count: Int(backLength))
 
             let trackLength = sqlite3_column_bytes(stmt, 5)
             let rawTrackImage = sqlite3_column_blob(stmt, 5)
-            let trackImage = Data(bytes: rawImage!, count: Int(trackLength))
+            let trackImage = Data(bytes: rawTrackImage!, count: Int(trackLength))
 
             let count = Int(sqlite3_column_int(stmt, 6))
             let total = Int(sqlite3_column_int(stmt, 7))
@@ -208,11 +208,11 @@ class HabitManager {
 
             let backLength = sqlite3_column_bytes(stmt, 4)
             let rawBackImage = sqlite3_column_blob(stmt, 4)
-            let backImage = Data(bytes: rawImage!, count: Int(backLength))
+            let backImage = Data(bytes: rawBackImage!, count: Int(backLength))
 
             let trackLength = sqlite3_column_bytes(stmt, 5)
             let rawTrackImage = sqlite3_column_blob(stmt, 5)
-            let trackImage = Data(bytes: rawImage!, count: Int(trackLength))
+            let trackImage = Data(bytes: rawTrackImage!, count: Int(trackLength))
 
             let count = Int(sqlite3_column_int(stmt, 6))
             let total = Int(sqlite3_column_int(stmt, 7))
@@ -254,11 +254,11 @@ class HabitManager {
 
             let backLength = sqlite3_column_bytes(stmt, 4)
             let rawBackImage = sqlite3_column_blob(stmt, 4)
-            let backImage = Data(bytes: rawImage!, count: Int(backLength))
+            let backImage = Data(bytes: rawBackImage!, count: Int(backLength))
 
             let trackLength = sqlite3_column_bytes(stmt, 5)
             let rawTrackImage = sqlite3_column_blob(stmt, 5)
-            let trackImage = Data(bytes: rawImage!, count: Int(trackLength))
+            let trackImage = Data(bytes: rawTrackImage!, count: Int(trackLength))
 
             let count = Int(sqlite3_column_int(stmt, 6))
             let total = Int(sqlite3_column_int(stmt, 7))
