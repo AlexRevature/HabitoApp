@@ -30,8 +30,8 @@ class UserManager {
         sql = """
             CREATE TABLE if not exists USER
             id INTEGER PRIMARY KEY,
-            useername TEXT,
-            email TEXT,
+            username TEXT UNIQUE,
+            email TEXT UNIQUE,
             phone TEXT,
             )
             """
@@ -146,7 +146,7 @@ class UserManager {
         return nil
     }
 
-    func fetchDataByName(username: String) -> User? {
+    func fetchDataByUsername(username: String) -> User? {
         let query = "SELECT * FROM USER WHERE username = ? LIMIT 1"
         var stmt: OpaquePointer?
 
@@ -174,6 +174,30 @@ class UserManager {
 
 
             return User(id: id, username: username, email: email, phone: phone, image: image)
+        }
+
+        return nil
+    }
+
+    func fetchID(username: String) -> Int? {
+        let query = "SELECT id FROM USER WHERE username = ? LIMIT 1"
+        var stmt: OpaquePointer?
+
+        if sqlite3_prepare(db, query, -1, &stmt, nil) != SQLITE_OK {
+            let err = String(cString: sqlite3_errmsg(db)!)
+            print(err)
+            return nil
+        }
+
+        if sqlite3_bind_text(stmt, 1, username, -1, nil) != SQLITE_OK {
+            let err = String(cString: sqlite3_errmsg(db)!)
+            print(err)
+            return nil
+        }
+
+        if sqlite3_step(stmt) == SQLITE_ROW {
+            let id = Int(sqlite3_column_int(stmt, 0))
+            return Int(id)
         }
 
         return nil

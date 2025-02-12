@@ -32,7 +32,6 @@ struct SignupView: View {
             actionButton
                 .padding(.horizontal, 20)
 
-            Spacer()
         }
     }
 
@@ -87,7 +86,7 @@ struct SignupView: View {
 
     var actionButton: some View {
         Button {
-
+            // TODO: Signup action (with VM)
         } label: {
             Text("Sign Up")
                 .tint(.white)
