@@ -16,23 +16,28 @@ struct HabitCellView: View {
             HStack {
                 Image(uiImage: info.image)
                     .resizable()
-                    .scaledToFit()
-                    .frame(maxWidth: 80, maxHeight: 80)
+                    .scaledToFill()
+                    .frame(width: 60, height: 60)
+                    .padding(.leading, 5)
                 VStack {
                     HStack{
                         VStack(alignment: .leading) {
                             Text(info.title)
-                            Text(info.subtitle)
+                                .bold()
+                            Text("\(info.count)/\(info.total) \(info.unit)")
+                                .fontWeight(.light)
                         }
                         Spacer()
                         NavigationLink() {
                             HabitTrackView(info: $info)
                         } label: {
-                            Image(systemName: "chevron.right")
+                            Image(systemName: "chevron.right.circle")
+                                .foregroundStyle(.black)
                         }
                     }
                     LineProgress(percentage: Double(info.count) / Double(info.total))
                         .frame(maxHeight: 10)
+                        .padding(.trailing, 25)
                 }
                 .padding(.leading, 5)
             }
@@ -42,8 +47,10 @@ struct HabitCellView: View {
             Image(uiImage: info.backImage)
                 .resizable()
                 .scaledToFill()
-                .opacity(0.8)
-                .background(.green)
+                .opacity(0.5)
+                .background {
+                    LinearGradient(gradient: Gradient(colors: [.customSecondary, .white]), startPoint: .leading, endPoint: .trailing)
+                }
         }
         .clipShape(RoundedRectangle(cornerRadius: 20))
     }
@@ -55,10 +62,10 @@ struct LineProgress: View {
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 5)
-                .fill(.gray)
+                .fill(.white)
             GeometryReader {geometry in
                 RoundedRectangle(cornerRadius: 5)
-                    .fill(.green)
+                    .fill(LinearGradient(gradient: Gradient(colors: [.customPrimary, .customSecondary]), startPoint: .leading, endPoint: .trailing))
                     .frame(maxWidth: percentage * geometry.size.width)
             }
         }

@@ -21,21 +21,18 @@ struct HabitTrackView: View {
         VStack {
             Text(info.title)
                 .font(.title)
-            Text(info.subtitle)
-                .padding(.bottom, 100)
-            Image(uiImage: info.trackImage)
-                .resizable()
-                .scaledToFit()
-                .frame(maxWidth: 200)
-                .padding(.bottom, 70)
+            Text(info.message)
+
+            imageStack
+                .padding(.vertical, 90)
             Slider(
-                    value: $value,
-                    in: 0...Double(info.total),
-                    step: 1
-                )
-                .tint(.green)
-                .padding(.horizontal, 45)
-                .padding(.bottom, 30)
+                value: $value,
+                in: 0...Double(info.total),
+                step: 1
+            )
+            .tint(.green)
+            .padding(.horizontal, 45)
+            .padding(.bottom, 30)
             Button {
                 print("Test")
             } label: {
@@ -52,8 +49,22 @@ struct HabitTrackView: View {
             info.count = Int(value)
         }
     }
+
+    var imageStack: some View {
+        ZStack {
+            Image(systemName: "circle")
+                .resizable()
+                .foregroundStyle(.blue)
+                .scaledToFit()
+                .frame(width: 200, height: 200)
+            Text("\(info.count)")
+                .font(.title)
+        }
+    }
 }
 
-//#Preview {
-//    HabitTrackView(mainMessage: "Main message", secondaryMessage: "Secondary message", image: UIImage(systemName: "square")!, currentValue: 0, totalValue: 20)
-//}
+
+#Preview {
+    @Previewable @State var habit = HabitViewModel().getHabits(date: Date())[0]
+    HabitTrackView(info: $habit)
+}

@@ -21,7 +21,8 @@ struct HabitCardView: View {
 
     var body: some View {
         frontView
-        .padding()
+            .padding(.horizontal)
+            .padding(.vertical, 30)
         .background {
             Image(uiImage: currentCard.image)
                 .resizable()

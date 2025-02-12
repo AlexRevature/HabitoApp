@@ -39,8 +39,9 @@ struct HabitMainView: View {
                     .padding(.leading, 7)
             }
             .frame(maxWidth: .infinity)
-            .padding(.bottom, 4)
-            .background(.customSecondary)
+            .padding(.vertical, 15)
+            .background(.customAlternate)
+
             HabitListView(habits: $selectedHabits)
                 .padding(.horizontal, 8)
 
@@ -94,7 +95,7 @@ struct CustomPicker<Data, Content>: View where Data: Hashable, Content: View {
     let sources: [Data]
     @Binding var selection: Data
     let itemBuilder: (Data) -> Content
-    var backgroundColor = Color.init(uiColor: .customSecondary)
+    var backgroundColor = Color.init(uiColor: .customAlternate)
 
     var body: some View {
         ZStack(alignment: .center) {
@@ -130,5 +131,7 @@ struct CustomPicker<Data, Content>: View where Data: Hashable, Content: View {
 }
 
 #Preview {
-    HabitMainView()
+    NavigationStack {
+        HabitMainView()
+    }
 }
