@@ -171,8 +171,8 @@ class RecipeModel {
                     4. Stir in the canned tomatoes and season with salt, pepper, and basil.
                     5. Let simmer for 15 minutes and serve the sauce over the spaghetti.
                     """,
-                    calories: "650 cal",
-                    imageName: "mainscene"
+                    calories: "650",
+                    imageName: "spaghetti"
                 )
                 
                 // Recipe 2: Chicken Caesar Salad
@@ -191,8 +191,8 @@ class RecipeModel {
                     3. Top the salad with the grilled chicken, croutons, and shaved Parmesan.
                     4. Serve immediately.
                     """,
-                    calories: "400 cal",
-                    imageName: "mainscene"
+                    calories: "400",
+                    imageName: "salad"
                 )
                 
                 // Recipe 3: Chocolate Chip Cookies
@@ -219,8 +219,8 @@ class RecipeModel {
                     6. Drop by spoonfuls onto an ungreased baking sheet.
                     7. Bake for about 10 minutes, or until edges are nicely browned.
                     """,
-                    calories: "150 cal",
-                    imageName: "mainscene"
+                    calories: "150",
+                    imageName: "cookies"
                 )
             }
     }
