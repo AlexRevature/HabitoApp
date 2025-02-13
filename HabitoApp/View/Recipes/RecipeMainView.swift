@@ -34,9 +34,7 @@ struct RecipeMainView: View {
                 }
                 .background(Color(.systemGray6))
                 .edgesIgnoringSafeArea(.bottom)
-                .toolbar{
-                    bottomToolbar
-                }
+               
                 
 
               
@@ -73,24 +71,6 @@ struct RecipeCard: View {
         .background(Color.white)
         .clipShape(RoundedRectangle(cornerRadius: 20))
         .shadow(radius: 2)
-    }
-}
-private var bottomToolbar: some ToolbarContent {
-    ToolbarItem(placement: .bottomBar) {
-        HStack(spacing: 40) {
-            NavigationLink(destination: ContentView()) {
-                Image(systemName: "house.fill")
-            }
-            NavigationLink(destination: ProfileMainView()) {
-                Image(systemName: "person.fill")
-            }
-            
-            NavigationLink(destination: HabitMainView()) {
-                Image(systemName: "heart.fill")
-            }
-        }
-        .font(.title2)
-        .foregroundColor(.gray)
     }
 }
 
