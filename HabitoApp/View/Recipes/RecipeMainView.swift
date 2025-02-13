@@ -84,11 +84,7 @@ private var bottomToolbar: some ToolbarContent {
             NavigationLink(destination: ProfileMainView()) {
                 Image(systemName: "person.fill")
             }
-            Button(action: {}) {
-                Image(systemName: "plus.circle.fill")
-                    .font(.system(size: 35))
-                    .foregroundColor(.green)
-            }
+            
             NavigationLink(destination: HabitMainView()) {
                 Image(systemName: "heart.fill")
             }

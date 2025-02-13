@@ -98,11 +98,7 @@ struct RecipeListView: View {
                 NavigationLink(destination: ProfileMainView()) {
                     Image(systemName: "person.fill")
                 }
-                Button(action: {}) {
-                    Image(systemName: "plus.circle.fill")
-                        .font(.system(size: 35))
-                        .foregroundColor(.green)
-                }
+              
                 NavigationLink(destination: HabitMainView()) {
                     Image(systemName: "heart.fill")
                 }
@@ -116,6 +112,6 @@ struct RecipeListView: View {
 }
 // Sample Preview
 #Preview {
-    let recipe = Recipe(id: 0, title: "testtile", ingredients: "test", instructions: "test", calories: "test", imageName: "test")
+    let recipe = Recipe(id: 0, title: "testtile", ingredients: "test", instructions: "test", calories: "test", imageName: "spaghetti")
     RecipeListView(recipe: recipe)
 }
