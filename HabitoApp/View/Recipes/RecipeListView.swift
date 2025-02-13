@@ -6,21 +6,23 @@ struct RecipeListView: View {
     var recipe: Recipe
     
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading) {
-                recipeImage
-                timeAndCalories
-                recipeTitleAndRating
-                Divider().padding(.horizontal)
-                ingredientsSection
-                instructionsSection
-                customizationNote
+        NavigationStack {
+            ScrollView {
+                VStack(alignment: .leading) {
+                    recipeImage
+                    timeAndCalories
+                    recipeTitleAndRating
+                    Divider().padding(.horizontal)
+                    ingredientsSection
+                    instructionsSection
+                    customizationNote
+                }
+                .padding(.vertical)
             }
-            .padding(.vertical)
-        }
-        .navigationTitle("Recipe Details")
-        .toolbar {
-            bottomToolbar
+            .navigationTitle("Recipe Details")
+            .toolbar {
+                bottomToolbar
+            }
         }
     }
     
@@ -56,7 +58,7 @@ struct RecipeListView: View {
                 .fontWeight(.bold)
                 .foregroundColor(.green)
                 .padding(.horizontal)
-            }
+        }
     }
     
     private var ingredientsSection: some View {
@@ -90,31 +92,28 @@ struct RecipeListView: View {
     private var bottomToolbar: some ToolbarContent {
         ToolbarItem(placement: .bottomBar) {
             HStack(spacing: 40) {
-                Button(action: {}) {
+                NavigationLink(destination: ContentView()) {
                     Image(systemName: "house.fill")
                 }
-                Button(action: {}) {
-                    Image(systemName: "person.2.fill")
+                NavigationLink(destination: ProfileMainView()) {
+                    Image(systemName: "person.fill")
                 }
                 Button(action: {}) {
                     Image(systemName: "plus.circle.fill")
                         .font(.system(size: 35))
                         .foregroundColor(.green)
                 }
-                Button(action: {}) {
+                NavigationLink(destination: HabitMainView()) {
                     Image(systemName: "heart.fill")
-                }
-                Button(action: {}) {
-                    Image(systemName: "person.crop.circle")
                 }
             }
             .font(.title2)
             .foregroundColor(.gray)
         }
+        
     }
+    
 }
-
-
 // Sample Preview
 #Preview {
     let recipe = Recipe(id: 0, title: "testtile", ingredients: "test", instructions: "test", calories: "test", imageName: "test")

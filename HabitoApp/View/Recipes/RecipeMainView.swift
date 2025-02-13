@@ -5,7 +5,7 @@ struct RecipeMainView: View {
     
     var body: some View {
         NavigationStack {
-            ZStack {
+          
                 // Main content
                 VStack(alignment: .leading) {
                     Text("Healthy Recipes")
@@ -21,33 +21,26 @@ struct RecipeMainView: View {
                         .padding(.top, 5)
                     
                     ScrollView {
-                        VStack(spacing: 16) {
+                       
                             ForEach(recipes, id: \.id) { recipe in
                                 NavigationLink(destination: RecipeListView(recipe: recipe)) {
                                     RecipeCard(recipe: recipe)
                                 }
                             }
-                        }
+                        
                         .padding(.horizontal, 16)
                     }
                     .padding(.top, 10)
                 }
                 .background(Color(.systemGray6))
                 .edgesIgnoringSafeArea(.bottom)
-                
-                // Floating add button overlay
-                VStack {
-                    Spacer()
-                    HStack {
-                        Spacer()
-                        AddButton(action: {
-                            // Action for add button
-                        })
-                        .padding(.bottom, 20)
-                        .padding(.trailing, 20)
-                    }
+                .toolbar{
+                    bottomToolbar
                 }
-            }
+                
+
+              
+            
         }
     }
 }
@@ -82,24 +75,29 @@ struct RecipeCard: View {
         .shadow(radius: 2)
     }
 }
-
-// Extracted view for the floating add button
-struct AddButton: View {
-    let action: () -> Void
-    
-    var body: some View {
-        Button(action: action) {
-            Image(systemName: "plus")
-                .resizable()
-                .frame(width: 24, height: 24)
-                .padding()
-                .background(Color.green)
-                .foregroundColor(.white)
-                .clipShape(Circle())
-                .shadow(radius: 4)
+private var bottomToolbar: some ToolbarContent {
+    ToolbarItem(placement: .bottomBar) {
+        HStack(spacing: 40) {
+            NavigationLink(destination: ContentView()) {
+                Image(systemName: "house.fill")
+            }
+            NavigationLink(destination: ProfileMainView()) {
+                Image(systemName: "person.fill")
+            }
+            Button(action: {}) {
+                Image(systemName: "plus.circle.fill")
+                    .font(.system(size: 35))
+                    .foregroundColor(.green)
+            }
+            NavigationLink(destination: HabitMainView()) {
+                Image(systemName: "heart.fill")
+            }
         }
+        .font(.title2)
+        .foregroundColor(.gray)
     }
 }
+
 
 #Preview {
     RecipeMainView()
