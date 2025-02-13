@@ -86,7 +86,7 @@ class UserManager {
         }
 
         print("Insert Done")
-        return Int(sqlite3_last_insert_rowid(stmt))
+        return Int(sqlite3_last_insert_rowid(db))
 
     }
 
@@ -113,6 +113,7 @@ class UserManager {
             let image = Data(bytes: rawImage!, count: Int(dataCount))
 
             userList.append(User(id: id, username: username, email: email, phone: phone, image: image))
+            print(id)
         }
 
         return userList

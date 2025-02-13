@@ -48,6 +48,7 @@ class KeychainManager {
             kSecClass as String: kSecClassGenericPassword,
             kSecAttrAccount as String: id.lowercased(),
             kSecMatchLimit as String: kSecMatchLimitOne,
+            kSecReturnAttributes as String: true,
             kSecReturnData as String: true
         ]
 

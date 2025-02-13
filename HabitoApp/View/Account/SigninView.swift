@@ -9,9 +9,15 @@ import SwiftUI
 
 struct SigninView: View {
 
+    @Environment(AccountViewModel.self) var viewModel
+
     @State var username = ""
     @State var password = ""
     @State var shouldRemember = false
+
+    @State var usernameErr = false
+    @State var passwordErr = false
+    @State var navigationTrigger = false
 
     var body: some View {
         ScrollView {
@@ -83,7 +89,7 @@ struct SigninView: View {
 
     var actionButton: some View {
         Button {
-            // TODO: Signin action (with VM)
+            signinAction()
         } label: {
             Text("Sign In")
                 .tint(.white)
@@ -92,13 +98,45 @@ struct SigninView: View {
                 .background(.customPrimary)
                 .clipShape(RoundedRectangle(cornerRadius: 20))
         }
+        .navigationDestination(isPresented: $navigationTrigger) {
+            CustomTabView()
+        }
+    }
+
+    func signinAction() {
+
+        let user: User
+        do {
+            user = try viewModel.verifyUserByName(username: username, password: password)
+        } catch AccountError.username(let msg) {
+            usernameErr = true
+            print(msg)
+            return
+        } catch AccountError.password(let msg) {
+            passwordErr = true
+            print(msg)
+            return
+        } catch AccountError.verification(let msg) {
+            usernameErr = true
+            passwordErr = true
+            print(msg)
+            return
+        } catch AccountError.system(let msg) {
+            print(msg)
+            return
+        } catch {
+            print("err")
+            return
+        }
+        viewModel.currentUser = user
+//        navigationTrigger = true
     }
 
     func wrappedTextField(placeholder: String, record: Binding<String>, isSecure: Bool = false) -> some View {
 
         var textField: AnyView {
             if !isSecure {
-                AnyView(TextField(placeholder, text: record))
+                AnyView(TextField(placeholder, text: record).autocapitalization(.none))
             } else {
                 AnyView(SecureField(placeholder, text: record))
             }
@@ -117,5 +155,14 @@ struct SigninView: View {
 }
 
 #Preview {
-    SigninView()
+
+    let viewModel = AccountViewModel()
+
+    try? KeychainManager.deleteCredentials()
+    _ = try? viewModel.createUser(username: "test", email: "test@test.com", phone: "1236540987", password: "password1#", passwordVerify: "password1#")
+
+    return NavigationStack {
+        SigninView()
+            .environment(viewModel)
+    }
 }

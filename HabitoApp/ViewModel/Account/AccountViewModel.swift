@@ -11,6 +11,7 @@ import UIKit
 @Observable
 class AccountViewModel {
 
+    var loggedIn = false
     var currentUser: User?
 
     static private func checkEmail(email: String) -> Bool {
@@ -77,7 +78,7 @@ class AccountViewModel {
         return User(id: id, username: username, email: email, phone: phone, image: initialImageData)
     }
 
-    func verifyUser(username: String, password: String) throws -> User {
+    func verifyUserByName(username: String, password: String) throws -> User {
         if username.isEmpty {
             throw AccountError.username(message: "Missing username")
         }
@@ -89,9 +90,13 @@ class AccountViewModel {
             throw AccountError.username(message: "Username does not exist")
         }
 
+        return try verifyUserByID(id: id, password: password)
+    }
+
+    func verifyUserByID(id: Int, password: String) throws -> User {
         let isValid: Bool
         do {
-            isValid = try KeychainManager.verifyCredentials(id: username, password: password)
+            isValid = try KeychainManager.verifyCredentials(id: "\(id)", password: password)
         } catch {
             throw AccountError.system(message: "Keychain error, please contact developers")
         }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-class User {
+class User: Equatable {
     var id: Int
     var username: String
     var email: String
@@ -20,5 +20,11 @@ class User {
         self.email = email
         self.phone = phone
         self.image = image
+    }
+
+    static func == (lhs: User, rhs: User) -> Bool {
+        lhs.id == rhs.id && lhs.username == rhs.username
+            && lhs.email == rhs.email && lhs.phone == rhs.phone
+                && lhs.image == rhs.image
     }
 }
