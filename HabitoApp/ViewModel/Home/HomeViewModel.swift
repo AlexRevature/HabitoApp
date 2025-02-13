@@ -29,7 +29,7 @@ class HomeViewModel {
         )
 
         habitGroup = HabitCardInfo(
-            buttonText: "Follow new habits!",
+            buttonText: "View your habits",
             habitInfoList: [
                 HomeHabitInfo(title: "Drink water", subtitle: "Now!", image: UIImage(named: "back")!, count: 0, total: 10),
                 HomeHabitInfo(title: "Do Something", subtitle: "Now!", image: UIImage(named: "sample")!, count: 0, total: 10)
@@ -46,12 +46,12 @@ class HomeViewModel {
         )
 
         recipeInfo = RecipeCardInfo(
-            buttonText: "Try some healthy recipes!",
+            buttonText: "View some recipes",
             imageList: [UIImage(named: "back")!]
         )
 
         guideInfo = GuideCardInfo(
-            buttonText: "Look at some guides!",
+            buttonText: "Browse available guides!",
             title: "Test Guide",
             subtitle: "To do well",
             image: UIImage(named: "back")!

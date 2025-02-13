@@ -9,39 +9,40 @@ import SwiftUI
 
 struct SigninView: View {
 
-    @State var username: String = ""
-    @State var email: String = ""
-    @State var phone: String = ""
-    @State var password: String = ""
-    @State var passwordVerify: String = ""
-    @State var hasReadTerms = false
+    @Environment(AccountViewModel.self) var viewModel
+
+    @State var username = ""
+    @State var password = ""
+    @State var shouldRemember = false
+
+    @State var usernameErr = false
+    @State var passwordErr = false
+    @State var navigationTrigger = false
 
     var body: some View {
         ScrollView {
             header
-                .padding(.top, 20)
                 .padding(.bottom, 15)
-
             entries
                 .padding(.horizontal, 25)
-                .padding(.bottom, 4)
-
-            terms
-                .padding(.bottom, 15)
-
+                .padding(.bottom, 10)
+            stateActions
+                .padding(.horizontal, 30)
+                .padding(.bottom)
             actionButton
-                .padding(.horizontal, 20)
-
-            Spacer()
+                .padding(.horizontal, 30)
         }
     }
 
     var header: some View {
         VStack {
-            Text("Sign Up")
+            Image(systemName: "circle")
+                .padding(.top, 50)
+                .padding(.bottom, 25)
+            Text("Welcome back!")
                 .fontWeight(.bold)
                 .padding(.bottom, 2)
-            Text("Let's create an account for you!")
+            Text("Login in to continue your journey!")
                 .foregroundStyle(.customPrimary)
         }
     }
@@ -52,57 +53,90 @@ struct SigninView: View {
                 .font(.headline)
             wrappedTextField(placeholder: "Username", record: $username)
                 .padding(.bottom, 10)
-            Text("Email")
-                .font(.headline)
-            wrappedTextField(placeholder: "Email", record: $email)
-                .padding(.bottom, 10)
-            Text("Phone Number")
-                .font(.headline)
-            wrappedTextField(placeholder: "Phone Number", record: $phone)
-                .padding(.bottom, 10)
             Text("Password")
                 .font(.headline)
             wrappedTextField(placeholder: "Password", record: $password, isSecure: true)
                 .padding(.bottom, 10)
-            Text("Verify Password")
-                .font(.headline)
-            wrappedTextField(placeholder: "Password", record: $passwordVerify, isSecure: true)
-                .padding(.bottom, 10)
         }
     }
 
-    var terms: some View {
+    var stateActions: some View {
         HStack {
             Button {
                 withAnimation(.easeInOut(duration: 0.1)) {
-                    hasReadTerms.toggle()
+                    shouldRemember.toggle()
                 }
             } label: {
-                Image(systemName: hasReadTerms ? "checkmark.square.fill" : "square")
+                Image(systemName: shouldRemember ? "checkmark.square.fill" : "square")
                     .foregroundStyle(.black)
             }
-            Text("I agree to the terms and privacy policy")
+            Text("Remember me?")
+                .fontWeight(.medium)
+
+            Spacer()
+
+            Button {
+                withAnimation(.easeInOut(duration: 0.1)) {
+                    shouldRemember.toggle()
+                }
+            } label: {
+                Text("Forgot Password?")
+                    .fontWeight(.medium)
+                    .foregroundStyle(.customPrimary)
+            }
         }
     }
 
     var actionButton: some View {
         Button {
-
+            signinAction()
         } label: {
-            Text("Sign Up")
+            Text("Sign In")
                 .tint(.white)
                 .padding(.vertical)
                 .frame(maxWidth: .infinity)
                 .background(.customPrimary)
                 .clipShape(RoundedRectangle(cornerRadius: 20))
         }
+        .navigationDestination(isPresented: $navigationTrigger) {
+            CustomTabView()
+        }
+    }
+
+    func signinAction() {
+
+        let user: User
+        do {
+            user = try viewModel.verifyUserByName(username: username, password: password)
+        } catch AccountError.username(let msg) {
+            usernameErr = true
+            print(msg)
+            return
+        } catch AccountError.password(let msg) {
+            passwordErr = true
+            print(msg)
+            return
+        } catch AccountError.verification(let msg) {
+            usernameErr = true
+            passwordErr = true
+            print(msg)
+            return
+        } catch AccountError.system(let msg) {
+            print(msg)
+            return
+        } catch {
+            print("err")
+            return
+        }
+        viewModel.currentUser = user
+//        navigationTrigger = true
     }
 
     func wrappedTextField(placeholder: String, record: Binding<String>, isSecure: Bool = false) -> some View {
 
         var textField: AnyView {
             if !isSecure {
-                AnyView(TextField(placeholder, text: record))
+                AnyView(TextField(placeholder, text: record).autocapitalization(.none))
             } else {
                 AnyView(SecureField(placeholder, text: record))
             }
@@ -121,5 +155,14 @@ struct SigninView: View {
 }
 
 #Preview {
-    SigninView()
+
+    let viewModel = AccountViewModel()
+
+    try? KeychainManager.deleteCredentials()
+    _ = try? viewModel.createUser(username: "test", email: "test@test.com", phone: "1236540987", password: "password1#", passwordVerify: "password1#")
+
+    return NavigationStack {
+        SigninView()
+            .environment(viewModel)
+    }
 }

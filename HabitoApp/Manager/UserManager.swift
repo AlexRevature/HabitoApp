@@ -25,25 +25,29 @@ class UserManager {
         if sqlite3_exec(db, sql, nil, nil, nil) != SQLITE_OK {
             let err = String(cString: sqlite3_errmsg(db)!)
             print(err)
+            return
         }
 
         sql = """
-            CREATE TABLE if not exists USER
-            id INTEGER PRIMARY KEY,
-            useername TEXT,
-            email TEXT,
-            phone TEXT,
-            )
+            CREATE TABLE if not exists USER (
+                id INTEGER PRIMARY KEY,
+                username TEXT UNIQUE,
+                email TEXT UNIQUE,
+                phone TEXT,
+                image BLOB
+            );
             """
         if sqlite3_exec(db, sql, nil, nil, nil) != SQLITE_OK {
             let err = String(cString: sqlite3_errmsg(db)!)
+            print("Table creation error")
             print(err)
+            return
         }
     }
 
     func insertData(username: String, email: String, phone: String, image: Data) -> Int? {
         var stmt: OpaquePointer?
-        let query = "INSERT INTO USER(usermane,email,phone,image) VALUES(?,?,?,?)"
+        let query = "INSERT INTO USER(username,email,phone,image) VALUES(?,?,?,?)"
         if sqlite3_prepare_v2(db, query, -1, &stmt, nil) != SQLITE_OK {
             let err = String(cString: sqlite3_errmsg(db)!)
             print(err)
@@ -82,7 +86,7 @@ class UserManager {
         }
 
         print("Insert Done")
-        return Int(sqlite3_last_insert_rowid(stmt))
+        return Int(sqlite3_last_insert_rowid(db))
 
     }
 
@@ -109,6 +113,7 @@ class UserManager {
             let image = Data(bytes: rawImage!, count: Int(dataCount))
 
             userList.append(User(id: id, username: username, email: email, phone: phone, image: image))
+            print(id)
         }
 
         return userList
@@ -146,7 +151,7 @@ class UserManager {
         return nil
     }
 
-    func fetchDataByName(username: String) -> User? {
+    func fetchDataByUsername(username: String) -> User? {
         let query = "SELECT * FROM USER WHERE username = ? LIMIT 1"
         var stmt: OpaquePointer?
 
@@ -174,6 +179,30 @@ class UserManager {
 
 
             return User(id: id, username: username, email: email, phone: phone, image: image)
+        }
+
+        return nil
+    }
+
+    func fetchID(username: String) -> Int? {
+        let query = "SELECT id FROM USER WHERE username = ? LIMIT 1"
+        var stmt: OpaquePointer?
+
+        if sqlite3_prepare(db, query, -1, &stmt, nil) != SQLITE_OK {
+            let err = String(cString: sqlite3_errmsg(db)!)
+            print(err)
+            return nil
+        }
+
+        if sqlite3_bind_text(stmt, 1, username, -1, nil) != SQLITE_OK {
+            let err = String(cString: sqlite3_errmsg(db)!)
+            print(err)
+            return nil
+        }
+
+        if sqlite3_step(stmt) == SQLITE_ROW {
+            let id = Int(sqlite3_column_int(stmt, 0))
+            return Int(id)
         }
 
         return nil
