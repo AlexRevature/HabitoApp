@@ -22,7 +22,6 @@ struct SignupView: View {
     @State var emailErr = false
     @State var phoneErr = false
     @State var passwordErr = false
-    @State var navigationTrigger = false
 
     var body: some View {
         ScrollView {
@@ -104,9 +103,6 @@ struct SignupView: View {
                 .background(.customPrimary)
                 .clipShape(RoundedRectangle(cornerRadius: 20))
         }
-        .navigationDestination(isPresented: $navigationTrigger) {
-            CustomTabView()
-        }
     }
 
     func signupAction() {
@@ -144,7 +140,6 @@ struct SignupView: View {
         }
 
         viewModel.currentUser = user
-        navigationTrigger = true
     }
 
     func wrappedTextField(placeholder: String, record: Binding<String>, isSecure: Bool = false, isError: Bool = false) -> some View {
@@ -170,8 +165,6 @@ struct SignupView: View {
 }
 
 #Preview {
-    NavigationStack {
-        SignupView()
-            .environment(AccountViewModel())
-    }
+    SignupView()
+        .environment(AccountViewModel())
 }

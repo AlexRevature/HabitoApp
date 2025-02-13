@@ -17,7 +17,6 @@ struct SigninView: View {
 
     @State var usernameErr = false
     @State var passwordErr = false
-    @State var navigationTrigger = false
 
     var body: some View {
         ScrollView {
@@ -98,9 +97,6 @@ struct SigninView: View {
                 .background(.customPrimary)
                 .clipShape(RoundedRectangle(cornerRadius: 20))
         }
-        .navigationDestination(isPresented: $navigationTrigger) {
-            CustomTabView()
-        }
     }
 
     func signinAction() {
@@ -129,7 +125,6 @@ struct SigninView: View {
             return
         }
         viewModel.currentUser = user
-//        navigationTrigger = true
     }
 
     func wrappedTextField(placeholder: String, record: Binding<String>, isSecure: Bool = false) -> some View {
@@ -155,14 +150,6 @@ struct SigninView: View {
 }
 
 #Preview {
-
-    let viewModel = AccountViewModel()
-
-    try? KeychainManager.deleteCredentials()
-    _ = try? viewModel.createUser(username: "test", email: "test@test.com", phone: "1236540987", password: "password1#", passwordVerify: "password1#")
-
-    return NavigationStack {
-        SigninView()
-            .environment(viewModel)
-    }
+    SigninView()
+        .environment(AccountViewModel())
 }

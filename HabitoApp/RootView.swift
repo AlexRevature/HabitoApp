@@ -14,7 +14,7 @@ struct RootView: View {
     var body: some View {
         NavigationStack {
             if viewModel.currentUser == nil {
-                SigninView()
+                GuideView()
             } else {
                 CustomTabView()
             }
