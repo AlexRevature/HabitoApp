@@ -10,7 +10,6 @@ import SwiftUI
 struct RecipeCardView: View {
 
     var image: UIImage
-    var recipes = RecipeModel.shared.getRecipes()
     var body: some View {
         VStack {
             HStack {

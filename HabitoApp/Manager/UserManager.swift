@@ -25,25 +25,29 @@ class UserManager {
         if sqlite3_exec(db, sql, nil, nil, nil) != SQLITE_OK {
             let err = String(cString: sqlite3_errmsg(db)!)
             print(err)
+            return
         }
 
         sql = """
-            CREATE TABLE if not exists USER
-            id INTEGER PRIMARY KEY,
-            username TEXT UNIQUE,
-            email TEXT UNIQUE,
-            phone TEXT,
-            )
+            CREATE TABLE if not exists USER (
+                id INTEGER PRIMARY KEY,
+                username TEXT UNIQUE,
+                email TEXT UNIQUE,
+                phone TEXT,
+                image BLOB
+            );
             """
         if sqlite3_exec(db, sql, nil, nil, nil) != SQLITE_OK {
             let err = String(cString: sqlite3_errmsg(db)!)
+            print("Table creation error")
             print(err)
+            return
         }
     }
 
     func insertData(username: String, email: String, phone: String, image: Data) -> Int? {
         var stmt: OpaquePointer?
-        let query = "INSERT INTO USER(usermane,email,phone,image) VALUES(?,?,?,?)"
+        let query = "INSERT INTO USER(username,email,phone,image) VALUES(?,?,?,?)"
         if sqlite3_prepare_v2(db, query, -1, &stmt, nil) != SQLITE_OK {
             let err = String(cString: sqlite3_errmsg(db)!)
             print(err)

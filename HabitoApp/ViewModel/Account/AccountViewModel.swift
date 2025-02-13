@@ -8,7 +8,10 @@
 import Foundation
 import UIKit
 
+@Observable
 class AccountViewModel {
+
+    var currentUser: User?
 
     static private func checkEmail(email: String) -> Bool {
         let regex = "[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,10}"
@@ -102,13 +105,13 @@ class AccountViewModel {
 
         return user
     }
+}
 
-    enum AccountError: Error {
-        case username(message: String)
-        case email(message: String)
-        case phone(message: String)
-        case password(message: String)
-        case verification(message: String)
-        case system(message: String)
-    }
+enum AccountError: Error {
+    case username(message: String)
+    case email(message: String)
+    case phone(message: String)
+    case password(message: String)
+    case verification(message: String)
+    case system(message: String)
 }

@@ -33,10 +33,11 @@ class KeychainManager {
         let status = SecItemAdd(attributes as CFDictionary, nil)
 
         guard status != errSecDuplicateItem else {
+            print("duplicate")
             throw KeychainError.duplicateKey
         }
 
-        guard status != errSecSuccess else {
+        guard status == errSecSuccess else {
             throw KeychainError.failure
         }
 
