@@ -8,11 +8,11 @@
 import SwiftUI
 
 struct HabitListView: View {
-    @Binding var habits: [HabitInfoFull]
+    @Binding var habits: [(id: Int, habit: Habit, asset: HabitAsset)]
 
     var body: some View {
         ScrollView {
-            ForEach($habits) { habit in
+            ForEach($habits, id: \.id) { habit in
                 HabitCellView(info: habit)
                     .padding(.vertical, 12)
                     .padding(.horizontal, 10)

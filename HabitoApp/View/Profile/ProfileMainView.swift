@@ -9,51 +9,70 @@ import SwiftUI
 
 struct ProfileMainView: View {
 
-    @State var viewModel = ProfileViewModel()
+    @Environment(AccountViewModel.self) var viewModel
+
+    @State var editTrigger = false
+    @State var helpTrigger = false
+    @State var deleteTrigger = false
+    @State var logoutTrigger = false
 
     var body: some View {
+
         VStack {
-            Image(uiImage: viewModel.userInfo?.image ?? UIImage(systemName: "person.circle")!)
+            getImage()
                 .resizable()
                 .scaledToFill()
                 .clipShape(Circle())
                 .frame(width: 140, height: 140)
                 .padding(.top, 30)
                 .padding(.bottom, 2)
-            Text(viewModel.userInfo?.name ?? "Empty")
+            Text(viewModel.currentUser?.username ?? "Empty")
                 .bold()
-            Text(viewModel.userInfo?.email ?? "N/A")
+            Text(viewModel.currentUser?.email ?? "N/A")
                 .padding(.bottom, 15)
             LayerInfo()
                 .padding(.bottom, 5)
 
-            List {
-                ForEach(viewModel.actionList) { rowInfo in
-                    ActionRow(imageName: rowInfo.imageName, text: rowInfo.text, tint: rowInfo.tintColor, destination: rowInfo.destination)
-                }
-            }
+            actionList
             Spacer()
+        }
+    }
+
+    var actionList: some View {
+        List {
+            ActionRow(imageName: "person", text: "Personal data", tint: .black, trigger: $editTrigger)
+                .navigationDestination(isPresented: $editTrigger) { ProfileEditView()
+                }
+            ActionRow(imageName: "questionmark.circle", text: "Help", tint: .black, trigger: $helpTrigger)
+            ActionRow(imageName: "trash", text: "Delete account", tint: .black, trigger: $deleteTrigger)
+            ActionRow(imageName: "power", text: "Log out", tint: .red, trigger: $logoutTrigger)
+                .onChange(of: logoutTrigger) {
+                    viewModel.logoutUser()
+                }
+        }
+    }
+
+    func getImage() -> Image {
+        if viewModel.currentUser?.image == nil {
+            Image(systemName: "person.circle")
+        } else {
+            Image(uiImage: UIImage(data: viewModel.currentUser!.image!)!)
         }
     }
 }
 
-private struct ActionRow<Destination>: View where Destination: View {
+private struct ActionRow: View {
 
     var imageName: String
     var text: String
     var tint: Color
-    var destination: () -> Destination
-
-    init(imageName: String, text: String, tint: Color, @ViewBuilder destination: @escaping () -> Destination) {
-
-        self.imageName = imageName
-        self.text = text
-        self.tint = tint
-        self.destination = destination
-    }
+    @Binding var trigger: Bool
 
     var body: some View {
-        NavigationLink(destination: destination) {
+
+        Button {
+            trigger.toggle()
+        } label: {
             HStack {
                 Image(systemName: imageName)
                     .padding(.trailing, 8)
@@ -92,7 +111,19 @@ private struct LayerCell: View {
 
 
 #Preview {
-    NavigationStack {
+
+    @Previewable @AppStorage("currentID") var currentID: Int?
+    @Previewable @State var viewModel = AccountViewModel()
+
+    currentID = nil
+
+    try? KeychainManager.deleteCredentials()
+    let user = try? viewModel.createUser(username: "test", email: "test@test.com", phone: "1236540987", password: "password1#", passwordVerify: "password1#")
+
+    viewModel.currentUser = user
+
+    return NavigationStack {
         ProfileMainView()
     }
+    .environment(viewModel)
 }

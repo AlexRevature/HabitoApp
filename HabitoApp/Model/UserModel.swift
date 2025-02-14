@@ -12,9 +12,9 @@ class User: Equatable {
     var username: String
     var email: String
     var phone: String
-    var image: Data
+    var image: Data?
 
-    init(id: Int, username: String, email: String, phone: String, image: Data) {
+    init(id: Int, username: String, email: String, phone: String, image: Data? = nil) {
         self.id = id
         self.username = username
         self.email = email

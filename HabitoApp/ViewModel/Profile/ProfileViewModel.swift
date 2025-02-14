@@ -25,7 +25,7 @@ class ProfileViewModel {
     func fetchActionList() -> [ProfileActionInfo<AnyView>] {
         let selectOptions = [
             ProfileActionInfo(imageName: "person", text: "Personal data", tintColor: .black) {
-                AnyView(ProfileEditView(viewModel: self))
+                AnyView(ProfileEditView())
             },
             ProfileActionInfo(imageName: "questionmark.circle", text: "Help", tintColor: .black) {
                 AnyView(Text(""))

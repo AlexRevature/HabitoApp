@@ -9,33 +9,19 @@ import SwiftUI
 
 struct HabitCellView: View {
 
-    @Binding var info: HabitInfoFull
+    @Binding var info: (id: Int, habit: Habit, asset: HabitAsset)
 
     var body: some View {
         VStack {
             HStack {
-                Image(uiImage: info.image)
+                Image(info.asset.image)
                     .resizable()
                     .scaledToFill()
                     .frame(width: 60, height: 60)
                     .padding(.leading, 5)
                 VStack {
-                    HStack{
-                        VStack(alignment: .leading) {
-                            Text(info.title)
-                                .bold()
-                            Text("\(info.count)/\(info.total) \(info.unit)")
-                                .fontWeight(.light)
-                        }
-                        Spacer()
-                        NavigationLink() {
-                            HabitTrackView(info: $info)
-                        } label: {
-                            Image(systemName: "chevron.right.circle")
-                                .foregroundStyle(.black)
-                        }
-                    }
-                    LineProgress(percentage: Double(info.count) / Double(info.total))
+                    infoLine
+                    LineProgress(percentage: Double(info.habit.count) / Double(info.habit.total))
                         .frame(maxHeight: 10)
                         .padding(.trailing, 25)
                 }
@@ -44,15 +30,37 @@ struct HabitCellView: View {
         }
         .padding()
         .background {
-            Image(uiImage: info.backImage)
-                .resizable()
-                .scaledToFill()
-                .opacity(0.5)
-                .background {
-                    LinearGradient(gradient: Gradient(colors: [.customSecondary, .white]), startPoint: .leading, endPoint: .trailing)
-                }
+            cellBackground
         }
         .clipShape(RoundedRectangle(cornerRadius: 20))
+    }
+
+    var cellBackground: some View {
+        Image(info.asset.backImage)
+            .resizable()
+            .scaledToFill()
+            .opacity(0.5)
+            .background {
+                LinearGradient(gradient: Gradient(colors: [.customSecondary, .white]), startPoint: .leading, endPoint: .trailing)
+            }
+    }
+
+    var infoLine: some View {
+        HStack{
+            VStack(alignment: .leading) {
+                Text(info.asset.title)
+                    .bold()
+                Text("\(info.habit.count)/\(info.habit.total) \(info.asset.unit)")
+                    .fontWeight(.light)
+            }
+            Spacer()
+            NavigationLink() {
+                HabitTrackView(info: $info)
+            } label: {
+                Image(systemName: "chevron.right.circle")
+                    .foregroundStyle(.black)
+            }
+        }
     }
 }
 
