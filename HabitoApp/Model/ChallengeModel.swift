@@ -11,6 +11,7 @@ struct Challenge {
     let count: Int
     let total: Int
     let unit: String
+    let date: String    // New field to store month and day (e.g., "MM-dd")
 }
 
 class ChallengeModel {
@@ -41,6 +42,7 @@ class ChallengeModel {
         }
         
         // Create the Challenge table if it doesn't exist.
+        // Added a new "date" column to store the month and day.
         let createTableQuery = """
         CREATE TABLE IF NOT EXISTS Challenge (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -51,7 +53,8 @@ class ChallengeModel {
             trackImageName TEXT,
             count INTEGER,
             total INTEGER,
-            unit TEXT
+            unit TEXT,
+            date TEXT
         );
         """
         
@@ -78,10 +81,11 @@ class ChallengeModel {
                       trackImageName: String,
                       count: Int,
                       total: Int,
-                      unit: String) {
+                      unit: String,
+                      date: String) {   // New date parameter
         let insertQuery = """
-        INSERT INTO Challenge (title, message, imageName, backImageName, trackImageName, count, total, unit)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?);
+        INSERT INTO Challenge (title, message, imageName, backImageName, trackImageName, count, total, unit, date)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);
         """
         var stmt: OpaquePointer?
         
@@ -113,10 +117,11 @@ class ChallengeModel {
             return
         }
         
-        // Bind the remaining text value.
-        if sqlite3_bind_text(stmt, 8, unit, -1, SQLITE_TRANSIENT) != SQLITE_OK {
+        // Bind the remaining text values.
+        if sqlite3_bind_text(stmt, 8, unit, -1, SQLITE_TRANSIENT) != SQLITE_OK ||
+           sqlite3_bind_text(stmt, 9, date, -1, SQLITE_TRANSIENT) != SQLITE_OK { // Binding the date
             let errmsg = String(cString: sqlite3_errmsg(db))
-            print("Error binding unit: \(errmsg)")
+            print("Error binding unit/date: \(errmsg)")
             sqlite3_finalize(stmt)
             return
         }
@@ -133,7 +138,7 @@ class ChallengeModel {
     /// Retrieves all challenges from the database.
     func getChallenges() -> [Challenge] {
         let query = """
-        SELECT id, title, message, imageName, backImageName, trackImageName, count, total, unit
+        SELECT id, title, message, imageName, backImageName, trackImageName, count, total, unit, date
         FROM Challenge;
         """
         var stmt: OpaquePointer?
@@ -153,7 +158,8 @@ class ChallengeModel {
                   let imageNameCStr = sqlite3_column_text(stmt, 3),
                   let backImageNameCStr = sqlite3_column_text(stmt, 4),
                   let trackImageNameCStr = sqlite3_column_text(stmt, 5),
-                  let unitCStr = sqlite3_column_text(stmt, 8)
+                  let unitCStr = sqlite3_column_text(stmt, 8),
+                  let dateCStr = sqlite3_column_text(stmt, 9)  // Retrieve the date field
             else {
                 continue
             }
@@ -166,6 +172,7 @@ class ChallengeModel {
             let count = Int(sqlite3_column_int(stmt, 6))
             let total = Int(sqlite3_column_int(stmt, 7))
             let unit = String(cString: unitCStr)
+            let date = String(cString: dateCStr)
             
             let challenge = Challenge(id: id,
                                       title: title,
@@ -175,7 +182,8 @@ class ChallengeModel {
                                       trackImageName: trackImageName,
                                       count: count,
                                       total: total,
-                                      unit: unit)
+                                      unit: unit,
+                                      date: date)
             challenges.append(challenge)
         }
         
@@ -195,7 +203,8 @@ class ChallengeModel {
                 trackImageName: "figure.walk",   // Name of the track asset (can be a system image name)
                 count: 0,
                 total: 10000,
-                unit: "steps"
+                unit: "steps",
+                date: "01-01"                   // Example date in "MM-dd" format
             )
             
             // Add additional test challenges here if needed.

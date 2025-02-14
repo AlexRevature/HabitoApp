@@ -39,7 +39,12 @@ struct ChallengeMainView: View {
                     viewModel.refreshChallenges(for: selection)
                 }
                 .onChange(of: selection) { newValue in
-                    viewModel.refreshChallenges(for: selection)
+                    viewModel.refreshChallenges(for: newValue)
+                }
+                // When the calendar button changes the base date, update the selection as well.
+                .onChange(of: initialDate) { newValue in
+                    selection = newValue
+                    viewModel.refreshChallenges(for: newValue)
                 }
                 
                 // Plus button in a green circle that navigates to ChallengeEditView.
@@ -89,19 +94,15 @@ struct ChallengeMainView: View {
                     selection: $initialDate,
                     displayedComponents: [.date]
                 )
-                .contentShape(Circle())
+                .labelsHidden()
                 .blendMode(.destinationOver)
                 .frame(maxWidth: 10, maxHeight: 10)
             }
     }
 }
 
-
 #Preview {
     NavigationStack {
         ChallengeMainView()
     }
 }
-
-
-

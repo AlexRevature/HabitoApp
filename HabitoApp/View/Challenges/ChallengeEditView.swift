@@ -7,8 +7,6 @@
 
 import SwiftUI
 
-import SwiftUI
-
 struct ChallengeEditView: View {
     @Environment(\.presentationMode) var presentationMode
     
@@ -23,6 +21,9 @@ struct ChallengeEditView: View {
     @State private var selectedImage: UIImage? = nil
     @State private var isShowingImagePicker: Bool = false
     
+    // Date field for the challenge.
+    @State private var challengeDate: Date = Date()
+    
     // Closure to call when a new challenge is saved.
     var onSave: (() -> Void)?
     
@@ -35,6 +36,11 @@ struct ChallengeEditView: View {
                     TextField("Total (e.g., 10000)", text: $total)
                         .keyboardType(.numberPad)
                     TextField("Unit (e.g., steps)", text: $unit)
+                }
+                
+                Section(header: Text("Date")) {
+                    DatePicker("Select Date", selection: $challengeDate, displayedComponents: [.date])
+                        .datePickerStyle(GraphicalDatePickerStyle())
                 }
                 
                 Section(header: Text("Image")) {
@@ -83,18 +89,24 @@ struct ChallengeEditView: View {
             return
         }
         
-        // Optionally save the selectedImage to disk using `imageName` here.
+        // Format the selected date as "MM-dd" to store only month and day.
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MM-dd"
+        let formattedDate = formatter.string(from: challengeDate)
+        
+        // Optionally, save the selectedImage to disk using `imageName` here.
         // For this example, we assume that the image will be added to the asset bundle later.
         
         ChallengeModel.shared.addChallenge(
             title: title,
             message: message,
-            imageName: imageName,         // User-specified image name.
+            imageName: imageName,          // User-specified image name.
             backImageName: "challengeBack", // Default background image name.
             trackImageName: "trophy.fill",  // Default track image name.
             count: 0,
             total: totalValue,
-            unit: unit
+            unit: unit,
+            date: formattedDate           // Pass the formatted date.
         )
         
         // Trigger the onSave callback to refresh the main view.
@@ -102,8 +114,6 @@ struct ChallengeEditView: View {
         presentationMode.wrappedValue.dismiss()
     }
 }
-
-    
 
 // MARK: - ImagePicker Implementation
 
