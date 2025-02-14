@@ -7,12 +7,22 @@
 
 import SwiftUI
 
-struct ChallengesListView: View {
+struct ChallengeListView: View {
+    @Binding var challenges: [ChallengeInfoFull]
+
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        ScrollView {
+            ForEach($challenges) { challenge in
+                ChallengeCellView(info: challenge)
+                    .padding(.vertical, 12)
+                    .padding(.horizontal, 10)
+            }
+        }
     }
 }
 
 #Preview {
-    ChallengesListView()
+    // For preview purposes, we use a constant binding from the test challenges.
+    let viewModel = ChallengeViewModel()
+    ChallengeListView(challenges: .constant(viewModel.getChallenges(date: Date())))
 }

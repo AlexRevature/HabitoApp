@@ -46,6 +46,14 @@ struct MainTabView: View {
                 Image(systemName: "fork.knife")
                 Text("Recipes")
             }
+            NavigationView {
+                ChallengeMainView()
+                    .navigationBarTitle(Text("Challenges"), displayMode: .inline)
+            }
+            .tabItem {
+                Image(systemName: "trophy.fill")
+                Text("Challenges")
+            }
         }
     }
 }
