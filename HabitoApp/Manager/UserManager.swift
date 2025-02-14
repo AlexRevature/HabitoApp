@@ -45,7 +45,7 @@ class UserManager {
         }
     }
 
-    func insertData(username: String, email: String, phone: String, image: Data) -> Int? {
+    func insertData(username: String, email: String, phone: String, image: Data? = nil) -> Int? {
         var stmt: OpaquePointer?
         let query = "INSERT INTO USER(username,email,phone,image) VALUES(?,?,?,?)"
         if sqlite3_prepare_v2(db, query, -1, &stmt, nil) != SQLITE_OK {
@@ -72,11 +72,15 @@ class UserManager {
             return nil
         }
 
-        let rawData = image as NSData
-        if sqlite3_bind_blob(stmt, 4, rawData.bytes, Int32(rawData.length), nil) != SQLITE_OK {
-            let err = String(cString: sqlite3_errmsg(db)!)
-            print(err)
-            return nil
+        if let image {
+            let rawData = image as NSData
+            if sqlite3_bind_blob(stmt, 4, rawData.bytes, Int32(rawData.length), nil) != SQLITE_OK {
+                let err = String(cString: sqlite3_errmsg(db)!)
+                print(err)
+                return nil
+            }
+        } else {
+            sqlite3_bind_null(stmt, 4)
         }
 
         if sqlite3_step(stmt) != SQLITE_DONE {

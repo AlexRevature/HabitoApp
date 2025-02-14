@@ -10,10 +10,11 @@ import PhotosUI
 
 struct ProfileEditView: View {
 
-    @Bindable var viewModel: ProfileViewModel
     @State var password: String = ""
     @State var passwordVerify: String = ""
     @State private var photoSelection: PhotosPickerItem?
+
+    @Environment(AccountViewModel.self) var viewModel
 
     var body: some View {
         ScrollView {
@@ -27,7 +28,7 @@ struct ProfileEditView: View {
     var userInfo: some View {
         VStack {
             ZStack {
-                Image(uiImage: viewModel.userInfo!.image)
+                getImage()
                     .resizable()
                     .scaledToFill()
                     .clipShape(Circle())
@@ -49,7 +50,7 @@ struct ProfileEditView: View {
 
                         Task {
                             if let loaded = try? await photoSelection?.loadTransferable(type: Data.self) {
-                                viewModel.userInfo!.image = UIImage(data: loaded)!
+                                viewModel.currentUser?.image = loaded
                             } else {
                                 print("Failed")
                             }
@@ -67,19 +68,28 @@ struct ProfileEditView: View {
         }
     }
 
+    func getImage() -> Image {
+        if viewModel.currentUser?.image == nil {
+            Image(systemName: "person.circle")
+        } else {
+            Image(uiImage: UIImage(data: viewModel.currentUser!.image!)!)
+        }
+    }
+
     var entries: some View {
-        VStack(alignment: .leading) {
+        @Bindable var vm = viewModel
+        return VStack(alignment: .leading) {
             Text("Username")
                 .font(.headline)
-            wrappedTextField(placeholder: "Username", record: Binding($viewModel.userInfo)!.name)
+            wrappedTextField(placeholder: "Username", record: Binding($vm.currentUser)!.username)
                 .padding(.bottom, 10)
             Text("Email")
                 .font(.headline)
-            wrappedTextField(placeholder: "Email", record: Binding($viewModel.userInfo)!.email)
+            wrappedTextField(placeholder: "Email", record: Binding($vm.currentUser)!.email)
                 .padding(.bottom, 10)
             Text("Phone Number")
                 .font(.headline)
-            wrappedTextField(placeholder: "Phone Number", record: Binding($viewModel.userInfo)!.phone)
+            wrappedTextField(placeholder: "Phone Number", record: Binding($vm.currentUser)!.phone)
                 .padding(.bottom, 10)
             Text("Password")
                 .font(.headline)

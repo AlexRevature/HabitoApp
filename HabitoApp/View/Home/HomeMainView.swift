@@ -20,7 +20,6 @@ struct HomeMainView: View {
             habitStack(buttonText: viewModel.habitGroup!.buttonText, habitList: Binding($viewModel.habitGroup)!.habitInfoList)
 
             challengeStack(info: viewModel.challengeInfo!)
-            recipeStack(info: viewModel.recipeInfo!)
             guideStack(info: viewModel.guideInfo!)
 
         }

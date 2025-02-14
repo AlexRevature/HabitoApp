@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import SwiftUI
 
 @Observable
 class AccountViewModel {
@@ -63,8 +64,7 @@ class AccountViewModel {
             throw AccountError.password(message: "Passwords do not match")
         }
 
-        let initialImageData = UIImage(systemName: "person.circle.fill")!.pngData()!
-        let id = UserManager.shared.insertData(username: username, email: email, phone: phone, image: initialImageData)
+        let id = UserManager.shared.insertData(username: username, email: email, phone: phone)
         guard let id else {
             throw AccountError.system(message: "Unable to create user")
         }
@@ -75,7 +75,7 @@ class AccountViewModel {
             throw AccountError.system(message: "Keychain error, please contact the developers")
         }
 
-        return User(id: id, username: username, email: email, phone: phone, image: initialImageData)
+        return User(id: id, username: username, email: email, phone: phone)
     }
 
     func verifyUserByName(username: String, password: String) throws -> User {
@@ -116,6 +116,12 @@ class AccountViewModel {
             throw AccountError.system(message: "System Error")
         }
         return user
+    }
+
+    func logoutUser() {
+        @AppStorage("currentID") var currentID: Int?
+        currentID = nil
+        currentUser = nil
     }
 }
 

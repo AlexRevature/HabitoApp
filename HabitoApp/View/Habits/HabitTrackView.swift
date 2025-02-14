@@ -9,25 +9,25 @@ import SwiftUI
 
 struct HabitTrackView: View {
 
-    @Binding var info: HabitInfoFull
+    @Binding var info: (id: Int, habit: Habit, asset: HabitAsset)
     @State var value: Double
 
-    init(info: Binding<HabitInfoFull>) {
+    init(info: Binding<(id: Int, habit: Habit, asset: HabitAsset)>) {
         self._info = info
-        self.value = Double(info.wrappedValue.count)
+        self.value = Double(info.wrappedValue.habit.count)
     }
 
     var body: some View {
         VStack {
-            Text(info.title)
+            Text(info.asset.title)
                 .font(.title)
-            Text(info.message)
+            Text(info.asset.message)
 
             imageStack
                 .padding(.vertical, 90)
             Slider(
                 value: $value,
-                in: 0...Double(info.total),
+                in: 0...Double(info.habit.total),
                 step: 1
             )
             .tint(.green)
@@ -46,7 +46,7 @@ struct HabitTrackView: View {
         }
         .padding(.top, 80)
         .onChange(of: value) {
-            info.count = Int(value)
+            info.habit.count = Int(value)
         }
     }
 
@@ -57,14 +57,15 @@ struct HabitTrackView: View {
                 .foregroundStyle(.blue)
                 .scaledToFit()
                 .frame(width: 200, height: 200)
-            Text("\(info.count)")
+            Text("\(info.habit.count)")
                 .font(.title)
         }
     }
 }
 
 
-#Preview {
-    @Previewable @State var habit = HabitViewModel().getHabits(date: Date())[0]
-    HabitTrackView(info: $habit)
-}
+//#Preview {
+//    @
+//    @Previewable @State var habit = HabitViewModel().getHabits(date: Date())[0]
+//    HabitTrackView(info: $habit)
+//}

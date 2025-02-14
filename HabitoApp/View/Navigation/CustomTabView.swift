@@ -18,11 +18,11 @@ struct CustomTabView: View {
             }
 
             Tab("Recipes", systemImage: "fork.knife") {
-                Text("Recipes")
+                RecipeMainView()
             }
 
             Tab("Data Analysis", systemImage: "list.clipboard") {
-                Text("Data")
+                AnalysisView()
             }
 
             Tab("Profile", systemImage: "person") {

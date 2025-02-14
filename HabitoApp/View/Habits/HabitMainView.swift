@@ -9,19 +9,17 @@ import SwiftUI
 
 struct HabitMainView: View {
 
-    @State var viewModel: HabitViewModel
+//    @State var viewModel: HabitViewModel
     @State var initialDate: Date
     @State var selection: Date
-    @State var selectedHabits: [HabitInfoFull]
+//    @State var selectedHabits: [HabitInfoFull]
+
+    @Environment(HabitViewModel.self) var habitViewModel
 
     init() {
-        let viewModel = HabitViewModel()
         let currentDate = Date()
-
-        self.viewModel = viewModel
         self.initialDate = currentDate
         self.selection = currentDate
-        self.selectedHabits = viewModel.getHabits(date: currentDate)
     }
 
     var body: some View {
@@ -42,12 +40,16 @@ struct HabitMainView: View {
             .padding(.vertical, 15)
             .background(.customAlternate)
 
-            HabitListView(habits: $selectedHabits)
+            @Bindable var viewModel = habitViewModel
+            HabitListView(habits: Binding($viewModel.currentHabits)!)
                 .padding(.horizontal, 8)
 
         }
+        .task {
+            habitViewModel.setActualHabits(date: Date())
+        }
         .onChange(of: selection) {
-            self.selectedHabits = viewModel.getHabits(date: selection)
+            habitViewModel.setActualHabits(date: selection)
         }
 
     }
@@ -76,7 +78,7 @@ struct HabitMainView: View {
             .tint(.black)
             .overlay {
                 // Hacky, gets a date picker, blends it with
-                // image so that it is hidden, and clipped
+                // image so that it is hidden, and is clipped
                 // to better follow image boundaries
                 DatePicker(
                      "",
@@ -131,7 +133,12 @@ struct CustomPicker<Data, Content>: View where Data: Hashable, Content: View {
 }
 
 #Preview {
-    NavigationStack {
+    let accountViewModel = AccountViewModel()
+    let habitViewModel = HabitViewModel(accountViewModel: accountViewModel)
+
+    return NavigationStack {
         HabitMainView()
     }
+    .environment(accountViewModel)
+    .environment(habitViewModel)
 }
