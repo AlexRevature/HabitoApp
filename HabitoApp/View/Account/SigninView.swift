@@ -9,6 +9,7 @@ import SwiftUI
 
 struct SigninView: View {
 
+    @AppStorage("currentID") var currentID: Int?
     @Environment(AccountViewModel.self) var viewModel
 
     @State var username = ""
@@ -124,6 +125,8 @@ struct SigninView: View {
             print("err")
             return
         }
+
+        currentID = shouldRemember ? user.id : nil
         viewModel.currentUser = user
     }
 

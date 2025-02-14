@@ -110,6 +110,13 @@ class AccountViewModel {
 
         return user
     }
+
+    func retrieveUserByID(id: Int) throws -> User {
+        guard let user = UserManager.shared.fetchDataById(id: id) else {
+            throw AccountError.system(message: "System Error")
+        }
+        return user
+    }
 }
 
 enum AccountError: Error {

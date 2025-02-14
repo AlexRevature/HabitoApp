@@ -9,17 +9,47 @@ import SwiftUI
 
 struct RootView: View {
 
+    @AppStorage("currentID") var currentID: Int?
     @Environment(AccountViewModel.self) var viewModel
+    @State var isChecking = true
 
     var body: some View {
         NavigationStack {
-            if viewModel.currentUser == nil {
+            if isChecking {
+                Text("Checking")
+            } else if viewModel.currentUser == nil {
                 GuideView()
             } else {
                 CustomTabView()
             }
         }
         .animation(.linear(duration: 1), value: viewModel.currentUser)
+        .onAppear {
+            withAnimation(.easeInOut(duration: 5)) {
+                persistenceCheck()
+            }
+        }
+    }
+
+    func persistenceCheck() {
+
+        defer {
+            isChecking = false
+        }
+        guard let currentID else {
+            return
+        }
+
+        let user: User
+        do {
+            user = try viewModel.retrieveUserByID(id: currentID)
+        } catch {
+            print("err")
+            return
+        }
+
+        viewModel.currentUser = user
+        return
     }
 }
 
