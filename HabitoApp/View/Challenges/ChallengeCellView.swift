@@ -29,7 +29,7 @@ struct ChallengeCellView: View {
                         }
                         Spacer()
                         NavigationLink {
-                            // Assuming you have a ChallengeTrackView similar to HabitTrackView.
+                          
                             ChallengeTrackView(info: $info)
                         } label: {
                             Image(systemName: "chevron.right.circle")

@@ -76,6 +76,6 @@ struct ChallengeTrackView: View {
 
 #Preview {
     @Previewable
-    @State var challenge = ChallengeViewModel().getChallenges(date: Date())[0]
+    @State var challenge = ChallengeViewModel().getChallenges(for: Date())[0]
     ChallengeTrackView(info: $challenge)
 }

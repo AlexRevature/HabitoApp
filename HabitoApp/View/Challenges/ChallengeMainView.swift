@@ -8,49 +8,59 @@
 import SwiftUI
 
 struct ChallengeMainView: View {
-
-    @State var viewModel: ChallengeViewModel
-    @State var initialDate: Date
-    @State var selection: Date
-    @State var selectedChallenges: [ChallengeInfoFull]
-
-    init() {
-        let viewModel = ChallengeViewModel()
-        let currentDate = Date()
-        
-        self.viewModel = viewModel
-        self.initialDate = currentDate
-        self.selection = currentDate
-        self.selectedChallenges = viewModel.getChallenges(date: currentDate)
-    }
-
+    @StateObject var viewModel = ChallengeViewModel()
+    @State var initialDate: Date = Date()
+    @State var selection: Date = Date()
+    
     var body: some View {
-        VStack {
-            HStack {
-                let source = createDates(date: initialDate, num: 5)
-                CustomPicker(sources: source, selection: $selection) { item in
-                    VStack {
-                        let (dayNum, weekDay) = getDateComponents(date: item)
-                        Text(weekDay)
-                        Text("\(dayNum)")
+        NavigationStack {
+            ZStack(alignment: .bottomTrailing) {
+                VStack {
+                    HStack {
+                        let source = createDates(date: initialDate, num: 5)
+                        CustomPicker(sources: source, selection: $selection) { item in
+                            VStack {
+                                let (dayNum, weekDay) = getDateComponents(date: item)
+                                Text(weekDay)
+                                Text("\(dayNum)")
+                            }
+                        }
+                        calendarButton
+                            .padding(.leading, 7)
                     }
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 15)
+                    .background(Color.customAlternate)
+                    
+                    ChallengeListView(challenges: $viewModel.challenges)
+                        .padding(.horizontal, 8)
                 }
-                calendarButton
-                    .padding(.leading, 7)
+                .onAppear {
+                    viewModel.refreshChallenges(for: selection)
+                }
+                .onChange(of: selection) { newValue in
+                    viewModel.refreshChallenges(for: selection)
+                }
+                
+                // Plus button in a green circle that navigates to ChallengeEditView.
+                NavigationLink(destination: ChallengeEditView(onSave: {
+                    viewModel.refreshChallenges(for: selection)
+                })) {
+                    Image(systemName: "plus")
+                        .resizable()
+                        .frame(width: 20, height: 20)
+                        .foregroundColor(.white)
+                        .padding()
+                        .background(Circle().fill(Color.green))
+                        .shadow(radius: 4)
+                }
+                .padding(.trailing, 16)
+                .padding(.bottom, 16)
             }
-            .frame(maxWidth: .infinity)
-            .padding(.vertical, 15)
-            .background(Color.customAlternate)
-            
-            ChallengeListView(challenges: $selectedChallenges)
-                .padding(.horizontal, 8)
-        }
-        .onChange(of: selection) { newValue in
-            self.selectedChallenges = viewModel.getChallenges(date: selection)
         }
     }
     
-    /// Creates an array of dates starting from `date` for `num` consecutive days.
+    /// Creates an array of consecutive dates starting from `date` for `num` days.
     func createDates(date: Date, num: Int) -> [Date] {
         var dateList = [date]
         for offset in 1..<num {
@@ -60,7 +70,7 @@ struct ChallengeMainView: View {
         return dateList
     }
     
-    /// Returns the day number and abbreviated weekday (e.g., "Mon") for the given date.
+    /// Returns the day number and abbreviated weekday for the given date.
     func getDateComponents(date: Date) -> (Int, String) {
         let formatter = DateFormatter()
         formatter.dateFormat = "E"
@@ -87,9 +97,11 @@ struct ChallengeMainView: View {
 }
 
 
-
 #Preview {
     NavigationStack {
         ChallengeMainView()
     }
 }
+
+
+

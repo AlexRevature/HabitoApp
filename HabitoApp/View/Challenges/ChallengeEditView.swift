@@ -7,19 +7,24 @@
 
 import SwiftUI
 
+import SwiftUI
+
 struct ChallengeEditView: View {
     @Environment(\.presentationMode) var presentationMode
     
-    // Form fields
+    // Form fields.
     @State private var title: String = ""
     @State private var message: String = ""
     @State private var total: String = ""
     @State private var unit: String = ""
     
-    // For handling the chosen image
+    // Image handling.
     @State private var imageName: String = ""
     @State private var selectedImage: UIImage? = nil
     @State private var isShowingImagePicker: Bool = false
+    
+    // Closure to call when a new challenge is saved.
+    var onSave: (() -> Void)?
     
     var body: some View {
         NavigationView {
@@ -70,35 +75,35 @@ struct ChallengeEditView: View {
     }
     
     func saveChallenge() {
-        // Validate inputs
         guard !title.isEmpty,
               !message.isEmpty,
               let totalValue = Int(total),
               !unit.isEmpty,
               !imageName.isEmpty else {
-            // Optionally: Show an alert informing the user of missing fields
             return
         }
         
+        // Optionally save the selectedImage to disk using `imageName` here.
+        // For this example, we assume that the image will be added to the asset bundle later.
         
-        
-        // Save the new challenge to the database.
-        // Default values for back and track images are provided.
         ChallengeModel.shared.addChallenge(
             title: title,
             message: message,
-            imageName: imageName,            // User-specified image name
-            backImageName: "challengeBack",  // Default background image name
-            trackImageName: "trophy.fill",     // Default track image name (suggested system symbol)
+            imageName: imageName,         // User-specified image name.
+            backImageName: "challengeBack", // Default background image name.
+            trackImageName: "trophy.fill",  // Default track image name.
             count: 0,
             total: totalValue,
             unit: unit
         )
         
-        // Dismiss the view after saving
+        // Trigger the onSave callback to refresh the main view.
+        onSave?()
         presentationMode.wrappedValue.dismiss()
     }
 }
+
+    
 
 // MARK: - ImagePicker Implementation
 
