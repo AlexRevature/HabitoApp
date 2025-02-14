@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct ChallengeTrackView: View {
-
     @Binding var info: ChallengeInfoFull
     @State var value: Double
+    @State private var navigateToNotification = false
 
     init(info: Binding<ChallengeInfoFull>) {
         self._info = info
@@ -18,40 +18,49 @@ struct ChallengeTrackView: View {
     }
 
     var body: some View {
-        VStack {
-            Text(info.title)
-                .font(.title)
-            Text(info.message)
-            
-            imageStack
-                .padding(.vertical, 90)
-            
-            Slider(
-                value: $value,
-                in: 0...Double(info.total),
-                step: 1
-            )
-            .tint(.blue)
-            .padding(.horizontal, 45)
-            .padding(.bottom, 30)
-            
-            Button {
-                print("Challenge progress updated")
-            } label: {
-                Text("Done")
-                    .tint(.white)
-                    .padding(EdgeInsets(top: 12, leading: 30, bottom: 12, trailing: 30))
-                    .background(.blue)
-                    .clipShape(RoundedRectangle(cornerRadius: 20))
+        NavigationView() {
+            VStack {
+                Text(info.title)
+                    .font(.title)
+                Text(info.message)
+                
+                imageStack
+                    .padding(.vertical, 90)
+                
+                Slider(
+                    value: $value,
+                    in: 0...Double(info.total),
+                    step: 1
+                )
+                .tint(.blue)
+                .padding(.horizontal, 45)
+                .padding(.bottom, 30)
+                
+                Button {
+                    // Navigate to ChallengeNotificationView
+                    navigateToNotification = true
+                } label: {
+                    Text("Done")
+                        .tint(.white)
+                        .padding(EdgeInsets(top: 12, leading: 30, bottom: 12, trailing: 30))
+                        .background(.blue)
+                        .clipShape(RoundedRectangle(cornerRadius: 20))
+                }
+                
+                // Invisible NavigationLink activated when navigateToNotification becomes true.
+                NavigationLink(destination: ChallengeNotifyView(), isActive: $navigateToNotification) {
+                    EmptyView()
+                }
+                
+                Spacer()
             }
-            Spacer()
-        }
-        .padding(.top, 80)
-        .onChange(of: value) { newValue in
-            info.count = Int(newValue)
+            .padding(.top, 80)
+            .onChange(of: value) { newValue in
+                info.count = Int(newValue)
+            }
         }
     }
-
+    
     var imageStack: some View {
         ZStack {
             Image(systemName: "circle")
