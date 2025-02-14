@@ -14,11 +14,13 @@ struct RootView: View {
     @State var isChecking = true
 
     var body: some View {
-        NavigationStack {
+        Group {
             if isChecking {
                 Text("Checking")
             } else if viewModel.currentUser == nil {
-                GuideView()
+                NavigationStack {
+                    GuideView()
+                }
             } else {
                 CustomTabView()
             }
@@ -55,7 +57,10 @@ struct RootView: View {
 
 #Preview {
 
+    @Previewable @AppStorage("currentID") var currentID: Int?
     let viewModel = AccountViewModel()
+
+    currentID = nil
 
     try? KeychainManager.deleteCredentials()
     _ = try? viewModel.createUser(username: "test", email: "test@test.com", phone: "1236540987", password: "password1#", passwordVerify: "password1#")
