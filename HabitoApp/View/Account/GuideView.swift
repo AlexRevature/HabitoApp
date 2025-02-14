@@ -11,7 +11,7 @@ struct GuideView: View {
     var body: some View {
         VStack {
             // TODO: Change to actual image
-            Image(systemName: "circle")
+            Image(systemName: "book.fill")
                 .padding(.top, 40)
 
             introText
@@ -19,7 +19,7 @@ struct GuideView: View {
                 .padding(.top, 30)
             Spacer()
             // TODO: Change to actual image
-            Image(systemName: "square")
+            Image(systemName: "heart.fill")
                 .resizable()
                 .scaledToFit()
                 .frame(width: 300, height: 300)

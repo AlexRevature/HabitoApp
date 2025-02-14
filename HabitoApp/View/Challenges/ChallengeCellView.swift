@@ -36,9 +36,7 @@ struct ChallengeCellView: View {
                                 .foregroundStyle(.black)
                         }
                     }
-                    LineProgress(percentage: Double(info.count) / Double(info.total))
-                        .frame(maxHeight: 10)
-                        .padding(.trailing, 25)
+                    
                 }
                 .padding(.leading, 5)
             }
