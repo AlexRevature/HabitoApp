@@ -1,0 +1,23 @@
+{
+  "images" : [
+    {
+      "filename" : "1430px-Charcuterie_with_berries_-_Cliff_House_Maine_-_Cape_Neddick,_Maine_-_20180723_141828.jpg",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "1430px-Charcuterie_with_berries_-_Cliff_House_Maine_-_Cape_Neddick,_Maine_-_20180723_141828 1.jpg",
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "1430px-Charcuterie_with_berries_-_Cliff_House_Maine_-_Cape_Neddick,_Maine_-_20180723_141828 2.jpg",
+      "idiom" : "universal",
+      "scale" : "3x"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

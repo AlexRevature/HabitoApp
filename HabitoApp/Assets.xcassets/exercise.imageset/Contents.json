@@ -1,0 +1,23 @@
+{
+  "images" : [
+    {
+      "filename" : "1846px-Bio_Bio_Expeditions_-_Guided_Tours.jpg",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "1846px-Bio_Bio_Expeditions_-_Guided_Tours 1.jpg",
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "1846px-Bio_Bio_Expeditions_-_Guided_Tours 2.jpg",
+      "idiom" : "universal",
+      "scale" : "3x"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

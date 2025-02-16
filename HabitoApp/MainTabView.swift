@@ -12,12 +12,21 @@ struct MainTabView: View {
     var body: some View {
         TabView {
             NavigationView {
-                ContentView()
+                HomeMainView()
                     .navigationBarTitle("Home", displayMode: .inline)
             }
             .tabItem {
                 Image(systemName: "house.fill")
                 Text("Home")
+            }
+            
+            NavigationView {
+                GuideMainView()
+                    .navigationBarTitle("Guides", displayMode: .inline)
+            }
+            .tabItem(){
+                Image(systemName: "book.fill")
+                Text("Guides")
             }
             
             NavigationView {
@@ -56,4 +65,8 @@ struct MainTabView: View {
             }
         }
     }
+}
+
+#Preview {
+    MainTabView()
 }
