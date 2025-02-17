@@ -10,9 +10,8 @@ import SwiftUI
 struct GuideView: View {
     var body: some View {
         VStack {
-            // TODO: Change to actual image
-            Image(systemName: "book.fill")
-                .padding(.top, 40)
+            
+            
 
             introText
                 .padding(.horizontal, 50)
@@ -23,6 +22,8 @@ struct GuideView: View {
                 .resizable()
                 .scaledToFit()
                 .frame(width: 300, height: 300)
+                .foregroundStyle(.pink)
+            
             Spacer()
             actionButton
                 .padding(.horizontal, 30)

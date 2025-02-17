@@ -24,8 +24,6 @@ struct ChallengeCellView: View {
                         VStack(alignment: .leading) {
                             Text(info.title)
                                 .bold()
-                            Text("\(info.count)/\(info.total) \(info.unit)")
-                                .fontWeight(.light)
                         }
                         Spacer()
                         NavigationLink {

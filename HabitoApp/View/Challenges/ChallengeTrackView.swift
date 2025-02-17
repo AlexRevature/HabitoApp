@@ -24,17 +24,8 @@ struct ChallengeTrackView: View {
                     .font(.title)
                 Text(info.message)
                 
-                imageStack
-                    .padding(.vertical, 90)
+              
                 
-                Slider(
-                    value: $value,
-                    in: 0...Double(info.total),
-                    step: 1
-                )
-                .tint(.blue)
-                .padding(.horizontal, 45)
-                .padding(.bottom, 30)
                 
                 Button {
                     // Navigate to ChallengeNotificationView
