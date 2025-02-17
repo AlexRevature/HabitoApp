@@ -24,7 +24,7 @@ struct HabitCardView: View {
                 .padding(.horizontal)
                 .padding(.vertical, 30)
                 .background {
-                    Image(currentCard?.asset.backImage ?? "")
+                    Image(currentCard?.asset.backImage ?? "back")
                         .resizable()
                         .scaledToFill()
                         .opacity(0.75)
