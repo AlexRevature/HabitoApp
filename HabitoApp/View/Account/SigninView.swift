@@ -130,6 +130,8 @@ struct SigninView: View {
         }
 
         currentID = shouldRemember ? user.id : nil
+
+
         viewModel.currentUser = user
     }
 

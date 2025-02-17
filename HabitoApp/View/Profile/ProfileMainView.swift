@@ -38,12 +38,6 @@ struct ProfileMainView: View {
             actionList
             Spacer()
         }
-        .onChange(of: viewModel.currentUser) {
-//            print(viewModel.currentUser?.name)
-        }
-        .task {
-            print(viewModel.currentUser?.name)
-        }
     }
 
     var actionList: some View {

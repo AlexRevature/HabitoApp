@@ -57,7 +57,7 @@ struct HomeMainView: View {
 
     var challengeStack: some View {
         VStack {
-            LongNavigationButton(text: "View all your challenges") { Text("") }
+            LongNavigationButton(text: "View all your challenges") { ChallengeMainView() }
             .padding(.init(top: 20, leading: 20, bottom: 5, trailing: 20))
             ChallengeCardView(dayNumber: 0, totalDays: 10, challengeTitle: "Weight Lifting", image: UIImage(named: "back")!)
                 .padding(.horizontal, 20)
@@ -66,7 +66,7 @@ struct HomeMainView: View {
 //
     var guideStack: some View {
         VStack {
-            LongNavigationButton(text: "View available guides") { Text("") }
+            LongNavigationButton(text: "View available guides") { GuideMainView() }
             .padding(.init(top: 15, leading: 20, bottom: 5, trailing: 20))
             GuideCardView(title: "Learn new skills!", subtitle: "And some more", image: UIImage(named: "back")!)
                 .padding(.horizontal, 20)
@@ -118,7 +118,7 @@ private struct LongNavigationButton <Destination>: View where Destination: View 
 
     return NavigationStack {
         HomeMainView()
-            .environment(accountViewModel)
-            .environment(habitViewModel)
     }
+    .environment(accountViewModel)
+    .environment(habitViewModel)
 }

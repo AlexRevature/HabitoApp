@@ -66,8 +66,6 @@ struct RootView: View {
     try? KeychainManager.deleteCredentials()
     let user = try? accountViewModel.createUser(name: "test", email: "test@test.com", phone: "1236540987", password: "password1#", passwordVerify: "password1#")
 
-    print(user?.id)
-
 //    accountViewModel.currentUser = user
 
     return RootView()

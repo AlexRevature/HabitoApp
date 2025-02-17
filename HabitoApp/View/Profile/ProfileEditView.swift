@@ -59,7 +59,6 @@ struct ProfileEditView: View {
         vm.currentUser?.name = name
         vm.currentUser?.phone = phone
         vm.currentUser?.image = imageData
-//        print("\(viewModel.currentUser?.name ?? "")")
     }
 
     var userInfo: some View {
