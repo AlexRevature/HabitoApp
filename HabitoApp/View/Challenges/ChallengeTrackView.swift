@@ -28,7 +28,12 @@ struct ChallengeTrackView: View {
                 
                 
                 Button {
-                    // Navigate to ChallengeNotificationView
+                    // Delete the challenge from the database using its id.
+                    ChallengeModel.shared.deleteChallenge(byId: info.id)
+                    
+                    // Optionally, you could add additional logic here (e.g., showing an alert).
+                    
+                    // Navigate to the ChallengeNotifyView.
                     navigateToNotification = true
                 } label: {
                     Text("Done")
@@ -37,6 +42,7 @@ struct ChallengeTrackView: View {
                         .background(.blue)
                         .clipShape(RoundedRectangle(cornerRadius: 20))
                 }
+
                 
                 // Invisible NavigationLink activated when navigateToNotification becomes true.
                 NavigationLink(destination: ChallengeNotifyView(), isActive: $navigateToNotification) {

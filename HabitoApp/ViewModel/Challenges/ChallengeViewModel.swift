@@ -21,6 +21,7 @@ class ChallengeViewModel: ObservableObject {
             let backImage = UIImage(named: challenge.backImageName) ?? UIImage(systemName: "questionmark")!
             let trackImage = UIImage(named: challenge.trackImageName) ?? UIImage(systemName: "questionmark")!
             return ChallengeInfoFull(
+                id: challenge.id,      // Use the database id
                 title: challenge.title,
                 message: challenge.message,
                 image: image,
@@ -29,9 +30,10 @@ class ChallengeViewModel: ObservableObject {
                 count: challenge.count,
                 total: challenge.total,
                 unit: challenge.unit,
-                date: challenge.date   // Include the date from the database
+                date: challenge.date
             )
         }
+
         
         guard !challengeInfos.isEmpty else { return [] }
         
@@ -48,7 +50,7 @@ class ChallengeViewModel: ObservableObject {
 }
 
 struct ChallengeInfoFull: Identifiable {
-    var id = UUID()
+    var id: Int64      // Now using the database's id
     var title: String
     var message: String
     var image: UIImage
@@ -57,5 +59,6 @@ struct ChallengeInfoFull: Identifiable {
     var count: Int
     var total: Int
     var unit: String
-    var date: String    // New property to hold the challenge date ("MM-dd")
+    var date: String
 }
+

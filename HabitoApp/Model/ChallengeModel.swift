@@ -135,6 +135,32 @@ class ChallengeModel {
         sqlite3_finalize(stmt)
     }
     
+    func deleteChallenge(byId id: Int64) {
+        let deleteQuery = "DELETE FROM Challenge WHERE id = ?;"
+        var stmt: OpaquePointer?
+        
+        if sqlite3_prepare_v2(db, deleteQuery, -1, &stmt, nil) != SQLITE_OK {
+            let errmsg = String(cString: sqlite3_errmsg(db))
+            print("Error preparing delete: \(errmsg)")
+            return
+        }
+        
+        if sqlite3_bind_int64(stmt, 1, id) != SQLITE_OK {
+            let errmsg = String(cString: sqlite3_errmsg(db))
+            print("Error binding id: \(errmsg)")
+            sqlite3_finalize(stmt)
+            return
+        }
+        
+        if sqlite3_step(stmt) != SQLITE_DONE {
+            let errmsg = String(cString: sqlite3_errmsg(db))
+            print("Error deleting challenge: \(errmsg)")
+        }
+        
+        sqlite3_finalize(stmt)
+    }
+
+    
     /// Retrieves all challenges from the database.
     func getChallenges() -> [Challenge] {
         let query = """
