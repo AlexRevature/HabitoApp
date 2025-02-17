@@ -9,23 +9,20 @@ import SwiftUI
 
 struct ChallengeEditView: View {
     @Environment(\.presentationMode) var presentationMode
+    @EnvironmentObject var accountViewModel: AccountViewModel  // Added to access currentUser
     
     // Form fields.
     @State private var title: String = ""
     @State private var message: String = ""
-    @State private var total: String = ""
-    @State private var unit: String = ""
+    @State private var total: String = "1"
+    @State private var unit: String = "a"
     
     // Image handling.
-    @State private var imageName: String = ""
+    @State private var imageName: String = "a"
     @State private var selectedImage: UIImage? = nil
     @State private var isShowingImagePicker: Bool = false
     
-    // Date field for the challenge.
-    // Replace the single date field...
-    // @State private var challengeDate: Date = Date()
-
-    // With two separate date fields:
+    // Date fields for the challenge.
     @State private var startDate: Date = Date()
     @State private var endDate: Date = Date()
 
@@ -39,39 +36,11 @@ struct ChallengeEditView: View {
                 Section(header: Text("Challenge Details")) {
                     TextField("Title", text: $title)
                     TextField("Message", text: $message)
-                    TextField("Total (e.g., 10000)", text: $total)
-                        .keyboardType(.numberPad)
-                    TextField("Unit (e.g., steps)", text: $unit)
                 }
                 
                 Section(header: Text("Date Range")) {
                     DatePicker("Start Date", selection: $startDate, displayedComponents: [.date])
                     DatePicker("End Date", selection: $endDate, displayedComponents: [.date])
-                }
-
-                
-                Section(header: Text("Image")) {
-                    if let image = selectedImage {
-                        Image(uiImage: image)
-                            .resizable()
-                            .scaledToFit()
-                            .frame(height: 200)
-                    } else {
-                        Text("No Image Selected")
-                            .foregroundColor(.gray)
-                    }
-                    
-                    Button("Choose Image") {
-                        isShowingImagePicker = true
-                    }
-                    
-                    TextField("Image Name", text: $imageName)
-                        .autocapitalization(.none)
-                        .disableAutocorrection(true)
-                        .placeholder(when: imageName.isEmpty) {
-                            Text("Enter a unique image name")
-                                .foregroundColor(.gray)
-                        }
                 }
                 
                 Section {
@@ -92,7 +61,8 @@ struct ChallengeEditView: View {
               !message.isEmpty,
               let totalValue = Int(total),
               !unit.isEmpty,
-              !imageName.isEmpty else {
+              !imageName.isEmpty,
+              let userId = accountViewModel.currentUser?.id else {
             return
         }
         
@@ -111,7 +81,8 @@ struct ChallengeEditView: View {
             total: totalValue,
             unit: unit,
             startDate: formattedStartDate,
-            endDate: formattedEndDate
+            endDate: formattedEndDate,
+            userId: userId
         )
         
         onSave?()

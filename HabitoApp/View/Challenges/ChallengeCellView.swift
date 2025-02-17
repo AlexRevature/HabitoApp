@@ -14,7 +14,7 @@ struct ChallengeCellView: View {
     var body: some View {
         VStack {
             HStack {
-                Image(uiImage: info.image)
+                Image("running")
                     .resizable()
                     .scaledToFill()
                     .frame(width: 60, height: 60)
@@ -40,17 +40,8 @@ struct ChallengeCellView: View {
             }
         }
         .padding()
-        .background {
-            Image(uiImage: info.backImage)
-                .resizable()
-                .scaledToFill()
-                .opacity(0.5)
-                .background {
-                    LinearGradient(gradient: Gradient(colors: [.customSecondary, .white]), startPoint: .leading, endPoint: .trailing)
-                }
-        }
+        .background (.green)
         .clipShape(RoundedRectangle(cornerRadius: 20))
     }
 }
-
 

@@ -13,6 +13,7 @@ struct Challenge {
     let unit: String
     let startDate: String   // New: start date in "yyyy-MM-dd" format
     let endDate: String     // New: end date in "yyyy-MM-dd" format
+    let userId: Int         // New: foreign key for user id
 }
 
 class ChallengeModel {
@@ -43,7 +44,7 @@ class ChallengeModel {
         }
         
         // Create the Challenge table if it doesn't exist.
-        // Modified schema to support a date range.
+        // Modified schema to support a date range and user foreign key.
         let createTableQuery = """
         CREATE TABLE IF NOT EXISTS Challenge (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -56,7 +57,8 @@ class ChallengeModel {
             total INTEGER,
             unit TEXT,
             startDate TEXT,
-            endDate TEXT
+            endDate TEXT,
+            userId INTEGER
         );
         """
         
@@ -85,10 +87,11 @@ class ChallengeModel {
                       total: Int,
                       unit: String,
                       startDate: String,  // New parameter for start date
-                      endDate: String) {   // New parameter for end date
+                      endDate: String,    // New parameter for end date
+                      userId: Int) {      // New parameter for user id
         let insertQuery = """
-        INSERT INTO Challenge (title, message, imageName, backImageName, trackImageName, count, total, unit, startDate, endDate)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+        INSERT INTO Challenge (title, message, imageName, backImageName, trackImageName, count, total, unit, startDate, endDate, userId)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
         """
         var stmt: OpaquePointer?
         
@@ -130,6 +133,14 @@ class ChallengeModel {
             return
         }
         
+        // Bind the userId.
+        if sqlite3_bind_int(stmt, 11, Int32(userId)) != SQLITE_OK {
+            let errmsg = String(cString: sqlite3_errmsg(db))
+            print("Error binding userId: \(errmsg)")
+            sqlite3_finalize(stmt)
+            return
+        }
+        
         // Execute the statement.
         if sqlite3_step(stmt) != SQLITE_DONE {
             let errmsg = String(cString: sqlite3_errmsg(db))
@@ -165,11 +176,12 @@ class ChallengeModel {
     }
 
     
-    /// Retrieves all challenges from the database.
-    func getChallenges() -> [Challenge] {
+    /// Retrieves all challenges from the database for a specific user.
+    func getChallenges(forUser userId: Int) -> [Challenge] {
         let query = """
         SELECT id, title, message, imageName, backImageName, trackImageName, count, total, unit, startDate, endDate
-        FROM Challenge;
+        FROM Challenge
+        WHERE userId = ?;
         """
         var stmt: OpaquePointer?
         var challenges = [Challenge]()
@@ -177,6 +189,13 @@ class ChallengeModel {
         if sqlite3_prepare_v2(db, query, -1, &stmt, nil) != SQLITE_OK {
             let errmsg = String(cString: sqlite3_errmsg(db))
             print("Error preparing select: \(errmsg)")
+            return []
+        }
+        
+        if sqlite3_bind_int(stmt, 1, Int32(userId)) != SQLITE_OK {
+            let errmsg = String(cString: sqlite3_errmsg(db))
+            print("Error binding userId: \(errmsg)")
+            sqlite3_finalize(stmt)
             return []
         }
         
@@ -216,7 +235,8 @@ class ChallengeModel {
                                       total: total,
                                       unit: unit,
                                       startDate: startDate,
-                                      endDate: endDate)
+                                      endDate: endDate,
+                                      userId: userId)
             challenges.append(challenge)
         }
         
@@ -226,7 +246,7 @@ class ChallengeModel {
     
     /// Adds sample challenge(s) to the database if none exist.
     func addTestChallenges() {
-        let existingChallenges = getChallenges()
+        let existingChallenges = getChallenges(forUser: 1)
         if existingChallenges.isEmpty {
             // For a single-day challenge, startDate and endDate will be the same.
             addChallenge(
@@ -239,7 +259,8 @@ class ChallengeModel {
                 total: 10000,
                 unit: "steps",
                 startDate: "2025-01-01",   // Example start date in "yyyy-MM-dd" format
-                endDate: "2025-01-01"      // Same as start date for a single-day challenge
+                endDate: "2025-01-01",     // Same as start date for a single-day challenge
+                userId: 1
             )
             
             // Additional test challenges can be added here.

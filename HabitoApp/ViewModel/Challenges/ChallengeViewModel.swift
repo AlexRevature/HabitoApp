@@ -3,10 +3,12 @@ import SwiftUI
 @MainActor
 class ChallengeViewModel: ObservableObject {
     @Published var challenges: [ChallengeInfoFull] = []
+    var userId: Int?  // New property to store current user's id
     
     /// Fetches challenges from the database for the given date,
     /// rotates the array based on the day of the month, and returns it.
     func getChallenges(for date: Date) -> [ChallengeInfoFull] {
+        guard let userId = self.userId else { return [] }
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
         let targetDateString = dateFormatter.string(from: date)
@@ -14,7 +16,7 @@ class ChallengeViewModel: ObservableObject {
             return []
         }
         
-        let challengesFromDB = ChallengeModel.shared.getChallenges().filter { challenge in
+        let challengesFromDB = ChallengeModel.shared.getChallenges(forUser: userId).filter { challenge in
             guard let start = dateFormatter.date(from: challenge.startDate),
                   let end = dateFormatter.date(from: challenge.endDate)
             else {
