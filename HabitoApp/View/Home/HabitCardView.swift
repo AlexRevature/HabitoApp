@@ -33,17 +33,18 @@ struct HabitCardView: View {
                 .clipShape(RoundedRectangle(cornerRadius: 20))
         }
         .task {
-            currentCard = habitViewModel.currentHabits[0]
+//            currentIndex = 0
+            currentCard = habitViewModel.currentHabits[currentIndex]
         }
     }
 
     var frontView: some View {
-        @Bindable var habitViewModel = habitViewModel
-        let currentHabit = $habitViewModel.currentHabits[currentIndex]
+        @Bindable var hb = habitViewModel
+        let currentHabit = habitViewModel.currentHabits[currentIndex]
         return VStack {
             HStack {
                 moveButton(imageName: "chevron.left", step: -1)
-                PercentageCircle(percentage: Double(currentHabit.habit.count.wrappedValue) / Double(currentHabit.habit.total.wrappedValue))
+                PercentageCircle(percentage: Double(currentHabit.habit.count) / Double(currentHabit.habit.total))
                     .frame(maxWidth: 70, maxHeight: 70)
                     .padding(.leading, 6)
 
@@ -51,7 +52,7 @@ struct HabitCardView: View {
                     titleStack(title: currentCard?.asset.title ?? "", subtitle: currentCard?.asset.message ?? "")
 
                     HStack {
-                        IncrementButton(count: currentHabit.habit.count, total: currentHabit.habit.total.wrappedValue)
+                        IncrementButton(count: $hb.currentHabits[currentIndex].habit.count, total: currentHabit.habit.total)
                         Spacer()
                     }
                 }

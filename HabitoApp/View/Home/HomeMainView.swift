@@ -25,6 +25,9 @@ struct HomeMainView: View {
             guideStack
 
         }
+        .task {
+            habitViewModel.setHabits(date: Date())
+        }
 //        .onDisappear {
 //            habitViewModel.saveHabits()
 //            print("Run")

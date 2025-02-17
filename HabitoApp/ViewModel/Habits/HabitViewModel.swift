@@ -11,13 +11,7 @@ import SwiftUI
 @Observable
 class HabitViewModel {
 
-    var currentHabits: [HabitPacket] = [] {
-        didSet {
-            print("Changes")
-        }
-    }
-
-
+    var currentHabits: [HabitPacket] = []
     var accountViewModel: AccountViewModel?
 
     init(accountViewModel: AccountViewModel? = nil) {
@@ -42,6 +36,7 @@ class HabitViewModel {
 
         let habits = HabitManager.shared.fetchDataByUserDate(userID: currentUser.id, date: date.formatted(date: .numeric, time: .omitted))
         guard let habits else {
+            print("Unable to find")
             habitList = getEmptyHabits(id: currentUser.id, date: date)
             return habitList
         }
@@ -56,6 +51,7 @@ class HabitViewModel {
     }
 
     func setHabits(date: Date) {
+        saveHabits()
         let habitList = getHabits(date: date)
         if let habitList {
             currentHabits = habitList

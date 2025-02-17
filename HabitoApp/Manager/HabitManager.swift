@@ -246,7 +246,7 @@ class HabitManager {
             print(err)
             return
         }
-        print("Update Done")
+//        print("Update Done")
     }
 
     func deleteData(id: Int) {

@@ -10,10 +10,19 @@ import SwiftUI
 struct AnalysisView: View {
 
     @Environment(HabitViewModel.self) var habitViewModel
+    @State var currentDate = Date()
 
     var body: some View {
         VStack {
-            topCard
+            let waterHabit = habitViewModel.getHabits(date: currentDate)![0]
+            HStack {
+                Text("Drink Progress! 💦")
+                Spacer()
+                PercentageCircle(percentage: Double(waterHabit.habit.count) / Double(waterHabit.habit.total))
+            }
+            .padding()
+            .background(.customLight)
+            .clipShape(RoundedRectangle(cornerRadius: 15))
                 .frame(maxHeight: 100)
                 .padding(.bottom, 15)
             barCard
@@ -27,10 +36,14 @@ struct AnalysisView: View {
             Spacer()
         }
         .padding(.horizontal, 30)
+        .task {
+            currentDate = Date()
+            print("update")
+        }
     }
 
     var topCard: some View {
-        let waterHabit = habitViewModel.getHabits(date: Date())![0]
+        let waterHabit = habitViewModel.getHabits(date: currentDate)![0]
         return HStack {
             Text("Drink Progress! 💦")
             Spacer()
@@ -75,7 +88,7 @@ struct AnalysisView: View {
 
     var barGroup: some View {
         HStack {
-            ForEach(createDates(date: Date(), num: 7), id: \.self) { date in
+            ForEach(createDates(date: currentDate, num: 7), id: \.self) { date in
                 let exercise = habitViewModel.getHabits(date: date)![3]
                 let percentage = Double(exercise.habit.count) / Double(exercise.habit.total)
                 VStack {
@@ -98,7 +111,7 @@ struct AnalysisView: View {
     }
 
     var sleepCard: some View {
-        let sleepHabit = habitViewModel.getHabits(date: Date())![2]
+        let sleepHabit = habitViewModel.getHabits(date: currentDate)![2]
         let percentage = Double(sleepHabit.habit.count) / Double(sleepHabit.habit.total)
         return VStack(alignment: .leading) {
             HStack(alignment: .top) {
@@ -113,7 +126,7 @@ struct AnalysisView: View {
     }
 
     var stepCard: some View {
-        let walkHabit = habitViewModel.getHabits(date: Date())![1]
+        let walkHabit = habitViewModel.getHabits(date: currentDate)![1]
         return VStack {
             Image(systemName: "figure.walk")
                 .resizable()
