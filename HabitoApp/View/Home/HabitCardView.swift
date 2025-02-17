@@ -33,7 +33,6 @@ struct HabitCardView: View {
                 .clipShape(RoundedRectangle(cornerRadius: 20))
         }
         .task {
-//            currentIndex = 0
             currentCard = habitViewModel.currentHabits[currentIndex]
         }
     }

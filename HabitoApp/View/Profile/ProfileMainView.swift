@@ -88,25 +88,42 @@ private struct ActionRow: View {
 }
 
 private struct LayerInfo: View {
+    @Environment(HabitViewModel.self) var habitViewModel
+
     var body: some View {
+        let habitPackets = habitViewModel.getHabits(date: Date())
         HStack {
-            ForEach(0..<3) { idx in
-                LayerCell()
-                    .padding(.horizontal, 10)
-            }
+            LayerCell(textOne: "\(habitPackets?[0].habit.count ?? 0)", textTwo: "\(habitPackets?[0].asset.unit ?? "")", imageName: "drop.fill")
+                .padding(.horizontal, 8)
+            LayerCell(textOne: "\(habitPackets?[2].habit.count ?? 0)", textTwo: "\(habitPackets?[2].asset.unit ?? "")", imageName: "powersleep")
+                .padding(.horizontal, 8)
+            LayerCell(textOne: "\(habitPackets?[3].habit.count ?? 0)", textTwo: "\(habitPackets?[3].asset.unit ?? "")", imageName: "dumbbell.fill")
+                .padding(.horizontal, 8)
         }
     }
 }
 
 private struct LayerCell: View {
+    var textOne: String
+    var textTwo: String
+    var imageName: String
+
     var body: some View {
         VStack {
-            Image(systemName: "circle")
+            Image(systemName: imageName)
                 .resizable()
+                .foregroundStyle(.customPrimary)
                 .scaledToFit()
-                .frame(maxWidth: 60)
-            Text("Test 1")
-            Text("Test 2")
+                .frame(width: 30, height: 30)
+            Text(textOne)
+                .bold()
+            Text(textTwo)
+        }
+        .frame(width: 70)
+        .padding(10)
+        .background {
+            RoundedRectangle(cornerRadius: 15)
+                .foregroundStyle(.gray.opacity(0.15))
         }
     }
 }
@@ -115,17 +132,18 @@ private struct LayerCell: View {
 #Preview {
 
     @Previewable @AppStorage("currentID") var currentID: Int?
-    @Previewable @State var viewModel = AccountViewModel()
+    @Previewable @State var accountViewModel = AccountViewModel()
+    @Previewable @State var habitViewModel = HabitViewModel()
 
     currentID = nil
 
     try? KeychainManager.deleteCredentials()
-    let user = try? viewModel.createUser(name: "test", email: "test@test.com", phone: "1236540987", password: "password1#", passwordVerify: "password1#")
+    let user = try? accountViewModel.createUser(name: "John Tester", email: "test@test.com", phone: "1236540987", password: "password1#", passwordVerify: "password1#")
 
-    viewModel.currentUser = user
+    accountViewModel.currentUser = user
+    habitViewModel.accountViewModel = accountViewModel
 
-    return NavigationStack {
-        ProfileMainView()
-    }
-    .environment(viewModel)
+    return ProfileMainView()
+        .environment(accountViewModel)
+        .environment(habitViewModel)
 }

@@ -27,14 +27,15 @@ struct HabitTrackView: View {
                 .font(.title)
             Text(info.asset.message)
 
-            imageStack
+            PercentageCircle(count: $value, total: Double(info.habit.total))
+                .frame(width: 220, height: 220)
                 .padding(.vertical, 90)
             Slider(
                 value: $value,
                 in: 0...Double(info.habit.total),
                 step: 1
             )
-            .tint(.green)
+            .tint(.customPrimary)
             .padding(.horizontal, 45)
             .padding(.bottom, 30)
             Button {
@@ -70,6 +71,28 @@ struct HabitTrackView: View {
                 .frame(width: 200, height: 200)
             Text("\(info.habit.count) \(info.asset.unit)")
                 .font(.title)
+        }
+    }
+
+    private struct PercentageCircle: View {
+        @Binding var count: Double
+        var total: Double
+
+        var body: some View {
+            ZStack {
+                Circle()
+                    .stroke(Color.gray.opacity(0.4), lineWidth: 8)
+
+                Circle()
+                    .trim(from: 0, to: count / total)
+                    .stroke(.customPrimary, lineWidth: 8)
+                    .rotationEffect(.degrees(-90))
+
+                Text("\(Int(count))")
+                    .font(.largeTitle)
+                    .foregroundStyle(.black)
+                    .bold()
+            }
         }
     }
 }
