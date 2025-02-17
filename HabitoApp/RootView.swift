@@ -57,12 +57,14 @@ struct RootView: View {
 
     @Previewable @AppStorage("currentID") var currentID: Int?
     @Previewable @State var accountViewModel = AccountViewModel()
-    let habitViewModel = HabitViewModel(accountViewModel: accountViewModel)
+    @Previewable @State var habitViewModel = HabitViewModel()
 
     currentID = nil
 
     try? KeychainManager.deleteCredentials()
     let user = try? accountViewModel.createUser(name: "Test User", email: "test@test.com", phone: "(123) 654-0987", password: "password1#", passwordVerify: "password1#")
+
+    habitViewModel.accountViewModel = accountViewModel
 
 //    accountViewModel.currentUser = user
 

@@ -44,7 +44,7 @@ struct HabitMainView: View {
 
         }
         .onChange(of: selection) {
-            habitViewModel.setActualHabits(date: selection)
+            habitViewModel.setHabits(date: selection)
         }
 
 

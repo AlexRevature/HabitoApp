@@ -77,7 +77,7 @@ class HabitManager {
             return nil
         }
 
-        if sqlite3_bind_text(stmt, 5, date, -1, nil) != SQLITE_OK {
+        if sqlite3_bind_text(stmt, 5, NSString(string: date).utf8String, -1, nil) != SQLITE_OK {
             let err = String(cString: sqlite3_errmsg(db)!)
             print(err)
             return nil
@@ -138,7 +138,7 @@ class HabitManager {
             return nil
         }
 
-        if sqlite3_bind_text(stmt, 2, date, -1, nil) != SQLITE_OK {
+        if sqlite3_bind_text(stmt, 2, NSString(string: date).utf8String, -1, nil) != SQLITE_OK {
             let err = String(cString: sqlite3_errmsg(db)!)
             print(err)
             return nil
@@ -197,7 +197,7 @@ class HabitManager {
     }
 
     func updateData(id: Int, type: HabitType, count: Int, total: Int, userID: Int, date: String) {
-        let query = "UPDATE USER SET type = ?, count = ?, total = ?, userID = ?, date = ? WHERE id = ?"
+        let query = "REPLACE INTO HABIT(id,type,count,total,userID,setDate) VALUES(?,?,?,?,?,?)"
         var stmt: OpaquePointer?
         if sqlite3_prepare(db, query, -1, &stmt, nil) != SQLITE_OK {
             let err = String(cString: sqlite3_errmsg(db)!)
@@ -205,37 +205,37 @@ class HabitManager {
             return
         }
 
-        if sqlite3_bind_int(stmt, 1, Int32(type.rawValue)) != SQLITE_OK {
+        if sqlite3_bind_int(stmt, 1, Int32(id)) != SQLITE_OK {
             let err = String(cString: sqlite3_errmsg(db)!)
             print(err)
             return
         }
 
-        if sqlite3_bind_int(stmt, 2, Int32(count)) != SQLITE_OK {
+        if sqlite3_bind_int(stmt, 2, Int32(type.rawValue)) != SQLITE_OK {
             let err = String(cString: sqlite3_errmsg(db)!)
             print(err)
             return
         }
 
-        if sqlite3_bind_int(stmt, 3, Int32(total)) != SQLITE_OK {
+        if sqlite3_bind_int(stmt, 3, Int32(count)) != SQLITE_OK {
             let err = String(cString: sqlite3_errmsg(db)!)
             print(err)
             return
         }
 
-        if sqlite3_bind_int(stmt, 4, Int32(userID)) != SQLITE_OK {
+        if sqlite3_bind_int(stmt, 4, Int32(total)) != SQLITE_OK {
             let err = String(cString: sqlite3_errmsg(db)!)
             print(err)
             return
         }
 
-        if sqlite3_bind_text(stmt, 5, date, -1, nil) != SQLITE_OK {
+        if sqlite3_bind_int(stmt, 5, Int32(userID)) != SQLITE_OK {
             let err = String(cString: sqlite3_errmsg(db)!)
             print(err)
             return
         }
 
-        if sqlite3_bind_int(stmt, 6, Int32(id)) != SQLITE_OK {
+        if sqlite3_bind_text(stmt, 6, NSString(string: date).utf8String, -1, nil) != SQLITE_OK {
             let err = String(cString: sqlite3_errmsg(db)!)
             print(err)
             return

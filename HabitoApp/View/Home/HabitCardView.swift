@@ -32,7 +32,7 @@ struct HabitCardView: View {
                 }
                 .clipShape(RoundedRectangle(cornerRadius: 20))
         }
-        .onAppear() {
+        .task {
             currentCard = habitViewModel.currentHabits[0]
         }
     }
@@ -93,19 +93,33 @@ struct HabitCardView: View {
 private struct IncrementButton: View {
     @Binding var count: Int
     var total: Int
+    var step: Int = 1
+
+    init(count: Binding<Int>, total: Int) {
+        self._count = count
+        self.total = total
+        self.step = total / 10
+        if self.step == 0 {
+            self.step = 1
+        }
+    }
 
     var body: some View {
         HStack {
             Button("-") {
-                if count > 0 {
-                    count -= 1
+                if count >= step {
+                    count -= step
+                } else {
+                    count = 0
                 }
             }
             .disabled(count <= 0)
             Text("\(count)")
             Button("+") {
-                if count < total {
-                    count += 1
+                if count < total - step {
+                    count += step
+                } else {
+                    count = total
                 }
             }
             .disabled(count >= total)

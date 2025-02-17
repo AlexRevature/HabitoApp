@@ -11,36 +11,19 @@ import SwiftUI
 @Observable
 class HabitViewModel {
 
-    var currentHabits: [HabitPacket] = []
-    var accountViewModel: AccountViewModel
-
-    init(accountViewModel: AccountViewModel) {
-        self.accountViewModel = accountViewModel
-        setActualHabits(date: Date())
+    var currentHabits: [HabitPacket] = [] {
+        didSet {
+            print("Changes")
+        }
     }
 
-//        static func == (lhs: HabitViewModel, rhs: HabitViewModel) -> Bool {
-//
-//            if lhs.currentHabits == nil && rhs.currentHabits == nil {
-//                return true
-//            }
-//
-//            guard let lList = lhs.currentHabits, let rList = rhs.currentHabits else {
-//                return false
-//            }
-//
-//            if lList.count != rList.count {
-//                return false
-//            }
-//
-//            for idx in 0..<lList.count {
-//                if lList[idx] != rList[idx] {
-//                    return false
-//                }
-//            }
-//
-//            return true
-//        }
+
+    var accountViewModel: AccountViewModel?
+
+    init(accountViewModel: AccountViewModel? = nil) {
+        self.accountViewModel = accountViewModel
+        setHabits(date: Date())
+    }
 
     let habitAssets: [HabitType:HabitAsset] = [
         .water: HabitAsset(name: "Water", title: "Water", message: "Almost there!", image: "water", backImage: "back", trackImage: nil, unit: "glasses"),
@@ -49,18 +32,10 @@ class HabitViewModel {
         .exercise: HabitAsset(name: "Exercise", title: "Exercise", message: "You can do it!", image: "yoga", backImage: "back", trackImage: nil, unit: "minutes"),
     ]
 
-
-//    let testHabits = [
-//        HabitInfoFull(title: "Drink", message: "Maybe more?", image: UIImage(named: "water")!, backImage: UIImage(named: "back")!, trackImage: UIImage(systemName: "circle")!, count: 6, total: 10, unit: "glasses"),
-//        HabitInfoFull(title: "Walking", message: "Maybe more?", image: UIImage(named: "running")!, backImage: UIImage(named: "back")!, trackImage: UIImage(systemName: "circle")!, count: 5, total: 10, unit: "steps"),
-//        HabitInfoFull(title: "Sleep", message: "Maybe more?", image: UIImage(named: "sleep")!, backImage: UIImage(named: "back")!, trackImage: UIImage(systemName: "circle")!, count: 7, total: 10, unit: "hours"),
-//        HabitInfoFull(title: "Exericse", message: "Maybe more?", image: UIImage(named: "yoga")!, backImage: UIImage(named: "back")!, trackImage: UIImage(systemName: "circle")!, count: 1, total: 10, unit: "minutes")
-//    ]
-
     func getHabits(date: Date) -> [HabitPacket]? {
         var habitList = [HabitPacket]()
 
-        guard let currentUser = accountViewModel.currentUser else {
+        guard let currentUser = accountViewModel?.currentUser else {
             habitList = getEmptyHabits(id: nil, date: date)
             return habitList
         }
@@ -80,19 +55,12 @@ class HabitViewModel {
         return habitList
     }
 
-    func setActualHabits(date: Date) {
+    func setHabits(date: Date) {
         let habitList = getHabits(date: date)
         if let habitList {
             currentHabits = habitList
         }
     }
-
-//    func getTestHabits(date: Date) -> [HabitInfoFull] {
-//        let dayNum = Calendar.current.component(.day, from: date)
-//        let index = dayNum % testHabits.count
-//
-//        return Array(testHabits[index...] + testHabits[..<index])
-//    }
 
     func getEmptyHabits(id: Int?, date: Date) -> [HabitPacket] {
         var habitList = [HabitPacket]()
@@ -118,9 +86,24 @@ class HabitViewModel {
 
         return habitList
     }
+
+    func saveHabits() {
+        guard let currentUser = accountViewModel?.currentUser else {
+            return
+        }
+        for packet in currentHabits {
+            let habit = packet.habit
+            if let id = habit.id {
+                HabitManager.shared.updateData(id: id, type: HabitType(rawValue: habit.type)!, count: habit.count, total: habit.total, userID: currentUser.id, date: habit.date)
+            } else {
+                _ = HabitManager.shared.insertData(type: HabitType(rawValue: habit.type)!, count: habit.count, total: habit.total, userID: currentUser.id, date: habit.date)
+            }
+        }
+    }
 }
 
-struct HabitPacket: Identifiable {
+@Observable
+class HabitPacket: Identifiable {
     var id: Int
     var habit: Habit
     var asset: HabitAsset
@@ -136,7 +119,6 @@ struct HabitPacket: Identifiable {
 //            && lhs.asset == rhs.asset
 //    }
 
-
 }
 
 struct HabitAsset {
@@ -148,19 +130,18 @@ struct HabitAsset {
     var trackImage: String?
     var unit: String
 
-//    init(name: String, title: String, message: String, image: String, backImage: String, trackImage: String? = nil, unit: String) {
-//        self.name = name
-//        self.title = title
-//        self.message = message
-//        self.image = image
-//        self.backImage = backImage
-//        self.trackImage = trackImage
-//        self.unit = unit
-//    }
+    init(name: String, title: String, message: String, image: String, backImage: String, trackImage: String? = nil, unit: String) {
+        self.name = name
+        self.title = title
+        self.message = message
+        self.image = image
+        self.backImage = backImage
+        self.trackImage = trackImage
+        self.unit = unit
+    }
 
 //    static func == (lhs: HabitAsset, rhs: HabitAsset) -> Bool {
-//        lhs.name == rhs.name && lhs.title == rhs.title
-//            && lhs.message == rhs.message
+//        lhs.title == rhs.title
 //    }
 }
 
