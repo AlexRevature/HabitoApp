@@ -27,7 +27,7 @@ struct RootView: View {
         }
         .animation(.linear(duration: 0.5), value: viewModel.currentUser)
         .onAppear {
-            withAnimation(.easeInOut(duration: 1)) {
+            withAnimation(.linear(duration: 1)) {
                 persistenceCheck()
             }
         }
@@ -58,7 +58,7 @@ struct RootView: View {
 #Preview {
 
     @Previewable @AppStorage("currentID") var currentID: Int?
-    let accountViewModel = AccountViewModel()
+    @Previewable @State var accountViewModel = AccountViewModel()
     let habitViewModel = HabitViewModel(accountViewModel: accountViewModel)
 
     currentID = nil
@@ -66,7 +66,9 @@ struct RootView: View {
     try? KeychainManager.deleteCredentials()
     let user = try? accountViewModel.createUser(name: "test", email: "test@test.com", phone: "1236540987", password: "password1#", passwordVerify: "password1#")
 
-    accountViewModel.currentUser = user
+    print(user?.id)
+
+//    accountViewModel.currentUser = user
 
     return RootView()
         .environment(accountViewModel)

@@ -147,7 +147,12 @@ class UserManager {
 
             let dataCount = sqlite3_column_bytes(stmt, 4)
             let rawImage = sqlite3_column_blob(stmt, 4)
-            let image = Data(bytes: rawImage!, count: Int(dataCount))
+
+            let image: Data? = if let rawImage {
+                Data(bytes: rawImage, count: Int(dataCount))
+            } else {
+                nil
+            }
 
             return User(id: id, name: name, email: email, phone: phone, image: image)
         }

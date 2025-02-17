@@ -36,9 +36,12 @@ struct SigninView: View {
 
     var header: some View {
         VStack {
-            Image(systemName: "circle")
+            Image(.longIcon)
+                .resizable()
+                .scaledToFit()
+                .frame(maxHeight: 90)
                 .padding(.top, 50)
-                .padding(.bottom, 25)
+                .padding(.bottom, 20)
             Text("Welcome back!")
                 .fontWeight(.bold)
                 .padding(.bottom, 2)

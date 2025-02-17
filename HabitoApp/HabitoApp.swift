@@ -12,8 +12,9 @@ struct HabitoApp: App {
 
     var body: some Scene {
 
-        let accountViewModel = AccountViewModel()
+        @State var accountViewModel = AccountViewModel()
         let habitViewModel = HabitViewModel(accountViewModel: accountViewModel)
+
         WindowGroup {
             RootView()
                 .environment(accountViewModel)
