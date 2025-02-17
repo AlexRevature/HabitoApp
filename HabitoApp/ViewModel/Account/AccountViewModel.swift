@@ -50,6 +50,15 @@ class AccountViewModel {
         if password.isEmpty {
             throw AccountError.password(message: "Password may not be empty")
         }
+        if password.count < 8 {
+            throw AccountError.password(message: "Password may not be empty")
+        }
+        if !AccountViewModel.checkNumPassword(password: password) {
+            throw AccountError.password(message: "Password may not be empty")
+        }
+        if !AccountViewModel.checkSymbolPassword(password: password) {
+            throw AccountError.password(message: "Password may not be empty")
+        }
 
         if password != passwordVerify {
             throw AccountError.password(message: "Passwords do not match")
