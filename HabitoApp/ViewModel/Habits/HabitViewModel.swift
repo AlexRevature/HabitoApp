@@ -9,7 +9,7 @@
 import SwiftUI
 
 @Observable
-class HabitViewModel : ObservableObject{
+class HabitViewModel {
 
     var currentHabits: [HabitPacket] = []
     var accountViewModel: AccountViewModel

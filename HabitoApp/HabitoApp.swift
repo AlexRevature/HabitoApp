@@ -11,8 +11,13 @@ import SwiftUI
 struct HabitoApp: App {
 
     var body: some Scene {
+
+        let accountViewModel = AccountViewModel()
+        let habitViewModel = HabitViewModel(accountViewModel: accountViewModel)
         WindowGroup {
-            RootView().environmentObject(AccountViewModel()).environmentObject(HabitViewModel(accountViewModel: AccountViewModel()))
+            RootView()
+                .environment(accountViewModel)
+                .environment(habitViewModel)
         }
     }
 }

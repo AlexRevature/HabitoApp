@@ -10,7 +10,7 @@ import UIKit
 import SwiftUI
 
 @Observable
-class AccountViewModel : ObservableObject{
+class AccountViewModel {
 
     var loggedIn = false
     var currentUser: User?
