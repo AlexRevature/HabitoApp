@@ -27,9 +27,7 @@ struct RootView: View {
         }
         .animation(.linear(duration: 0.5), value: viewModel.currentUser)
         .onAppear {
-            withAnimation(.linear(duration: 1)) {
-                persistenceCheck()
-            }
+            persistenceCheck()
         }
     }
 
@@ -64,7 +62,7 @@ struct RootView: View {
     currentID = nil
 
     try? KeychainManager.deleteCredentials()
-    let user = try? accountViewModel.createUser(name: "test", email: "test@test.com", phone: "1236540987", password: "password1#", passwordVerify: "password1#")
+    let user = try? accountViewModel.createUser(name: "Test User", email: "test@test.com", phone: "(123) 654-0987", password: "password1#", passwordVerify: "password1#")
 
 //    accountViewModel.currentUser = user
 

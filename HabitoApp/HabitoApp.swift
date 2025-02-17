@@ -10,9 +10,10 @@ import SwiftUI
 @main
 struct HabitoApp: App {
 
+    @State var accountViewModel = AccountViewModel()
+
     var body: some Scene {
 
-        @State var accountViewModel = AccountViewModel()
         let habitViewModel = HabitViewModel(accountViewModel: accountViewModel)
 
         WindowGroup {
