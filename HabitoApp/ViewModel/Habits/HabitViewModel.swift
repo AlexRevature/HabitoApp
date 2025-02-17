@@ -36,7 +36,6 @@ class HabitViewModel {
 
         let habits = HabitManager.shared.fetchDataByUserDate(userID: currentUser.id, date: date.formatted(date: .numeric, time: .omitted))
         guard let habits else {
-            print("Unable to find")
             habitList = getEmptyHabits(id: currentUser.id, date: date)
             return habitList
         }

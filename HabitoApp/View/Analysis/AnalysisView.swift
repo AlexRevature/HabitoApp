@@ -38,7 +38,6 @@ struct AnalysisView: View {
         .padding(.horizontal, 30)
         .task {
             currentDate = Date()
-            print("update")
         }
     }
 

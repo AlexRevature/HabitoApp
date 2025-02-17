@@ -28,10 +28,6 @@ struct HomeMainView: View {
         .task {
             habitViewModel.setHabits(date: Date())
         }
-//        .onDisappear {
-//            habitViewModel.saveHabits()
-//            print("Run")
-//        }
     }
 
     var userBar: some View {

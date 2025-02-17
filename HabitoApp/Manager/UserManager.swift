@@ -39,11 +39,9 @@ class UserManager {
             """
         if sqlite3_exec(db, sql, nil, nil, nil) != SQLITE_OK {
             let err = String(cString: sqlite3_errmsg(db)!)
-            print("Table creation error")
             print(err)
             return
         }
-        print("Created Table")
     }
 
     func insertData(name: String, email: String, phone: String, image: Data? = nil) -> Int? {
@@ -90,7 +88,6 @@ class UserManager {
             return nil
         }
 
-        print("Insert Done")
         sqlite3_finalize(stmt)
         return Int(sqlite3_last_insert_rowid(db))
 
@@ -273,7 +270,6 @@ class UserManager {
             print(err)
             return
         }
-        print("Update Done")
     }
 
     func deleteData(id: Int) {
@@ -297,6 +293,5 @@ class UserManager {
             print(err)
             return
         }
-        print("Delete Done")
     }
 }

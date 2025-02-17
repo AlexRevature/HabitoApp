@@ -89,7 +89,6 @@ class HabitManager {
             return nil
         }
 
-        print("Insert Done")
         return Int(sqlite3_last_insert_rowid(stmt))
 
     }
@@ -246,7 +245,6 @@ class HabitManager {
             print(err)
             return
         }
-//        print("Update Done")
     }
 
     func deleteData(id: Int) {
@@ -270,7 +268,6 @@ class HabitManager {
             print(err)
             return
         }
-        print("Delete Done")
     }
 }
 
