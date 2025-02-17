@@ -9,7 +9,7 @@
 import SwiftUI
 
 @Observable
-class HabitViewModel {
+class HabitViewModel : ObservableObject{
 
     var currentHabits: [(id: Int, habit: Habit, asset: HabitAsset)]?
     var accountViewModel: AccountViewModel

@@ -14,24 +14,27 @@ struct RootView: View {
     @State var isChecking = true
 
     var body: some View {
-        Group {
-            if isChecking {
-                Text("Checking")
-            } else if viewModel.currentUser == nil {
-                NavigationStack {
-                    GuideView()
+        NavigationStack {
+            Group {
+                if isChecking {
+                    Text("Checking")
+                } else if viewModel.currentUser == nil {
+                    NavigationStack {
+                        GuideView()
+                    }
+                } else {
+                    MainTabView()
                 }
-            } else {
-                CustomTabView()
             }
-        }
-        .animation(.linear(duration: 1), value: viewModel.currentUser)
-        .onAppear {
-            withAnimation(.easeInOut(duration: 5)) {
-                persistenceCheck()
+            .animation(.linear(duration: 1), value: viewModel.currentUser)
+            .onAppear {
+                withAnimation(.easeInOut(duration: 5)) {
+                    persistenceCheck()
+                }
             }
         }
     }
+       
 
     func persistenceCheck() {
 
@@ -54,6 +57,7 @@ struct RootView: View {
         return
     }
 }
+   
 
 #Preview {
 

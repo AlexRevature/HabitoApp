@@ -50,36 +50,6 @@
             endingLineNumber = "34"
             landmarkName = "unknown"
             landmarkType = "0">
-            <Locations>
-               <Location
-                  uuid = "61E490BD-575D-4553-B199-BE2432ADAC3E - a43ba57e920d3fb9"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 () -&gt; SwiftUI.VStack&lt;SwiftUI.TupleView&lt;(SwiftUI.Image, SwiftUI.Text)&gt;&gt; in closure #3 (HabitoApp.Recipe) -&gt; SwiftUI.NavigationLink&lt;SwiftUI.VStack&lt;SwiftUI.TupleView&lt;(SwiftUI.Image, SwiftUI.Text)&gt;&gt;, HabitoApp.RecipeListView&gt; in closure #1 () -&gt; SwiftUI.TupleView&lt;(&lt;&lt;opaque return type of SwiftUI.View.clipShape&lt;&#x3c4;_0_0 where &#x3c4;_1_0: SwiftUI.Shape&gt;(_: &#x3c4;_1_0, style: SwiftUI.FillStyle) -&gt; some&gt;&gt;.0, SwiftUI.List&lt;Swift.Never, SwiftUI.ForEach&lt;Swift.Array&lt;HabitoApp.Recipe&gt;, Swift.Int64, SwiftUI.NavigationLink&lt;SwiftUI.VStack&lt;SwiftUI.TupleView&lt;(SwiftUI.Image, SwiftUI.Text)&gt;&gt;, HabitoApp.RecipeListView&gt;&gt;&gt;)&gt; in HabitoApp.RecipeCardView.body.getter : some"
-                  moduleName = "HabitoApp.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/areebdurrani/Desktop/HabitoApp/HabitoApp/View/Home/RecipeCardView.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "34"
-                  endingLineNumber = "34">
-               </Location>
-               <Location
-                  uuid = "61E490BD-575D-4553-B199-BE2432ADAC3E - 666028df84ae72d1"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 () -&gt; SwiftUI.TupleView&lt;(SwiftUI.Image, SwiftUI.Text)&gt; in closure #1 () -&gt; SwiftUI.VStack&lt;SwiftUI.TupleView&lt;(SwiftUI.Image, SwiftUI.Text)&gt;&gt; in closure #3 (HabitoApp.Recipe) -&gt; SwiftUI.NavigationLink&lt;SwiftUI.VStack&lt;SwiftUI.TupleView&lt;(SwiftUI.Image, SwiftUI.Text)&gt;&gt;, HabitoApp.RecipeListView&gt; in closure #1 () -&gt; SwiftUI.TupleView&lt;(&lt;&lt;opaque return type of SwiftUI.View.clipShape&lt;&#x3c4;_0_0 where &#x3c4;_1_0: SwiftUI.Shape&gt;(_: &#x3c4;_1_0, style: SwiftUI.FillStyle) -&gt; some&gt;&gt;.0, SwiftUI.List&lt;Swift.Never, SwiftUI.ForEach&lt;Swift.Array&lt;HabitoApp.Recipe&gt;, Swift.Int64, SwiftUI.NavigationLink&lt;SwiftUI.VStack&lt;SwiftUI.TupleView&lt;(SwiftUI.Image, SwiftUI.Text)&gt;&gt;, HabitoApp.RecipeListView&gt;&gt;&gt;)&gt; in HabitoApp.RecipeCardView.body.getter : some"
-                  moduleName = "HabitoApp.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/areebdurrani/Desktop/HabitoApp/HabitoApp/View/Home/RecipeCardView.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "34"
-                  endingLineNumber = "34">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy

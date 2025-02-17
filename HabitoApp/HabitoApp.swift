@@ -12,7 +12,7 @@ struct HabitoApp: App {
 
     var body: some Scene {
         WindowGroup {
-            MainTabView()
+            RootView().environmentObject(AccountViewModel()).environmentObject(HabitViewModel(accountViewModel: AccountViewModel()))
         }
     }
 }
