@@ -9,11 +9,15 @@ import SwiftUI
 
 struct HabitTrackView: View {
 
-    @Binding var info: (id: Int, habit: Habit, asset: HabitAsset)
-    @State var value: Double
+    @Binding var info: HabitPacket
+    @Binding var remainShown: Bool
 
-    init(info: Binding<(id: Int, habit: Habit, asset: HabitAsset)>) {
+    @State var value: Double
+    @State var triggerCompletion = false
+
+    init(info: Binding<HabitPacket>, remainShown: Binding<Bool>) {
         self._info = info
+        self._remainShown = remainShown
         self.value = Double(info.wrappedValue.habit.count)
     }
 
@@ -34,20 +38,27 @@ struct HabitTrackView: View {
             .padding(.horizontal, 45)
             .padding(.bottom, 30)
             Button {
-                print("Test")
+                value = Double(info.habit.total)
+                info.habit.count = info.habit.total
+                triggerCompletion = true
             } label: {
                 Text("Done")
                     .tint(.white)
                     .padding(EdgeInsets(top: 12, leading: 30, bottom: 12, trailing: 30))
-                    .background(.green)
-                    .clipShape(RoundedRectangle(cornerRadius: 20))
+                    .background(.customPrimary)
+                    .clipShape(RoundedRectangle(cornerRadius: 15))
+            }
+            .navigationDestination(isPresented: $triggerCompletion) {
+                HabitNotifyView()
             }
             Spacer()
         }
         .padding(.top, 80)
         .onChange(of: value) {
-            info.habit.count = Int(value)
+            let count = Int(value)
+            info.habit.count = count
         }
+        .navigationTitle("\(info.asset.name) Details")
     }
 
     var imageStack: some View {
@@ -57,7 +68,7 @@ struct HabitTrackView: View {
                 .foregroundStyle(.blue)
                 .scaledToFit()
                 .frame(width: 200, height: 200)
-            Text("\(info.habit.count)")
+            Text("\(info.habit.count) \(info.asset.unit)")
                 .font(.title)
         }
     }

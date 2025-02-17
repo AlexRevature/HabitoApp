@@ -12,11 +12,11 @@ struct SigninView: View {
     @AppStorage("currentID") var currentID: Int?
     @Environment(AccountViewModel.self) var viewModel
 
-    @State var username = ""
+    @State var email = ""
     @State var password = ""
     @State var shouldRemember = false
 
-    @State var usernameErr = false
+    @State var emailErr = false
     @State var passwordErr = false
 
     var body: some View {
@@ -49,9 +49,9 @@ struct SigninView: View {
 
     var entries: some View {
         VStack(alignment: .leading) {
-            Text("Username")
+            Text("Email")
                 .font(.headline)
-            wrappedTextField(placeholder: "Username", record: $username)
+            wrappedTextField(placeholder: "Email", record: $email)
                 .padding(.bottom, 10)
             Text("Password")
                 .font(.headline)
@@ -104,9 +104,9 @@ struct SigninView: View {
 
         let user: User
         do {
-            user = try viewModel.verifyUserByName(username: username, password: password)
-        } catch AccountError.username(let msg) {
-            usernameErr = true
+            user = try viewModel.verifyUserByEmail(email: email, password: password)
+        } catch AccountError.email(let msg) {
+            emailErr = true
             print(msg)
             return
         } catch AccountError.password(let msg) {
@@ -114,7 +114,7 @@ struct SigninView: View {
             print(msg)
             return
         } catch AccountError.verification(let msg) {
-            usernameErr = true
+            emailErr = true
             passwordErr = true
             print(msg)
             return

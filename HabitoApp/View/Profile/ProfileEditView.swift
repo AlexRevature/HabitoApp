@@ -14,6 +14,10 @@ struct ProfileEditView: View {
     @State var passwordVerify: String = ""
     @State private var photoSelection: PhotosPickerItem?
 
+    @State var imageData: Data?
+    @State var name: String = ""
+    @State var phone: String = ""
+
     @Environment(AccountViewModel.self) var viewModel
 
     var body: some View {
@@ -21,18 +25,51 @@ struct ProfileEditView: View {
             userInfo
             entries
                 .padding(.horizontal, 25)
-            Spacer()
+//                .navigationButton
+//            Button {
+//
+//            } label: {
+//                Text("Save")
+//                    .tint(.white)
+//                    .padding(.vertical)
+//                    .frame(maxWidth: .infinity)
+//                    .background(.customPrimary)
+//                    .clipShape(RoundedRectangle(cornerRadius: 20))
+//            }
+//            .padding(.top, 20)
+//            .padding(.horizontal, 60)
         }
+        .toolbar {
+            Button {
+                saveInfo()
+            } label: {
+                Text("Save")
+                    .foregroundStyle(.customPrimary)
+            }
+        }
+        .task {
+            imageData = viewModel.currentUser?.image
+            name = viewModel.currentUser?.name ?? ""
+            phone = viewModel.currentUser?.phone ?? ""
+        }
+    }
+
+    func saveInfo() {
+        @Bindable var vm = viewModel
+        vm.currentUser?.name = name
+        vm.currentUser?.phone = phone
+        vm.currentUser?.image = imageData
+//        print("\(viewModel.currentUser?.name ?? "")")
     }
 
     var userInfo: some View {
         VStack {
             ZStack {
-                getImage()
+                userImage
                     .resizable()
                     .scaledToFill()
                     .clipShape(Circle())
-                    .frame(width: 160, height: 160)
+                    .frame(width: 140, height: 140)
                     .clipped()
                     .padding(.bottom, 8)
                 VStack {
@@ -47,10 +84,9 @@ struct ProfileEditView: View {
                             .clipShape(Circle())
                     }
                     .onChange(of: photoSelection) {
-
                         Task {
                             if let loaded = try? await photoSelection?.loadTransferable(type: Data.self) {
-                                viewModel.currentUser?.image = loaded
+                                imageData = loaded
                             } else {
                                 print("Failed")
                             }
@@ -61,35 +97,29 @@ struct ProfileEditView: View {
             .padding(.top, 30)
             .padding(.bottom, 2)
 
-            Text("Empty")
-                .bold()
-            Text("N/A")
+            Text("\(viewModel.currentUser?.email ?? "")")
                 .padding(.bottom, 15)
         }
     }
 
-    func getImage() -> Image {
-        if viewModel.currentUser?.image == nil {
-            Image(systemName: "person.circle")
+    var userImage: Image {
+        if let imageData {
+            Image(uiImage: UIImage(data: imageData)!)
         } else {
-            Image(uiImage: UIImage(data: viewModel.currentUser!.image!)!)
+            Image(systemName: "person.circle")
         }
     }
 
     var entries: some View {
-        @Bindable var vm = viewModel
+//        @Bindable var vm = viewModel
         return VStack(alignment: .leading) {
-            Text("Username")
+            Text("Name")
                 .font(.headline)
-            wrappedTextField(placeholder: "Username", record: Binding($vm.currentUser)!.username)
-                .padding(.bottom, 10)
-            Text("Email")
-                .font(.headline)
-            wrappedTextField(placeholder: "Email", record: Binding($vm.currentUser)!.email)
+            wrappedTextField(placeholder: "Name", record: $name)
                 .padding(.bottom, 10)
             Text("Phone Number")
                 .font(.headline)
-            wrappedTextField(placeholder: "Phone Number", record: Binding($vm.currentUser)!.phone)
+            wrappedTextField(placeholder: "Phone Number", record: $phone)
                 .padding(.bottom, 10)
             Text("Password")
                 .font(.headline)
@@ -124,7 +154,20 @@ struct ProfileEditView: View {
     }
 }
 
-//#Preview {
-//    let viewModel = ProfileViewModel()
-//    ProfileEditView(info: viewModel.userInfo!)
-//}
+#Preview {
+
+    @Previewable @AppStorage("currentID") var currentID: Int?
+    @Previewable @State var viewModel = AccountViewModel()
+
+    currentID = nil
+
+    try? KeychainManager.deleteCredentials()
+    let user = try? viewModel.createUser(name: "John Test", email: "test@test.com", phone: "1236540987", password: "password1#", passwordVerify: "password1#")
+
+    viewModel.currentUser = user
+
+    return NavigationStack {
+        ProfileEditView()
+    }
+    .environment(viewModel)
+}

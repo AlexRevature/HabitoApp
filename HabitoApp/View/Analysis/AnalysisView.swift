@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct AnalysisView: View {
+
+    @Environment(HabitViewModel.self) var habitViewModel
+
     var body: some View {
         VStack {
             topCard
@@ -27,10 +30,11 @@ struct AnalysisView: View {
     }
 
     var topCard: some View {
-        HStack {
-            Text("Today's Progress!")
+        let waterHabit = habitViewModel.getHabits(date: Date())![0]
+        return HStack {
+            Text("Drink Progress! 💦")
             Spacer()
-            PercentageCircle(percentage: 0.5)
+            PercentageCircle(percentage: Double(waterHabit.habit.count) / Double(waterHabit.habit.total))
         }
         .padding()
         .background(.customLight)
@@ -40,7 +44,7 @@ struct AnalysisView: View {
     var barCard: some View {
         VStack {
             HStack {
-                Text("Days")
+                Text("Exercise")
                 Spacer()
                 Text("7 Days")
             }
@@ -51,13 +55,41 @@ struct AnalysisView: View {
         .clipShape(RoundedRectangle(cornerRadius: 15))
     }
 
+    func createDates(date: Date, num: Int) -> [Date] {
+        var dateList = [date]
+        for num in (1..<num) {
+            let newDate = Calendar.current.date(byAdding: .day, value: num, to: date)
+            dateList.append(newDate ?? Date())
+        }
+        return dateList
+    }
+
+    func getDateComponents(date: Date) -> (Int, String) {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "E"
+        let weekDay = formatter.string(from: date)
+        let dayNum = Calendar.current.component(.day, from: date)
+
+        return (dayNum, weekDay)
+    }
+
     var barGroup: some View {
         HStack {
-            ForEach(0..<7) { idx in
+            ForEach(createDates(date: Date(), num: 7), id: \.self) { date in
+                let exercise = habitViewModel.getHabits(date: date)![3]
+                let percentage = Double(exercise.habit.count) / Double(exercise.habit.total)
                 VStack {
-                    RoundedRectangle(cornerRadius: 10)
-                        .foregroundStyle(.customPrimary)
-                    Text("Mon")
+                    let (_, dayName) = getDateComponents(date: date)
+                    ZStack(alignment: .bottom) {
+                        RoundedRectangle(cornerRadius: 10)
+                            .foregroundStyle(.white)
+                        GeometryReader { geometry in
+                            RoundedRectangle(cornerRadius: 10)
+                                .foregroundStyle(.customPrimary)
+                                .frame(height: geometry.size.height * percentage)
+                        }
+                    }
+                    Text(dayName)
                 }
 //                .frame(maxHeight: 170)
             }
@@ -65,12 +97,14 @@ struct AnalysisView: View {
     }
 
     var sleepCard: some View {
-        VStack(alignment: .leading) {
+        let sleepHabit = habitViewModel.getHabits(date: Date())![2]
+        let percentage = Double(sleepHabit.habit.count) / Double(sleepHabit.habit.total)
+        return VStack(alignment: .leading) {
             HStack(alignment: .top) {
                 Text("Sleep")
-                PercentageCircle(percentage: 0.5)
+                PercentageCircle(percentage: percentage)
             }
-            Text("8/8 Hourse")
+            Text("\(sleepHabit.habit.count)/\(sleepHabit.habit.total) \(sleepHabit.asset.unit.capitalized)")
         }
         .padding()
         .background(.customLight)
@@ -78,14 +112,19 @@ struct AnalysisView: View {
     }
 
     var stepCard: some View {
-        VStack {
-            Image(systemName: "circle")
+        let walkHabit = habitViewModel.getHabits(date: Date())![1]
+        return VStack {
+            Image(systemName: "figure.walk")
+                .resizable()
+                .scaledToFit()
             Spacer()
-            Text("Steps")
+            Text("Walking")
                 .padding(.bottom, 10)
-            Text("5000")
+            Text("\(walkHabit.habit.count) \(walkHabit.asset.unit.capitalized)")
+
         }
-        .padding()
+        .padding(.vertical)
+        .padding(.horizontal, 35)
         .background(.customLight)
         .clipShape(RoundedRectangle(cornerRadius: 15))
     }
@@ -105,7 +144,7 @@ struct AnalysisView: View {
 
                 Text("\(Int(percentage * 100))%")
                     .font(.title2)
-                    .foregroundStyle(.white)
+                    .foregroundStyle(.black)
                     .bold()
             }
         }
@@ -113,5 +152,18 @@ struct AnalysisView: View {
 }
 
 #Preview {
-    AnalysisView()
+    @Previewable @AppStorage("currentID") var currentID: Int?
+    let accountViewModel = AccountViewModel()
+    let habitViewModel = HabitViewModel(accountViewModel: accountViewModel)
+
+    currentID = nil
+
+    try? KeychainManager.deleteCredentials()
+    let user = try? accountViewModel.createUser(name: "test", email: "test@test.com", phone: "1236540987", password: "password1#", passwordVerify: "password1#")
+
+    accountViewModel.currentUser = user
+
+    return AnalysisView()
+        .environment(accountViewModel)
+        .environment(habitViewModel)
 }

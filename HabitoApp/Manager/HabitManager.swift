@@ -157,6 +157,10 @@ class HabitManager {
             habitList.append(Habit(id: id, type: HabitType(rawValue: numType) ?? .invalid, count: count, total: total, userID: userID, date: date))
         }
 
+        if habitList.count == 0 {
+            return nil
+        }
+
         return habitList
     }
 

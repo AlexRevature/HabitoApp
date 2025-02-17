@@ -9,43 +9,49 @@ import SwiftUI
 
 struct HabitCardView: View {
 
-    @Binding var habitInfoList: [HomeHabitInfo]
-    @State var currentCard: HomeHabitInfo
+    @State var currentCard: HabitPacket?
     @State var currentIndex: Int
 
-    init(habitInfoList: Binding<[HomeHabitInfo]>) {
-        _habitInfoList = habitInfoList
+    @Environment(HabitViewModel.self) var habitViewModel
+
+    init() {
         currentIndex = 0
-        currentCard = habitInfoList[0].wrappedValue
     }
 
     var body: some View {
-        frontView
-            .padding(.horizontal)
-            .padding(.vertical, 30)
-        .background {
-            Image(uiImage: currentCard.image)
-                .resizable()
-                .scaledToFill()
-                .opacity(0.75)
-                .background(.green)
+        VStack {
+            frontView
+                .padding(.horizontal)
+                .padding(.vertical, 30)
+                .background {
+                    Image(currentCard?.asset.backImage ?? "")
+                        .resizable()
+                        .scaledToFill()
+                        .opacity(0.75)
+                        .background(.green)
+                }
+                .clipShape(RoundedRectangle(cornerRadius: 20))
         }
-        .clipShape(RoundedRectangle(cornerRadius: 20))
+        .onAppear() {
+            currentCard = habitViewModel.currentHabits[0]
+        }
     }
 
     var frontView: some View {
-        VStack {
+        @Bindable var habitViewModel = habitViewModel
+        let currentHabit = $habitViewModel.currentHabits[currentIndex]
+        return VStack {
             HStack {
                 moveButton(imageName: "chevron.left", step: -1)
-                PercentageCircle(percentage: Double(habitInfoList[currentIndex].count) / Double(currentCard.total))
+                PercentageCircle(percentage: Double(currentHabit.habit.count.wrappedValue) / Double(currentHabit.habit.total.wrappedValue))
                     .frame(maxWidth: 70, maxHeight: 70)
                     .padding(.leading, 6)
 
                 VStack {
-                    titleStack(title: currentCard.title, subtitle: currentCard.subtitle)
+                    titleStack(title: currentCard?.asset.title ?? "", subtitle: currentCard?.asset.message ?? "")
 
                     HStack {
-                        IncrementButton(count: $habitInfoList[currentIndex].count, total: currentCard.total)
+                        IncrementButton(count: currentHabit.habit.count, total: currentHabit.habit.total.wrappedValue)
                         Spacer()
                     }
                 }
@@ -71,11 +77,11 @@ struct HabitCardView: View {
 
     private func moveButton(imageName: String, step: Int) -> some View {
         Button {
-            var newIndex = (self.currentIndex + step) % habitInfoList.count
+            var newIndex = (self.currentIndex + step) % habitViewModel.currentHabits.count
             if newIndex < 0 {
-                newIndex = habitInfoList.count + newIndex
+                newIndex = habitViewModel.currentHabits.count + newIndex
             }
-            self.currentCard = self.habitInfoList[newIndex]
+            self.currentCard = habitViewModel.currentHabits[newIndex]
             self.currentIndex = newIndex
         } label: {
             Image(systemName: imageName)
@@ -132,6 +138,8 @@ private struct PercentageCircle: View {
 }
 
 #Preview {
-    @Previewable @State var tmp = HomeViewModel().habitGroup!
-    HabitCardView(habitInfoList: $tmp.habitInfoList)
+
+    HabitCardView()
+        .environment(HabitViewModel(accountViewModel: AccountViewModel()))
+
 }

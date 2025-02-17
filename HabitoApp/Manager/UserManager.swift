@@ -31,7 +31,7 @@ class UserManager {
         sql = """
             CREATE TABLE if not exists USER (
                 id INTEGER PRIMARY KEY,
-                username TEXT UNIQUE,
+                name TEXT,
                 email TEXT UNIQUE,
                 phone TEXT,
                 image BLOB
@@ -45,16 +45,16 @@ class UserManager {
         }
     }
 
-    func insertData(username: String, email: String, phone: String, image: Data? = nil) -> Int? {
+    func insertData(name: String, email: String, phone: String, image: Data? = nil) -> Int? {
         var stmt: OpaquePointer?
-        let query = "INSERT INTO USER(username,email,phone,image) VALUES(?,?,?,?)"
+        let query = "INSERT INTO USER(name,email,phone,image) VALUES(?,?,?,?)"
         if sqlite3_prepare_v2(db, query, -1, &stmt, nil) != SQLITE_OK {
             let err = String(cString: sqlite3_errmsg(db)!)
             print(err)
             return nil
         }
 
-        if sqlite3_bind_text(stmt, 1, username, -1, nil) != SQLITE_OK {
+        if sqlite3_bind_text(stmt, 1, name, -1, nil) != SQLITE_OK {
             let err = String(cString: sqlite3_errmsg(db)!)
             print(err)
             return nil
@@ -108,7 +108,7 @@ class UserManager {
 
         while sqlite3_step(stmt) == SQLITE_ROW {
             let id = Int(sqlite3_column_int(stmt, 0))
-            let username = String(cString: sqlite3_column_text(stmt, 1))
+            let name = String(cString: sqlite3_column_text(stmt, 1))
             let email = String(cString: sqlite3_column_text(stmt, 2))
             let phone = String(cString: sqlite3_column_text(stmt, 3))
 
@@ -116,7 +116,7 @@ class UserManager {
             let rawImage = sqlite3_column_blob(stmt, 4)
             let image = Data(bytes: rawImage!, count: Int(dataCount))
 
-            userList.append(User(id: id, username: username, email: email, phone: phone, image: image))
+            userList.append(User(id: id, name: name, email: email, phone: phone, image: image))
             print(id)
         }
 
@@ -141,7 +141,7 @@ class UserManager {
 
         if sqlite3_step(stmt) == SQLITE_ROW {
             let id = Int(sqlite3_column_int(stmt, 0))
-            let username = String(cString: sqlite3_column_text(stmt, 1))
+            let name = String(cString: sqlite3_column_text(stmt, 1))
             let email = String(cString: sqlite3_column_text(stmt, 2))
             let phone = String(cString: sqlite3_column_text(stmt, 3))
 
@@ -149,14 +149,14 @@ class UserManager {
             let rawImage = sqlite3_column_blob(stmt, 4)
             let image = Data(bytes: rawImage!, count: Int(dataCount))
 
-            return User(id: id, username: username, email: email, phone: phone, image: image)
+            return User(id: id, name: name, email: email, phone: phone, image: image)
         }
 
         return nil
     }
 
-    func fetchDataByUsername(username: String) -> User? {
-        let query = "SELECT * FROM USER WHERE username = ? LIMIT 1"
+    func fetchDataByEmail(email: String) -> User? {
+        let query = "SELECT * FROM USER WHERE email = ? LIMIT 1"
         var stmt: OpaquePointer?
 
         if sqlite3_prepare(db, query, -1, &stmt, nil) != SQLITE_OK {
@@ -165,7 +165,7 @@ class UserManager {
             return nil
         }
 
-        if sqlite3_bind_text(stmt, 1, username, -1, nil) != SQLITE_OK {
+        if sqlite3_bind_text(stmt, 1, email, -1, nil) != SQLITE_OK {
             let err = String(cString: sqlite3_errmsg(db)!)
             print(err)
             return nil
@@ -173,7 +173,7 @@ class UserManager {
 
         if sqlite3_step(stmt) == SQLITE_ROW {
             let id = Int(sqlite3_column_int(stmt, 0))
-            let username = String(cString: sqlite3_column_text(stmt, 1))
+            let name = String(cString: sqlite3_column_text(stmt, 1))
             let email = String(cString: sqlite3_column_text(stmt, 2))
             let phone = String(cString: sqlite3_column_text(stmt, 3))
 
@@ -182,14 +182,14 @@ class UserManager {
             let image = Data(bytes: rawImage!, count: Int(dataCount))
 
 
-            return User(id: id, username: username, email: email, phone: phone, image: image)
+            return User(id: id, name: name, email: email, phone: phone, image: image)
         }
 
         return nil
     }
 
-    func fetchID(username: String) -> Int? {
-        let query = "SELECT id FROM USER WHERE username = ? LIMIT 1"
+    func fetchID(email: String) -> Int? {
+        let query = "SELECT id FROM USER WHERE email = ? LIMIT 1"
         var stmt: OpaquePointer?
 
         if sqlite3_prepare(db, query, -1, &stmt, nil) != SQLITE_OK {
@@ -198,7 +198,7 @@ class UserManager {
             return nil
         }
 
-        if sqlite3_bind_text(stmt, 1, username, -1, nil) != SQLITE_OK {
+        if sqlite3_bind_text(stmt, 1, email, -1, nil) != SQLITE_OK {
             let err = String(cString: sqlite3_errmsg(db)!)
             print(err)
             return nil
@@ -212,8 +212,8 @@ class UserManager {
         return nil
     }
 
-    func updateData(id: Int, username: String, email: String, phone: String, image: Data) {
-        let query = "UPDATE USER SET username = ?, email = ?, phone = ?, image = ? WHERE id = ?"
+    func updateData(id: Int, name: String, email: String, phone: String, image: Data) {
+        let query = "UPDATE USER SET name = ?, email = ?, phone = ?, image = ? WHERE id = ?"
         var stmt: OpaquePointer?
         if sqlite3_prepare(db, query, -1, &stmt, nil) != SQLITE_OK {
             let err = String(cString: sqlite3_errmsg(db)!)
@@ -221,7 +221,7 @@ class UserManager {
             return
         }
 
-        if sqlite3_bind_text(stmt, 1, username, -1, nil) != SQLITE_OK {
+        if sqlite3_bind_text(stmt, 1, name, -1, nil) != SQLITE_OK {
             let err = String(cString: sqlite3_errmsg(db)!)
             print(err)
             return

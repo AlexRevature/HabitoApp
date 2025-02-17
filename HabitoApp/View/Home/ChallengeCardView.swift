@@ -34,7 +34,7 @@ struct ChallengeCardView: View {
                 Text("Done")
                     .tint(.white)
                     .padding(EdgeInsets(top: 8, leading: 30, bottom: 8, trailing: 30))
-                    .background(.green)
+                    .background(.customPrimary)
                     .clipShape(RoundedRectangle(cornerRadius: 20))
             }
             .padding (.top, 0.5)

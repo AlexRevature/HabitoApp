@@ -10,27 +10,31 @@ import SwiftUI
 struct GuideView: View {
     var body: some View {
         VStack {
-            
-            
+            // TODO: Change to actual image
+            Image(.longIcon)
+                .resizable()
+                .scaledToFit()
+                .frame(maxWidth: 190, maxHeight: 100)
+//                .padding()
+//                .background(.red)
+                .padding(.top, 5)
 
             introText
                 .padding(.horizontal, 50)
-                .padding(.top, 30)
+                .padding(.top, 5)
             Spacer()
             // TODO: Change to actual image
-            Image(systemName: "heart.fill")
+            Image(.landingHolder)
                 .resizable()
                 .scaledToFit()
-                .frame(width: 300, height: 300)
-                .foregroundStyle(.pink)
-            
+                .frame(width: 350, height: 350)
             Spacer()
             actionButton
                 .padding(.horizontal, 30)
                 .padding(.top, 20)
             signinBar
-                .padding(.top, 20)
-                .padding(.bottom, 25)
+                .padding(.top, 30)
+                .padding(.bottom, 40)
         }
     }
 

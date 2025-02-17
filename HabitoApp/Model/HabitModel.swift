@@ -7,7 +7,7 @@
 
 import Foundation
 
-class Habit {
+struct Habit {
     var id: Int?
     var type: Int
     var count: Int
@@ -24,6 +24,12 @@ class Habit {
         self.userID = userID
         self.date = date
     }
+
+//    static func == (lhs: Habit, rhs: Habit) -> Bool {
+//        lhs.id == rhs.id && lhs.type == rhs.type
+//            && lhs.count == rhs.count && lhs.total == rhs.total
+//                && lhs.userID == rhs.userID && lhs.date == rhs.date
+//    }
 }
 
 enum HabitType: Int, CaseIterable {

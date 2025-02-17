@@ -28,9 +28,9 @@ struct HabitNotifyView: View {
             } label: {
                 Text("Share")
                     .tint(.white)
-                    .padding(EdgeInsets(top: 12, leading: 30, bottom: 12, trailing: 30))
-                    .background(.green)
-                    .clipShape(RoundedRectangle(cornerRadius: 20))
+                    .padding(EdgeInsets(top: 12, leading: 40, bottom: 12, trailing: 40))
+                    .background(.customPrimary)
+                    .clipShape(RoundedRectangle(cornerRadius: 18))
             }
             Spacer()
         }

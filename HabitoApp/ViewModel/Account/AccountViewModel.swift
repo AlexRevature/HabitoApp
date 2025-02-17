@@ -31,13 +31,10 @@ class AccountViewModel : ObservableObject{
         return !(password.matches(of: symbolMatch).isEmpty)
     }
 
-    func createUser(username: String, email: String, phone: String, password: String, passwordVerify: String) throws -> User {
+    func createUser(name: String, email: String, phone: String, password: String, passwordVerify: String) throws -> User {
 
-        if username.isEmpty {
-            throw AccountError.username(message: "Username may not be empty")
-        }
-        if KeychainManager.checkForID(id: username) {
-            throw AccountError.username(message: "Username already in use")
+        if name.isEmpty {
+            throw AccountError.name(message: "Name may not be empty")
         }
 
         if email.isEmpty {
@@ -45,6 +42,9 @@ class AccountViewModel : ObservableObject{
         }
         if !AccountViewModel.checkEmail(email: email) {
             throw AccountError.email(message: "Invalid email address")
+        }
+        guard UserManager.shared.fetchID(email: email) == nil else {
+            throw AccountError.email(message: "Email already in use")
         }
 
         if password.isEmpty {
@@ -55,7 +55,7 @@ class AccountViewModel : ObservableObject{
             throw AccountError.password(message: "Passwords do not match")
         }
 
-        let id = UserManager.shared.insertData(username: username, email: email, phone: phone)
+        let id = UserManager.shared.insertData(name: name, email: email, phone: phone)
         guard let id else {
             throw AccountError.system(message: "Unable to create user")
         }
@@ -66,19 +66,19 @@ class AccountViewModel : ObservableObject{
             throw AccountError.system(message: "Keychain error, please contact the developers")
         }
 
-        return User(id: id, username: username, email: email, phone: phone)
+        return User(id: id, name: name, email: email, phone: phone)
     }
 
-    func verifyUserByName(username: String, password: String) throws -> User {
-        if username.isEmpty {
-            throw AccountError.username(message: "Missing username")
+    func verifyUserByEmail(email: String, password: String) throws -> User {
+        if email.isEmpty {
+            throw AccountError.email(message: "Missing email")
         }
         if password.isEmpty {
             throw AccountError.password(message: "Missing password")
         }
 
-        guard let id = UserManager.shared.fetchID(username: username) else {
-            throw AccountError.username(message: "Username does not exist")
+        guard let id = UserManager.shared.fetchID(email: email) else {
+            throw AccountError.email(message: "Account does not exist")
         }
 
         return try verifyUserByID(id: id, password: password)
@@ -109,6 +109,7 @@ class AccountViewModel : ObservableObject{
         return user
     }
 
+    // TODO: Save everything to database here
     func logoutUser() {
         @AppStorage("currentID") var currentID: Int?
         currentID = nil
@@ -117,7 +118,7 @@ class AccountViewModel : ObservableObject{
 }
 
 enum AccountError: Error {
-    case username(message: String)
+    case name(message: String)
     case email(message: String)
     case phone(message: String)
     case password(message: String)

@@ -14,27 +14,24 @@ struct RootView: View {
     @State var isChecking = true
 
     var body: some View {
-        NavigationStack {
-            Group {
-                if isChecking {
-                    Text("Checking")
-                } else if viewModel.currentUser == nil {
-                    NavigationStack {
-                        GuideView()
-                    }
-                } else {
-                    MainTabView()
+        Group {
+            if isChecking {
+                Text("")
+            } else if viewModel.currentUser == nil {
+                NavigationStack {
+                    GuideView()
                 }
+            } else {
+                CustomTabView()
             }
-            .animation(.linear(duration: 1), value: viewModel.currentUser)
-            .onAppear {
-                withAnimation(.easeInOut(duration: 5)) {
-                    persistenceCheck()
-                }
+        }
+        .animation(.linear(duration: 0.5), value: viewModel.currentUser)
+        .onAppear {
+            withAnimation(.easeInOut(duration: 1)) {
+                persistenceCheck()
             }
         }
     }
-       
 
     func persistenceCheck() {
 
@@ -57,17 +54,21 @@ struct RootView: View {
         return
     }
 }
-   
 
 #Preview {
 
     @Previewable @AppStorage("currentID") var currentID: Int?
-    let viewModel = AccountViewModel()
+    let accountViewModel = AccountViewModel()
+    let habitViewModel = HabitViewModel(accountViewModel: accountViewModel)
 
     currentID = nil
 
     try? KeychainManager.deleteCredentials()
-    _ = try? viewModel.createUser(username: "test", email: "test@test.com", phone: "1236540987", password: "password1#", passwordVerify: "password1#")
+    let user = try? accountViewModel.createUser(name: "test", email: "test@test.com", phone: "1236540987", password: "password1#", passwordVerify: "password1#")
 
-    return RootView().environment(viewModel)
+    accountViewModel.currentUser = user
+
+    return RootView()
+        .environment(accountViewModel)
+        .environment(habitViewModel)
 }

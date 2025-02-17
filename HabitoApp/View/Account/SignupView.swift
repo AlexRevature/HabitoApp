@@ -11,14 +11,14 @@ struct SignupView: View {
 
     @Environment(AccountViewModel.self) var viewModel
 
-    @State var username: String = ""
+    @State var name: String = ""
     @State var email: String = ""
     @State var phone: String = ""
     @State var password: String = ""
     @State var passwordVerify: String = ""
     @State var hasReadTerms = false
 
-    @State var usernameErr = false
+    @State var nameErr = false
     @State var emailErr = false
     @State var phoneErr = false
     @State var passwordErr = false
@@ -54,9 +54,9 @@ struct SignupView: View {
 
     var entries: some View {
         VStack(alignment: .leading) {
-            Text("Username")
+            Text("Name")
                 .font(.headline)
-            wrappedTextField(placeholder: "Username", record: $username, isError: usernameErr)
+            wrappedTextField(placeholder: "Name", record: $name, isError: nameErr)
                 .padding(.bottom, 10)
             Text("Email")
                 .font(.headline)
@@ -113,10 +113,10 @@ struct SignupView: View {
 
         let user: User
         do {
-            user = try viewModel.createUser(username: username, email: email, phone: phone, password: password, passwordVerify: passwordVerify)
+            user = try viewModel.createUser(name: name, email: email, phone: phone, password: password, passwordVerify: passwordVerify)
 
-        } catch AccountError.username(let msg) {
-            usernameErr = true
+        } catch AccountError.name(let msg) {
+            nameErr = true
             print(msg)
             return
         } catch AccountError.email(let msg) {

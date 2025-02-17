@@ -9,7 +9,8 @@ import SwiftUI
 
 struct HabitCellView: View {
 
-    @Binding var info: (id: Int, habit: Habit, asset: HabitAsset)
+    @Binding var info: HabitPacket
+    @State var triggerNavigation = false
 
     var body: some View {
         VStack {
@@ -54,11 +55,14 @@ struct HabitCellView: View {
                     .fontWeight(.light)
             }
             Spacer()
-            NavigationLink() {
-                HabitTrackView(info: $info)
+            Button() {
+                triggerNavigation = true
             } label: {
                 Image(systemName: "chevron.right.circle")
                     .foregroundStyle(.black)
+            }
+            .navigationDestination(isPresented: $triggerNavigation) {
+                HabitTrackView(info: $info, remainShown: $triggerNavigation)
             }
         }
     }

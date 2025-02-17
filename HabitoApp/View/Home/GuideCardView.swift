@@ -23,7 +23,7 @@ struct GuideCardView: View {
                 Text(subtitle)
                     .foregroundStyle(.white)
             }
-            .padding(.vertical, 40)
+            .padding(.vertical, 48)
             Spacer()
         }
         .background {

@@ -11,6 +11,8 @@ struct ProfileMainView: View {
 
     @Environment(AccountViewModel.self) var viewModel
 
+    @State var refresh = false
+
     @State var editTrigger = false
     @State var helpTrigger = false
     @State var deleteTrigger = false
@@ -26,7 +28,7 @@ struct ProfileMainView: View {
                 .frame(width: 140, height: 140)
                 .padding(.top, 30)
                 .padding(.bottom, 2)
-            Text(viewModel.currentUser?.username ?? "Empty")
+            Text(viewModel.currentUser?.name ?? "Empty")
                 .bold()
             Text(viewModel.currentUser?.email ?? "N/A")
                 .padding(.bottom, 15)
@@ -35,6 +37,12 @@ struct ProfileMainView: View {
 
             actionList
             Spacer()
+        }
+        .onChange(of: viewModel.currentUser) {
+//            print(viewModel.currentUser?.name)
+        }
+        .task {
+            print(viewModel.currentUser?.name)
         }
     }
 
@@ -118,7 +126,7 @@ private struct LayerCell: View {
     currentID = nil
 
     try? KeychainManager.deleteCredentials()
-    let user = try? viewModel.createUser(username: "test", email: "test@test.com", phone: "1236540987", password: "password1#", passwordVerify: "password1#")
+    let user = try? viewModel.createUser(name: "test", email: "test@test.com", phone: "1236540987", password: "password1#", passwordVerify: "password1#")
 
     viewModel.currentUser = user
 

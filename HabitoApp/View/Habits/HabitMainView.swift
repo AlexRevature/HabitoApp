@@ -9,10 +9,8 @@ import SwiftUI
 
 struct HabitMainView: View {
 
-//    @State var viewModel: HabitViewModel
     @State var initialDate: Date
     @State var selection: Date
-//    @State var selectedHabits: [HabitInfoFull]
 
     @Environment(HabitViewModel.self) var habitViewModel
 
@@ -23,6 +21,7 @@ struct HabitMainView: View {
     }
 
     var body: some View {
+
         VStack {
             HStack {
                 let source = createDates(date: initialDate, num: 5)
@@ -40,17 +39,15 @@ struct HabitMainView: View {
             .padding(.vertical, 15)
             .background(.customAlternate)
 
-            @Bindable var viewModel = habitViewModel
-            HabitListView(habits: Binding($viewModel.currentHabits)!)
+            listView
                 .padding(.horizontal, 8)
 
         }
-        .task {
-            habitViewModel.setActualHabits(date: Date())
-        }
         .onChange(of: selection) {
+            print("Refresh")
             habitViewModel.setActualHabits(date: selection)
         }
+
 
     }
 
@@ -89,6 +86,18 @@ struct HabitMainView: View {
                 .blendMode(.destinationOver)
                 .frame(maxWidth: 10, maxHeight: 10)
             }
+    }
+
+    var listView: some View {
+
+        @Bindable var habitViewModel = habitViewModel
+        return ScrollView {
+            ForEach($habitViewModel.currentHabits) { habit in
+                HabitCellView(info: habit)
+                    .padding(.vertical, 12)
+                    .padding(.horizontal, 10)
+            }
+        }
     }
 }
 
