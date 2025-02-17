@@ -11,7 +11,8 @@ struct Challenge {
     let count: Int
     let total: Int
     let unit: String
-    let date: String    // New field to store month and day (e.g., "MM-dd")
+    let startDate: String   // New: start date in "yyyy-MM-dd" format
+    let endDate: String     // New: end date in "yyyy-MM-dd" format
 }
 
 class ChallengeModel {
@@ -42,7 +43,7 @@ class ChallengeModel {
         }
         
         // Create the Challenge table if it doesn't exist.
-        // Added a new "date" column to store the month and day.
+        // Modified schema to support a date range.
         let createTableQuery = """
         CREATE TABLE IF NOT EXISTS Challenge (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -54,7 +55,8 @@ class ChallengeModel {
             count INTEGER,
             total INTEGER,
             unit TEXT,
-            date TEXT
+            startDate TEXT,
+            endDate TEXT
         );
         """
         
@@ -82,10 +84,11 @@ class ChallengeModel {
                       count: Int,
                       total: Int,
                       unit: String,
-                      date: String) {   // New date parameter
+                      startDate: String,  // New parameter for start date
+                      endDate: String) {   // New parameter for end date
         let insertQuery = """
-        INSERT INTO Challenge (title, message, imageName, backImageName, trackImageName, count, total, unit, date)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);
+        INSERT INTO Challenge (title, message, imageName, backImageName, trackImageName, count, total, unit, startDate, endDate)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
         """
         var stmt: OpaquePointer?
         
@@ -119,9 +122,10 @@ class ChallengeModel {
         
         // Bind the remaining text values.
         if sqlite3_bind_text(stmt, 8, unit, -1, SQLITE_TRANSIENT) != SQLITE_OK ||
-           sqlite3_bind_text(stmt, 9, date, -1, SQLITE_TRANSIENT) != SQLITE_OK { // Binding the date
+           sqlite3_bind_text(stmt, 9, startDate, -1, SQLITE_TRANSIENT) != SQLITE_OK ||  // Bind startDate
+           sqlite3_bind_text(stmt, 10, endDate, -1, SQLITE_TRANSIENT) != SQLITE_OK {   // Bind endDate
             let errmsg = String(cString: sqlite3_errmsg(db))
-            print("Error binding unit/date: \(errmsg)")
+            print("Error binding unit/dates: \(errmsg)")
             sqlite3_finalize(stmt)
             return
         }
@@ -164,7 +168,7 @@ class ChallengeModel {
     /// Retrieves all challenges from the database.
     func getChallenges() -> [Challenge] {
         let query = """
-        SELECT id, title, message, imageName, backImageName, trackImageName, count, total, unit, date
+        SELECT id, title, message, imageName, backImageName, trackImageName, count, total, unit, startDate, endDate
         FROM Challenge;
         """
         var stmt: OpaquePointer?
@@ -185,7 +189,8 @@ class ChallengeModel {
                   let backImageNameCStr = sqlite3_column_text(stmt, 4),
                   let trackImageNameCStr = sqlite3_column_text(stmt, 5),
                   let unitCStr = sqlite3_column_text(stmt, 8),
-                  let dateCStr = sqlite3_column_text(stmt, 9)  // Retrieve the date field
+                  let startDateCStr = sqlite3_column_text(stmt, 9),
+                  let endDateCStr = sqlite3_column_text(stmt, 10)
             else {
                 continue
             }
@@ -198,7 +203,8 @@ class ChallengeModel {
             let count = Int(sqlite3_column_int(stmt, 6))
             let total = Int(sqlite3_column_int(stmt, 7))
             let unit = String(cString: unitCStr)
-            let date = String(cString: dateCStr)
+            let startDate = String(cString: startDateCStr)
+            let endDate = String(cString: endDateCStr)
             
             let challenge = Challenge(id: id,
                                       title: title,
@@ -209,7 +215,8 @@ class ChallengeModel {
                                       count: count,
                                       total: total,
                                       unit: unit,
-                                      date: date)
+                                      startDate: startDate,
+                                      endDate: endDate)
             challenges.append(challenge)
         }
         
@@ -221,19 +228,21 @@ class ChallengeModel {
     func addTestChallenges() {
         let existingChallenges = getChallenges()
         if existingChallenges.isEmpty {
+            // For a single-day challenge, startDate and endDate will be the same.
             addChallenge(
                 title: "10K Steps Challenge",
                 message: "Aim to complete 10,000 steps today to stay active!",
-                imageName: "steps",             // Name of the image asset
-                backImageName: "challengeBack",  // Name of the background asset
-                trackImageName: "figure.walk",   // Name of the track asset (can be a system image name)
+                imageName: "steps",
+                backImageName: "challengeBack",
+                trackImageName: "figure.walk",
                 count: 0,
                 total: 10000,
                 unit: "steps",
-                date: "01-01"                   // Example date in "MM-dd" format
+                startDate: "2025-01-01",   // Example start date in "yyyy-MM-dd" format
+                endDate: "2025-01-01"      // Same as start date for a single-day challenge
             )
             
-            // Add additional test challenges here if needed.
+            // Additional test challenges can be added here.
         }
     }
 }

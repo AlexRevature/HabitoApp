@@ -22,7 +22,13 @@ struct ChallengeEditView: View {
     @State private var isShowingImagePicker: Bool = false
     
     // Date field for the challenge.
-    @State private var challengeDate: Date = Date()
+    // Replace the single date field...
+    // @State private var challengeDate: Date = Date()
+
+    // With two separate date fields:
+    @State private var startDate: Date = Date()
+    @State private var endDate: Date = Date()
+
     
     // Closure to call when a new challenge is saved.
     var onSave: (() -> Void)?
@@ -38,10 +44,11 @@ struct ChallengeEditView: View {
                     TextField("Unit (e.g., steps)", text: $unit)
                 }
                 
-                Section(header: Text("Date")) {
-                    DatePicker("Select Date", selection: $challengeDate, displayedComponents: [.date])
-                        .datePickerStyle(GraphicalDatePickerStyle())
+                Section(header: Text("Date Range")) {
+                    DatePicker("Start Date", selection: $startDate, displayedComponents: [.date])
+                    DatePicker("End Date", selection: $endDate, displayedComponents: [.date])
                 }
+
                 
                 Section(header: Text("Image")) {
                     if let image = selectedImage {
@@ -89,30 +96,28 @@ struct ChallengeEditView: View {
             return
         }
         
-        // Format the selected date as "MM-dd" to store only month and day.
         let formatter = DateFormatter()
-        formatter.dateFormat = "MM-dd"
-        let formattedDate = formatter.string(from: challengeDate)
-        
-        // Optionally, save the selectedImage to disk using `imageName` here.
-        // For this example, we assume that the image will be added to the asset bundle later.
+        formatter.dateFormat = "yyyy-MM-dd"
+        let formattedStartDate = formatter.string(from: startDate)
+        let formattedEndDate = formatter.string(from: endDate)
         
         ChallengeModel.shared.addChallenge(
             title: title,
             message: message,
-            imageName: imageName,          // User-specified image name.
-            backImageName: "challengeBack", // Default background image name.
-            trackImageName: "trophy.fill",  // Default track image name.
+            imageName: imageName,
+            backImageName: "challengeBack",
+            trackImageName: "trophy.fill",
             count: 0,
             total: totalValue,
             unit: unit,
-            date: formattedDate           // Pass the formatted date.
+            startDate: formattedStartDate,
+            endDate: formattedEndDate
         )
         
-        // Trigger the onSave callback to refresh the main view.
         onSave?()
         presentationMode.wrappedValue.dismiss()
     }
+
 }
 
 // MARK: - ImagePicker Implementation
