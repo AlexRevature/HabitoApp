@@ -25,6 +25,9 @@ struct HomeMainView: View {
             guideStack
 
         }
+        .task {
+            habitViewModel.setHabits(date: Date())
+        }
     }
 
     var userBar: some View {

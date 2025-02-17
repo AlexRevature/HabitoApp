@@ -77,7 +77,7 @@ class HabitManager {
             return nil
         }
 
-        if sqlite3_bind_text(stmt, 5, date, -1, nil) != SQLITE_OK {
+        if sqlite3_bind_text(stmt, 5, NSString(string: date).utf8String, -1, nil) != SQLITE_OK {
             let err = String(cString: sqlite3_errmsg(db)!)
             print(err)
             return nil
@@ -89,7 +89,6 @@ class HabitManager {
             return nil
         }
 
-        print("Insert Done")
         return Int(sqlite3_last_insert_rowid(stmt))
 
     }
@@ -138,7 +137,7 @@ class HabitManager {
             return nil
         }
 
-        if sqlite3_bind_text(stmt, 2, date, -1, nil) != SQLITE_OK {
+        if sqlite3_bind_text(stmt, 2, NSString(string: date).utf8String, -1, nil) != SQLITE_OK {
             let err = String(cString: sqlite3_errmsg(db)!)
             print(err)
             return nil
@@ -197,7 +196,7 @@ class HabitManager {
     }
 
     func updateData(id: Int, type: HabitType, count: Int, total: Int, userID: Int, date: String) {
-        let query = "UPDATE USER SET type = ?, count = ?, total = ?, userID = ?, date = ? WHERE id = ?"
+        let query = "UPDATE HABIT SET type = ?, count = ?, total = ?, userID = ?, setDate = ? WHERE id = ?"
         var stmt: OpaquePointer?
         if sqlite3_prepare(db, query, -1, &stmt, nil) != SQLITE_OK {
             let err = String(cString: sqlite3_errmsg(db)!)
@@ -229,7 +228,7 @@ class HabitManager {
             return
         }
 
-        if sqlite3_bind_text(stmt, 5, date, -1, nil) != SQLITE_OK {
+        if sqlite3_bind_text(stmt, 5, NSString(string: date).utf8String, -1, nil) != SQLITE_OK {
             let err = String(cString: sqlite3_errmsg(db)!)
             print(err)
             return
@@ -246,7 +245,6 @@ class HabitManager {
             print(err)
             return
         }
-        print("Update Done")
     }
 
     func deleteData(id: Int) {
@@ -270,7 +268,6 @@ class HabitManager {
             print(err)
             return
         }
-        print("Delete Done")
     }
 }
 

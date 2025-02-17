@@ -24,7 +24,7 @@ struct HabitNotifyView: View {
                 .padding(.horizontal, 10)
                 .padding(.bottom, 40)
             Button {
-                print("Test")
+                print("Share action")
             } label: {
                 Text("Share")
                     .tint(.white)

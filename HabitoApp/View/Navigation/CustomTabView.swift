@@ -8,31 +8,39 @@
 import SwiftUI
 
 struct CustomTabView: View {
+
+    @State var selection: Int = 0
+    @Environment(AccountViewModel.self) var accountViewModel
+    @Environment(HabitViewModel.self) var habitViewModel
+
     var body: some View {
-        TabView {
-            Tab("Home", systemImage: "house") {
+        TabView(selection: $selection) {
+            Tab("Home", systemImage: "house", value: 0) {
                 NavigationStack {
                     HomeMainView()
                 }
                 .tint(.black)
             }
 
-            Tab("Recipes", systemImage: "fork.knife") {
+            Tab("Recipes", systemImage: "fork.knife", value: 1) {
                 RecipeMainView()
             }
 
-            Tab("Data Analysis", systemImage: "list.clipboard") {
+            Tab("Data Analysis", systemImage: "list.clipboard", value: 2) {
                 AnalysisView()
             }
 
-            Tab("Profile", systemImage: "person") {
+            Tab("Profile", systemImage: "person", value: 3) {
                 NavigationStack {
                     ProfileMainView()
                 }
                 .tint(.black)
             }
         }
-        .tint(.green)
+        .tint(.customPrimary)
+        .onChange(of: selection) {
+            habitViewModel.saveHabits()
+        }
     }
 }
 
@@ -40,7 +48,7 @@ struct CustomTabView: View {
 #Preview {
     @Previewable @AppStorage("currentID") var currentID: Int?
     @Previewable @State var accountViewModel = AccountViewModel()
-    let habitViewModel = HabitViewModel(accountViewModel: accountViewModel)
+    @Previewable @State var habitViewModel = HabitViewModel()
 
     currentID = nil
 
@@ -48,6 +56,7 @@ struct CustomTabView: View {
     let user = try? accountViewModel.createUser(name: "John Tester", email: "test@test.com", phone: "1236540987", password: "password1#", passwordVerify: "password1#")
 
     accountViewModel.currentUser = user
+    habitViewModel.accountViewModel = accountViewModel
 
     return CustomTabView()
         .environment(accountViewModel)

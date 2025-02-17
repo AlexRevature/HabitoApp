@@ -32,18 +32,19 @@ struct HabitCardView: View {
                 }
                 .clipShape(RoundedRectangle(cornerRadius: 20))
         }
-        .onAppear() {
-            currentCard = habitViewModel.currentHabits[0]
+        .task {
+//            currentIndex = 0
+            currentCard = habitViewModel.currentHabits[currentIndex]
         }
     }
 
     var frontView: some View {
-        @Bindable var habitViewModel = habitViewModel
-        let currentHabit = $habitViewModel.currentHabits[currentIndex]
+        @Bindable var hb = habitViewModel
+        let currentHabit = habitViewModel.currentHabits[currentIndex]
         return VStack {
             HStack {
                 moveButton(imageName: "chevron.left", step: -1)
-                PercentageCircle(percentage: Double(currentHabit.habit.count.wrappedValue) / Double(currentHabit.habit.total.wrappedValue))
+                PercentageCircle(percentage: Double(currentHabit.habit.count) / Double(currentHabit.habit.total))
                     .frame(maxWidth: 70, maxHeight: 70)
                     .padding(.leading, 6)
 
@@ -51,7 +52,7 @@ struct HabitCardView: View {
                     titleStack(title: currentCard?.asset.title ?? "", subtitle: currentCard?.asset.message ?? "")
 
                     HStack {
-                        IncrementButton(count: currentHabit.habit.count, total: currentHabit.habit.total.wrappedValue)
+                        IncrementButton(count: $hb.currentHabits[currentIndex].habit.count, total: currentHabit.habit.total)
                         Spacer()
                     }
                 }
@@ -93,19 +94,33 @@ struct HabitCardView: View {
 private struct IncrementButton: View {
     @Binding var count: Int
     var total: Int
+    var step: Int = 1
+
+    init(count: Binding<Int>, total: Int) {
+        self._count = count
+        self.total = total
+        self.step = total / 10
+        if self.step == 0 {
+            self.step = 1
+        }
+    }
 
     var body: some View {
         HStack {
             Button("-") {
-                if count > 0 {
-                    count -= 1
+                if count >= step {
+                    count -= step
+                } else {
+                    count = 0
                 }
             }
             .disabled(count <= 0)
             Text("\(count)")
             Button("+") {
-                if count < total {
-                    count += 1
+                if count < total - step {
+                    count += step
+                } else {
+                    count = total
                 }
             }
             .disabled(count >= total)

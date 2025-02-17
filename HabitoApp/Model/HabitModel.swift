@@ -7,7 +7,8 @@
 
 import Foundation
 
-struct Habit {
+@Observable
+class Habit {
     var id: Int?
     var type: Int
     var count: Int
