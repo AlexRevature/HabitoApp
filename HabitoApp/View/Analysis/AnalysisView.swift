@@ -87,6 +87,7 @@ struct AnalysisView: View {
                             RoundedRectangle(cornerRadius: 10)
                                 .foregroundStyle(.customPrimary)
                                 .frame(height: geometry.size.height * percentage)
+                                .clipped()
                         }
                     }
                     Text(dayName)

@@ -38,9 +38,10 @@ struct CustomTabView: View {
             }
         }
         .tint(.customPrimary)
-//        .onChange(of: selection) {
-//            habitViewModel.saveHabits()
-//        }
+        .onChange(of: selection) {
+            habitViewModel.saveHabits()
+            print("Saved")
+        }
     }
 }
 

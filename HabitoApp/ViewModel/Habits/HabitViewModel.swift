@@ -96,7 +96,8 @@ class HabitViewModel {
             if let id = habit.id {
                 HabitManager.shared.updateData(id: id, type: HabitType(rawValue: habit.type)!, count: habit.count, total: habit.total, userID: currentUser.id, date: habit.date)
             } else {
-                _ = HabitManager.shared.insertData(type: HabitType(rawValue: habit.type)!, count: habit.count, total: habit.total, userID: currentUser.id, date: habit.date)
+                let id = HabitManager.shared.insertData(type: HabitType(rawValue: habit.type)!, count: habit.count, total: habit.total, userID: currentUser.id, date: habit.date)
+                packet.habit.id = id
             }
         }
     }

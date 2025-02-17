@@ -25,10 +25,10 @@ struct HomeMainView: View {
             guideStack
 
         }
-        .onDisappear {
-            habitViewModel.saveHabits()
-            print("Run")
-        }
+//        .onDisappear {
+//            habitViewModel.saveHabits()
+//            print("Run")
+//        }
     }
 
     var userBar: some View {
