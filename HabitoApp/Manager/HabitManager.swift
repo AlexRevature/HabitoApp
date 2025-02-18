@@ -269,5 +269,28 @@ class HabitManager {
             return
         }
     }
+
+    func deleteDataByUser(userID: Int) {
+        let query = "DELETE FROM HABIT WHERE userID = ?"
+
+        var stmt: OpaquePointer?
+        if sqlite3_prepare(db, query, -1, &stmt, nil) != SQLITE_OK {
+            let err = String(cString: sqlite3_errmsg(db)!)
+            print(err)
+            return
+        }
+
+        if sqlite3_bind_int(stmt, 1, Int32(userID)) != SQLITE_OK {
+            let err = String(cString: sqlite3_errmsg(db)!)
+            print(err)
+            return
+        }
+
+        if sqlite3_step(stmt) != SQLITE_DONE {
+            let err = String(cString: sqlite3_errmsg(db)!)
+            print(err)
+            return
+        }
+    }
 }
 

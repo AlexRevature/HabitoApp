@@ -42,11 +42,15 @@ struct ProfileMainView: View {
 
     var actionList: some View {
         List {
-            ActionRow(imageName: "person", text: "Personal data", tint: .black, trigger: $editTrigger)
+            ActionRow(imageName: "person", text: "Edit profile", tint: .black, trigger: $editTrigger)
                 .navigationDestination(isPresented: $editTrigger) { ProfileEditView()
                 }
-            ActionRow(imageName: "questionmark.circle", text: "Help", tint: .black, trigger: $helpTrigger)
+//            ActionRow(imageName: "questionmark.circle", text: "Help", tint: .black, trigger: $helpTrigger)
+
             ActionRow(imageName: "trash", text: "Delete account", tint: .black, trigger: $deleteTrigger)
+                .onChange(of: deleteTrigger) {
+                    viewModel.deleteUser()
+                }
             ActionRow(imageName: "power", text: "Log out", tint: .red, trigger: $logoutTrigger)
                 .onChange(of: logoutTrigger) {
                     viewModel.logoutUser()
@@ -138,7 +142,7 @@ private struct LayerCell: View {
     currentID = nil
 
     try? KeychainManager.deleteCredentials()
-    let user = try? accountViewModel.createUser(name: "John Tester", email: "test@test.com", phone: "1236540987", password: "password1#", passwordVerify: "password1#")
+    let user = try? accountViewModel.createUser(name: "John Tester", email: "test@test.com", phone: "1236540987", password: "password")
 
     accountViewModel.currentUser = user
     habitViewModel.accountViewModel = accountViewModel

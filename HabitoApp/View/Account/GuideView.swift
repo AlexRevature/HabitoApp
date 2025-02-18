@@ -10,20 +10,16 @@ import SwiftUI
 struct GuideView: View {
     var body: some View {
         VStack {
-            // TODO: Change to actual image
             Image(.longIcon)
                 .resizable()
                 .scaledToFit()
                 .frame(maxWidth: 190, maxHeight: 100)
-//                .padding()
-//                .background(.red)
                 .padding(.top, 5)
 
             introText
                 .padding(.horizontal, 50)
                 .padding(.top, 5)
             Spacer()
-            // TODO: Change to actual image
             Image(.landingHolder)
                 .resizable()
                 .scaledToFit()
@@ -40,7 +36,7 @@ struct GuideView: View {
 
     var introText: some View {
         VStack {
-            Text("Welcome to Habito")
+            Text("Welcome to HabitHelper")
                 .font(.title)
                 .padding(.bottom, 15)
             Text("Build healthy habits, track your progress, and stay motivated every day")

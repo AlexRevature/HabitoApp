@@ -9,6 +9,8 @@ import SwiftUI
 
 struct RootView: View {
 
+    //HabitHelper
+
     @AppStorage("currentID") var currentID: Int?
     @Environment(AccountViewModel.self) var viewModel
     @State var isChecking = true
@@ -62,7 +64,7 @@ struct RootView: View {
     currentID = nil
 
     try? KeychainManager.deleteCredentials()
-    let user = try? accountViewModel.createUser(name: "Test User", email: "test@test.com", phone: "(123) 654-0987", password: "password1#", passwordVerify: "password1#")
+    let user = try? accountViewModel.createUser(name: "Test User", email: "test@test.com", phone: "(123) 654-0987", password: "password")
 
     habitViewModel.accountViewModel = accountViewModel
 

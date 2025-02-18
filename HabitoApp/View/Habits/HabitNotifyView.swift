@@ -10,8 +10,9 @@ import SwiftUI
 struct HabitNotifyView: View {
     var body: some View {
         VStack {
-            Image(systemName: "circle")
+            Image(systemName: "checkmark.circle")
                 .resizable()
+                .foregroundStyle(.green)
                 .scaledToFit()
                 .frame(maxWidth: 170)
                 .padding(.bottom, 40)
@@ -26,7 +27,7 @@ struct HabitNotifyView: View {
             Button {
                 print("Share action")
             } label: {
-                Text("Share")
+                Text("Celebrate")
                     .tint(.white)
                     .padding(EdgeInsets(top: 12, leading: 40, bottom: 12, trailing: 40))
                     .background(.customPrimary)

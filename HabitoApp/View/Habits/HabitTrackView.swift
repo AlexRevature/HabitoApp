@@ -22,11 +22,54 @@ struct HabitTrackView: View {
     }
 
     var body: some View {
+        mainContent
+    }
+
+    var mainContent: some View {
+        VStack {
+            textStack
+            moveStack
+                .padding(.horizontal, 45)
+                .padding(.bottom, 30)
+
+            actionButton
+                .navigationDestination(isPresented: $triggerCompletion) {
+                    HabitNotifyView()
+                }
+            Spacer()
+        }
+        .padding(.top, 80)
+        .onChange(of: value) {
+            let count = Int(value)
+            info.habit.count = count
+        }
+        .navigationTitle("\(info.asset.name) Details")
+    }
+
+    var actionButton: some View {
+        Button {
+            value = Double(info.habit.total)
+            info.habit.count = info.habit.total
+            triggerCompletion = true
+        } label: {
+            Text("Done")
+                .tint(.white)
+                .padding(EdgeInsets(top: 12, leading: 30, bottom: 12, trailing: 30))
+                .background(.customPrimary)
+                .clipShape(RoundedRectangle(cornerRadius: 15))
+        }
+    }
+
+    var textStack: some View {
         VStack {
             Text(info.asset.title)
                 .font(.title)
             Text(info.asset.message)
+        }
+    }
 
+    var moveStack: some View {
+        VStack {
             PercentageCircle(count: $value, total: Double(info.habit.total))
                 .frame(width: 220, height: 220)
                 .padding(.vertical, 90)
@@ -36,30 +79,7 @@ struct HabitTrackView: View {
                 step: 1
             )
             .tint(.customPrimary)
-            .padding(.horizontal, 45)
-            .padding(.bottom, 30)
-            Button {
-                value = Double(info.habit.total)
-                info.habit.count = info.habit.total
-                triggerCompletion = true
-            } label: {
-                Text("Done")
-                    .tint(.white)
-                    .padding(EdgeInsets(top: 12, leading: 30, bottom: 12, trailing: 30))
-                    .background(.customPrimary)
-                    .clipShape(RoundedRectangle(cornerRadius: 15))
-            }
-            .navigationDestination(isPresented: $triggerCompletion) {
-                HabitNotifyView()
-            }
-            Spacer()
         }
-        .padding(.top, 80)
-        .onChange(of: value) {
-            let count = Int(value)
-            info.habit.count = count
-        }
-        .navigationTitle("\(info.asset.name) Details")
     }
 
     var imageStack: some View {

@@ -31,8 +31,7 @@ class AccountViewModel : ObservableObject{
         return !(password.matches(of: symbolMatch).isEmpty)
     }
 
-    func createUser(name: String, email: String, phone: String, password: String, passwordVerify: String) throws -> User {
-
+    func verifyInformation(name: String, email: String, phone: String, password: String, passwordVerify: String) throws {
         if name.isEmpty {
             throw AccountError.name(message: "Name may not be empty")
         }
@@ -63,16 +62,21 @@ class AccountViewModel : ObservableObject{
         if password != passwordVerify {
             throw AccountError.password(message: "Passwords do not match")
         }
+    }
+
+    func createUser(name: String, email: String, phone: String, password: String, keychain: Bool = true) throws -> User {
 
         let id = UserManager.shared.insertData(name: name, email: email, phone: phone)
         guard let id else {
             throw AccountError.system(message: "Unable to create user")
         }
 
-        do {
-            try KeychainManager.saveCredentials(id: "\(id)", password: password)
-        } catch {
-            throw AccountError.system(message: "Keychain error, please contact the developers")
+        if keychain {
+            do {
+                try KeychainManager.saveCredentials(id: "\(id)", password: password)
+            } catch {
+                throw AccountError.system(message: "Keychain error, please contact the developers")
+            }
         }
 
         return User(id: id, name: name, email: email, phone: phone)
@@ -98,7 +102,7 @@ class AccountViewModel : ObservableObject{
         do {
             isValid = try KeychainManager.verifyCredentials(id: "\(id)", password: password)
         } catch {
-            throw AccountError.system(message: "Keychain error, please contact developers")
+            throw AccountError.system(message: "Incorrect signin method")
         }
         if !isValid {
             throw AccountError.verification(message: "Invalid credentials")
@@ -122,6 +126,16 @@ class AccountViewModel : ObservableObject{
     func logoutUser() {
         @AppStorage("currentID") var currentID: Int?
         currentID = nil
+        currentUser = nil
+    }
+
+    func deleteUser() {
+        @AppStorage("currentID") var currentID: Int?
+        currentID = nil
+        
+        guard let userID = currentUser?.id else { return }
+        UserManager.shared.deleteData(id: userID)
+        HabitManager.shared.deleteDataByUser(userID: userID)
         currentUser = nil
     }
 }
