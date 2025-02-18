@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ChallengeEditView: View {
     @Environment(\.presentationMode) var presentationMode
-    @EnvironmentObject var accountViewModel: AccountViewModel  // Added to access currentUser
+    @Environment(AccountViewModel.self) var accountViewModel  // Added to access currentUser
     
     // Form fields.
     @State private var title: String = ""

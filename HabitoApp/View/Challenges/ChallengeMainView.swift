@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ChallengeMainView: View {
     @StateObject var viewModel = ChallengeViewModel()
-    @EnvironmentObject var accountViewModel: AccountViewModel  // Added to access currentUser
+    @Environment(AccountViewModel.self) var accountViewModel  // Added to access currentUser
     @State var initialDate: Date = Date()
     @State var selection: Date = Date()
     
@@ -52,7 +52,7 @@ struct ChallengeMainView: View {
                 // Plus button in a green circle that navigates to ChallengeEditView.
                 NavigationLink(destination: ChallengeEditView(onSave: {
                     viewModel.refreshChallenges(for: selection)
-                }).environmentObject(accountViewModel)) {
+                }).environment(accountViewModel)) {
                     Image(systemName: "plus")
                         .resizable()
                         .frame(width: 20, height: 20)
@@ -106,6 +106,6 @@ struct ChallengeMainView: View {
 #Preview {
     NavigationStack {
         ChallengeMainView()
-            .environmentObject(AccountViewModel())
+            .environment(AccountViewModel())
     }
 }
