@@ -18,6 +18,7 @@ final class UserVMTests: XCTestCase {
 
     override func setUp() {
         viewModel = AccountViewModel()
+        viewModel.currentUser = try? viewModel.createUser(name: "Initial", email: "initial@test.com", phone: "100", password: "password")
     }
 
     func testValidInput() {
@@ -55,6 +56,10 @@ final class UserVMTests: XCTestCase {
                 return
             }
         }
+    }
+
+    func testVerifyUser() throws {
+        XCTAssertNoThrow(try viewModel.verifyUserByEmail(email: "initial@test.com", password: "password"))
     }
 
     func testPerformanceExample() throws {
