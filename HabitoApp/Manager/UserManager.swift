@@ -14,7 +14,7 @@ class UserManager {
     let db: OpaquePointer?
     static let shared = UserManager(manager: DBManager.shared)
 
-    private init(manager: DBManager) {
+    public init(manager: DBManager) {
         self.manager = manager
         self.db = manager.db
         createTable()

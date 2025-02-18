@@ -11,14 +11,14 @@ import SQLite3
 class DBManager {
 
     var db: OpaquePointer?
-    static let shared = DBManager()
+    static let shared = DBManager(filename: "HabitoDB.sqlite")
 
-    private init() {
-        createDatabase()
+    init(filename: String) {
+        createDatabase(filename: filename)
     }
 
-    func createDatabase() {
-        let fPath = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true).appendingPathComponent("HabitoDB.sqlite")
+    func createDatabase(filename: String) {
+        let fPath = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true).appendingPathComponent(filename)
 
         if sqlite3_open(fPath.path, &db) != SQLITE_OK {
             print("Error")
