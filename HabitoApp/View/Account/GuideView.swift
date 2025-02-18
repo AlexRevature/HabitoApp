@@ -10,17 +10,20 @@ import SwiftUI
 struct GuideView: View {
     var body: some View {
         VStack {
-            Image(.longIcon)
-                .resizable()
-                .scaledToFit()
-                .frame(maxWidth: 190, maxHeight: 100)
-                .padding(.top, 5)
+            Text("HabitHelper")
+                .font(.custom("Futura", size: 30))
+                .foregroundStyle(.customPrimary)
+                .padding(15)
+                .background(.gray.opacity(0.2))
+                .clipShape(RoundedRectangle(cornerRadius: 15))
+                .padding(.top, 30)
+                .padding(.bottom, 25)
 
             introText
                 .padding(.horizontal, 50)
                 .padding(.top, 5)
             Spacer()
-            Image(.landingHolder)
+            Image(.stroll)
                 .resizable()
                 .scaledToFit()
                 .frame(width: 350, height: 350)

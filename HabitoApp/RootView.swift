@@ -18,7 +18,10 @@ struct RootView: View {
     var body: some View {
         Group {
             if isChecking {
-                Text("")
+                Image(.healthy)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 200, height: 200)
             } else if viewModel.currentUser == nil {
                 NavigationStack {
                     GuideView()
@@ -30,14 +33,19 @@ struct RootView: View {
         .animation(.linear(duration: 0.5), value: viewModel.currentUser)
         .onAppear {
             persistenceCheck()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
+                withAnimation {
+                    isChecking = false
+                }
+            }
         }
     }
 
     func persistenceCheck() {
 
-        defer {
-            isChecking = false
-        }
+//        defer {
+//            isChecking = false
+//        }
         guard let currentID else {
             return
         }

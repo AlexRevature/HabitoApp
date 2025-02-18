@@ -140,12 +140,14 @@ struct SigninView: View {
 
     var header: some View {
         VStack {
-            Image(.longIcon)
-                .resizable()
-                .scaledToFit()
-                .frame(maxHeight: 90)
-                .padding(.top, 50)
-                .padding(.bottom, 20)
+            Text("HabitHelper")
+                .font(.custom("Futura", size: 30))
+                .foregroundStyle(.customPrimary)
+                .padding(15)
+                .background(.gray.opacity(0.2))
+                .clipShape(RoundedRectangle(cornerRadius: 15))
+                .padding(.top, 30)
+                .padding(.bottom, 25)
             Text("Welcome back!")
                 .fontWeight(.bold)
                 .padding(.bottom, 2)
