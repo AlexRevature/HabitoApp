@@ -31,7 +31,7 @@ struct ChallengeTrackView: View {
                     // Delete the challenge from the database using its id.
                     ChallengeModel.shared.deleteChallenge(byId: info.id)
                     
-                    // Optionally, you could add additional logic here (e.g., showing an alert).
+                   
                     
                     // Navigate to the ChallengeNotifyView.
                     navigateToNotification = true
