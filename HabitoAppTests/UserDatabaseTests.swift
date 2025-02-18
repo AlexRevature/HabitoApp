@@ -73,11 +73,15 @@ final class UserDatabaseTests: XCTestCase {
         XCTAssertNil(userManager.fetchDataById(id: validID))
     }
 
-//    func testPerformanceExample() throws {
-//        // This is an example of a performance test case.
-//        self.measure {
-//            // Put the code you want to measure the time of here.
-//        }
-//    }
+    func testInsertPerformance() throws {
+        let testName = "John User"
+        let testPhone = "7245567923"
+
+        self.measure {
+            for idx in 0..<20 {
+                _ = userManager.insertData(name: testName, email: "measure\(idx)@test.com", phone: testPhone)
+            }
+        }
+    }
 
 }

@@ -14,9 +14,10 @@ final class UserVMTests: XCTestCase {
     let testName = "John Test"
     let testEmail = "unit@test.com"
     let testPhone = "123456789"
-    let testPassword = "password"
+    let testPassword = "password1#"
 
     override func setUp() {
+        try? KeychainManager.deleteCredentials()
         viewModel = AccountViewModel()
         viewModel.currentUser = try? viewModel.createUser(name: "Initial", email: "initial@test.com", phone: "100", password: "password")
     }
@@ -60,13 +61,6 @@ final class UserVMTests: XCTestCase {
 
     func testVerifyUser() throws {
         XCTAssertNoThrow(try viewModel.verifyUserByEmail(email: "initial@test.com", password: "password"))
-    }
-
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
     }
 
 }

@@ -79,11 +79,17 @@ final class HabitDatabaseTests: XCTestCase {
         XCTAssertNil(habitManager.fetchDataById(id: validID))
     }
 
-//    func testPerformanceExample() throws {
-//        // This is an example of a performance test case.
-//        self.measure {
-//            // Put the code you want to measure the time of here.
-//        }
-//    }
+    func testInsertPerformance() throws {
+        let testType = HabitType.exercise
+        let testCount = 0
+        let testTotal = 20
+        let testDate = Date().formatted(date: .abbreviated, time: .omitted)
+
+        self.measure {
+            for _ in 0..<20 {
+                _ = habitManager.insertData(type: testType, count: testCount, total: testTotal, userID: nil, date: testDate)
+            }
+        }
+    }
 
 }
