@@ -45,7 +45,14 @@ class UserManager {
     }
 
     func insertData(name: String, email: String, phone: String, image: Data? = nil) -> Int? {
+
         var stmt: OpaquePointer?
+        defer {
+            if stmt != nil {
+                sqlite3_finalize(stmt)
+            }
+        }
+
         let query = "INSERT INTO USER(name,email,phone,image) VALUES(?,?,?,?);"
         if sqlite3_prepare_v2(db, query, -1, &stmt, nil) != SQLITE_OK {
             let err = String(cString: sqlite3_errmsg(db)!)
@@ -88,7 +95,6 @@ class UserManager {
             return nil
         }
 
-        sqlite3_finalize(stmt)
         return Int(sqlite3_last_insert_rowid(db))
 
     }
@@ -98,6 +104,11 @@ class UserManager {
         var userList = [User]()
         let query = "SELECT id,name,email,phone,image FROM USER;"
         var stmt: OpaquePointer?
+        defer {
+            if stmt != nil {
+                sqlite3_finalize(stmt)
+            }
+        }
 
         if sqlite3_prepare(db, query, -1, &stmt, nil) != SQLITE_OK {
             let err = String(cString: sqlite3_errmsg(db)!)
@@ -130,6 +141,11 @@ class UserManager {
     func fetchDataById(id: Int) -> User? {
         let query = "SELECT id,name,email,phone,image FROM USER WHERE id = ?;"
         var stmt: OpaquePointer?
+        defer {
+            if stmt != nil {
+                sqlite3_finalize(stmt)
+            }
+        }
 
         if sqlite3_prepare(db, query, -1, &stmt, nil) != SQLITE_OK {
             let err = String(cString: sqlite3_errmsg(db)!)
@@ -167,6 +183,11 @@ class UserManager {
     func fetchDataByEmail(email: String) -> User? {
         let query = "SELECT id,name,email,phone,image FROM USER WHERE email = ?;"
         var stmt: OpaquePointer?
+        defer {
+            if stmt != nil {
+                sqlite3_finalize(stmt)
+            }
+        }
 
         if sqlite3_prepare(db, query, -1, &stmt, nil) != SQLITE_OK {
             let err = String(cString: sqlite3_errmsg(db)!)
@@ -204,6 +225,11 @@ class UserManager {
     func fetchID(email: String) -> Int? {
         let query = "SELECT id FROM USER WHERE email = ?;"
         var stmt: OpaquePointer?
+        defer {
+            if stmt != nil {
+                sqlite3_finalize(stmt)
+            }
+        }
 
         if sqlite3_prepare(db, query, -1, &stmt, nil) != SQLITE_OK {
             let err = String(cString: sqlite3_errmsg(db)!)
@@ -225,9 +251,15 @@ class UserManager {
         return nil
     }
 
-    func updateData(id: Int, name: String, email: String, phone: String, image: Data) {
+    func updateData(id: Int, name: String, email: String, phone: String, image: Data? = nil) {
         let query = "UPDATE USER SET name = ?, email = ?, phone = ?, image = ? WHERE id = ?"
         var stmt: OpaquePointer?
+        defer {
+            if stmt != nil {
+                sqlite3_finalize(stmt)
+            }
+        }
+
         if sqlite3_prepare(db, query, -1, &stmt, nil) != SQLITE_OK {
             let err = String(cString: sqlite3_errmsg(db)!)
             print(err)
@@ -252,11 +284,15 @@ class UserManager {
             return
         }
 
-        let rawData = image as NSData
-        if sqlite3_bind_blob(stmt, 4, rawData.bytes, Int32(rawData.length), nil) != SQLITE_OK {
-            let err = String(cString: sqlite3_errmsg(db)!)
-            print(err)
-            return
+        if let image {
+            let rawData = image as NSData
+            if sqlite3_bind_blob(stmt, 4, rawData.bytes, Int32(rawData.length), nil) != SQLITE_OK {
+                let err = String(cString: sqlite3_errmsg(db)!)
+                print(err)
+                return
+            }
+        } else {
+            sqlite3_bind_null(stmt, 4)
         }
 
         if sqlite3_bind_int(stmt, 5, Int32(id)) != SQLITE_OK {
@@ -276,6 +312,11 @@ class UserManager {
         let query = "DELETE FROM USER WHERE id = ?"
 
         var stmt: OpaquePointer?
+        defer {
+            if stmt != nil {
+                sqlite3_finalize(stmt)
+            }
+        }
         if sqlite3_prepare(db, query, -1, &stmt, nil) != SQLITE_OK {
             let err = String(cString: sqlite3_errmsg(db)!)
             print(err)

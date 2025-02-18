@@ -24,4 +24,8 @@ class DBManager {
             print("Error")
         }
     }
+
+    func closeDatabase() {
+        sqlite3_close(db)
+    }
 }

@@ -14,7 +14,7 @@ class HabitManager {
     let db: OpaquePointer?
     static let shared = HabitManager(manager: DBManager.shared)
 
-    private init(manager: DBManager) {
+    init(manager: DBManager) {
         self.manager = manager
         self.db = manager.db
         createTable()
@@ -33,7 +33,7 @@ class HabitManager {
                 type INTEGER,
                 count INTEGER,
                 total INTEGER,
-                userID INTEGER,
+                userID INTEGER NULL,
                 setDate TEXT,
                 FOREIGN KEY(userID) REFERENCES USER(userID)
             )
@@ -44,8 +44,14 @@ class HabitManager {
         }
     }
 
-    func insertData(type: HabitType, count: Int, total: Int, userID: Int, date: String) -> Int? {
+    func insertData(type: HabitType, count: Int, total: Int, userID: Int? = nil, date: String) -> Int? {
         var stmt: OpaquePointer?
+        defer {
+            if stmt != nil {
+                sqlite3_finalize(stmt)
+            }
+        }
+
         let query = "INSERT INTO HABIT(type,count,total,userID,setDate) VALUES(?,?,?,?,?)"
         if sqlite3_prepare_v2(db, query, -1, &stmt, nil) != SQLITE_OK {
             let err = String(cString: sqlite3_errmsg(db)!)
@@ -71,10 +77,14 @@ class HabitManager {
             return nil
         }
 
-        if sqlite3_bind_int(stmt, 4, Int32(userID)) != SQLITE_OK {
-            let err = String(cString: sqlite3_errmsg(db)!)
-            print(err)
-            return nil
+        if let userID {
+            if sqlite3_bind_int(stmt, 4, Int32(userID)) != SQLITE_OK {
+                let err = String(cString: sqlite3_errmsg(db)!)
+                print(err)
+                return nil
+            }
+        } else {
+            sqlite3_bind_null(stmt, 4)
         }
 
         if sqlite3_bind_text(stmt, 5, NSString(string: date).utf8String, -1, nil) != SQLITE_OK {
@@ -89,7 +99,7 @@ class HabitManager {
             return nil
         }
 
-        return Int(sqlite3_last_insert_rowid(stmt))
+        return Int(sqlite3_last_insert_rowid(db))
 
     }
 
@@ -98,6 +108,11 @@ class HabitManager {
         var habitList = [Habit]()
         let query = "SELECT * FROM HABIT"
         var stmt: OpaquePointer?
+        defer {
+            if stmt != nil {
+                sqlite3_finalize(stmt)
+            }
+        }
 
         if sqlite3_prepare(db, query, -1, &stmt, nil) != SQLITE_OK {
             let err = String(cString: sqlite3_errmsg(db)!)
@@ -124,6 +139,11 @@ class HabitManager {
         var habitList = [Habit]()
         let query = "SELECT * FROM HABIT WHERE userID = ? AND setDate = ?"
         var stmt: OpaquePointer?
+        defer {
+            if stmt != nil {
+                sqlite3_finalize(stmt)
+            }
+        }
 
         if sqlite3_prepare(db, query, -1, &stmt, nil) != SQLITE_OK {
             let err = String(cString: sqlite3_errmsg(db)!)
@@ -164,8 +184,13 @@ class HabitManager {
     }
 
     func fetchDataById(id: Int) -> Habit? {
-        let query = "SELECT * FROM HABIT WHERE id = ? LIMIT 1"
+        let query = "SELECT * FROM HABIT WHERE id = ?"
         var stmt: OpaquePointer?
+        defer {
+            if stmt != nil {
+                sqlite3_finalize(stmt)
+            }
+        }
 
         if sqlite3_prepare(db, query, -1, &stmt, nil) != SQLITE_OK {
             let err = String(cString: sqlite3_errmsg(db)!)
@@ -195,9 +220,15 @@ class HabitManager {
         return nil
     }
 
-    func updateData(id: Int, type: HabitType, count: Int, total: Int, userID: Int, date: String) {
+    func updateData(id: Int, type: HabitType, count: Int, total: Int, userID: Int? = nil, date: String) {
         let query = "UPDATE HABIT SET type = ?, count = ?, total = ?, userID = ?, setDate = ? WHERE id = ?"
         var stmt: OpaquePointer?
+        defer {
+            if stmt != nil {
+                sqlite3_finalize(stmt)
+            }
+        }
+
         if sqlite3_prepare(db, query, -1, &stmt, nil) != SQLITE_OK {
             let err = String(cString: sqlite3_errmsg(db)!)
             print(err)
@@ -222,10 +253,14 @@ class HabitManager {
             return
         }
 
-        if sqlite3_bind_int(stmt, 4, Int32(userID)) != SQLITE_OK {
-            let err = String(cString: sqlite3_errmsg(db)!)
-            print(err)
-            return
+        if let userID {
+            if sqlite3_bind_int(stmt, 4, Int32(userID)) != SQLITE_OK {
+                let err = String(cString: sqlite3_errmsg(db)!)
+                print(err)
+                return
+            }
+        } else {
+            sqlite3_bind_null(stmt, 4)
         }
 
         if sqlite3_bind_text(stmt, 5, NSString(string: date).utf8String, -1, nil) != SQLITE_OK {
@@ -251,6 +286,12 @@ class HabitManager {
         let query = "DELETE FROM HABIT WHERE id = ?"
 
         var stmt: OpaquePointer?
+        defer {
+            if stmt != nil {
+                sqlite3_finalize(stmt)
+            }
+        }
+
         if sqlite3_prepare(db, query, -1, &stmt, nil) != SQLITE_OK {
             let err = String(cString: sqlite3_errmsg(db)!)
             print(err)
@@ -274,6 +315,12 @@ class HabitManager {
         let query = "DELETE FROM HABIT WHERE userID = ?"
 
         var stmt: OpaquePointer?
+        defer {
+            if stmt != nil {
+                sqlite3_finalize(stmt)
+            }
+        }
+        
         if sqlite3_prepare(db, query, -1, &stmt, nil) != SQLITE_OK {
             let err = String(cString: sqlite3_errmsg(db)!)
             print(err)
