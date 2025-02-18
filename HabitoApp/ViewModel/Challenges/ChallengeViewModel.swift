@@ -53,6 +53,43 @@ class ChallengeViewModel: ObservableObject {
         
         return challengeInfos
     }
+    
+    func oldestChallenge(userID: Int?) -> ChallengeInfoFull? {
+        let challengesFromDB = ChallengeModel.shared.getChallenges(forUser: userID ?? -1)
+        
+        // Unwrap only the challenge if it's available
+        guard let challenge = challengesFromDB.first else { return nil }
+        
+        // Directly assign the properties since they're non-optional
+        let title = challenge.title
+        let message = challenge.message
+        let imageName = challenge.imageName
+        let backImageName = challenge.backImageName
+        let trackImageName = challenge.trackImageName
+        let startDate = challenge.startDate
+        let endDate = challenge.endDate
+
+        // Convert image names to UIImage objects.
+        let image = UIImage(named: imageName) ?? UIImage()
+        let backImage = UIImage(named: backImageName) ?? UIImage()
+        let trackImage = UIImage(named: trackImageName) ?? UIImage()
+        
+        return ChallengeInfoFull(
+            id: challenge.id,
+            title: title,
+            message: message,
+            image: image,
+            backImage: backImage,
+            trackImage: trackImage,
+            count: challenge.count,
+            total: challenge.total,
+            unit: challenge.unit,
+            startDate: startDate,
+            endDate: endDate
+        )
+    }
+
+
 
     
     /// Refreshes the published challenges array using the selected date.

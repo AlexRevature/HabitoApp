@@ -13,17 +13,17 @@ struct ChallengeCardView: View {
     var totalDays: Int
     var challengeTitle: String
     var image: UIImage
-
+    let viewModel = ChallengeViewModel()
+    @Environment(AccountViewModel.self) var accountViewModel
+    
     var body: some View {
         VStack {
-            Text("Today's Challenge")
-                .font(.headline)
+            Text(viewModel.oldestChallenge(userID: accountViewModel.currentUser?.id)?.title ?? "No challenges")
+                .font(.largeTitle)
                 .foregroundStyle(.white)
                 .frame(maxWidth: .infinity)
-            Text("Day \(dayNumber) of \(totalDays)")
-                .font(.callout)
-                .foregroundStyle(.white)
-            Text(challengeTitle)
+          
+            Text(viewModel.oldestChallenge(userID: accountViewModel.currentUser?.id)?.message ?? "")
                 .font(.title2)
                 .foregroundStyle(.white)
                 .padding(.top, 5)
