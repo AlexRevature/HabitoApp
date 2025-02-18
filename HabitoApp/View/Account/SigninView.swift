@@ -35,11 +35,12 @@ struct SigninView: View {
                 .padding(.bottom)
             actionButton
                 .padding(.horizontal, 30)
+            if errMessage.count > 0 {
+                Text(errMessage)
+                    .foregroundStyle(.red)
+                    .padding(.top, 20)
+            }
             externalRow
-                .padding(.top, 20)
-
-            Text(errMessage)
-                .foregroundStyle(.red)
                 .padding(.top, 20)
         }
     }

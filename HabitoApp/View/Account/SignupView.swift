@@ -45,12 +45,14 @@ struct SignupView: View {
             actionButton
                 .padding(.horizontal, 20)
 
-            externalRow
-                .padding(.top, 20)
+            if errMessage.count > 0 {
+                Text(errMessage)
+                    .foregroundStyle(.red)
+                    .padding(3)
+                    .padding(.top, 20)
+            }
 
-            Text(errMessage)
-                .foregroundStyle(.red)
-                .padding(3)
+            externalRow
                 .padding(.top, 20)
 
         }
