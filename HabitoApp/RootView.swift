@@ -72,11 +72,9 @@ struct RootView: View {
     currentID = nil
 
     try? KeychainManager.deleteCredentials()
-    let user = try? accountViewModel.createUser(name: "Test User", email: "test@test.com", phone: "(123) 654-0987", password: "password")
+    _ = try? accountViewModel.createUser(name: "Test User", email: "test@test.com", phone: "(123) 654-0987", password: "password")
 
     habitViewModel.accountViewModel = accountViewModel
-
-//    accountViewModel.currentUser = user
 
     return RootView()
         .environment(accountViewModel)
