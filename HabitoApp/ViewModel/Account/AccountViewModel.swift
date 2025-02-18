@@ -46,17 +46,19 @@ class AccountViewModel {
             throw AccountError.email(message: "Email already in use")
         }
 
+        print(password)
+
         if password.isEmpty {
             throw AccountError.password(message: "Password may not be empty")
         }
         if password.count < 8 {
-            throw AccountError.password(message: "Password may not be empty")
+            throw AccountError.password(message: "Password is too short")
         }
         if !AccountViewModel.checkNumPassword(password: password) {
-            throw AccountError.password(message: "Password may not be empty")
+            throw AccountError.password(message: "Password must contain a number")
         }
         if !AccountViewModel.checkSymbolPassword(password: password) {
-            throw AccountError.password(message: "Password may not be empty")
+            throw AccountError.password(message: "Password must contain a symbol")
         }
 
         if password != passwordVerify {

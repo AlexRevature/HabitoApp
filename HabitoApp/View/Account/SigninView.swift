@@ -161,11 +161,11 @@ struct SigninView: View {
         VStack(alignment: .leading) {
             Text("Email")
                 .font(.headline)
-            wrappedTextField(placeholder: "Email", record: $email)
+            wrappedTextField(placeholder: "Email", record: $email, identifier: "signInEmailField")
                 .padding(.bottom, 10)
             Text("Password")
                 .font(.headline)
-            wrappedTextField(placeholder: "Password", record: $password, isSecure: true)
+            wrappedTextField(placeholder: "Password", record: $password, isSecure: true, identifier: "signInPasswordField")
                 .padding(.bottom, 10)
         }
     }
@@ -208,6 +208,7 @@ struct SigninView: View {
                 .background(.customPrimary)
                 .clipShape(RoundedRectangle(cornerRadius: 20))
         }
+        .accessibilityIdentifier("signInMainButton")
     }
 
     func signinAction() {
@@ -242,13 +243,25 @@ struct SigninView: View {
         viewModel.currentUser = user
     }
 
-    func wrappedTextField(placeholder: String, record: Binding<String>, isSecure: Bool = false) -> some View {
+    func wrappedTextField(placeholder: String, record: Binding<String>, isSecure: Bool = false, isError: Bool = false, identifier: String? = nil) -> some View {
 
         var textField: AnyView {
             if !isSecure {
-                AnyView(TextField(placeholder, text: record).autocapitalization(.none))
+                AnyView (
+                    TextField(placeholder, text: record)
+                        .autocapitalization(.none)
+                        .if(identifier != nil) {
+                            $0.accessibilityIdentifier(identifier!)
+                        }
+                )
             } else {
-                AnyView(SecureField(placeholder, text: record))
+                AnyView (
+                    SecureField(placeholder, text: record)
+                        .textContentType(.oneTimeCode)
+                        .if(identifier != nil) {
+                            $0.accessibilityIdentifier(identifier!)
+                        }
+                )
             }
         }
 
@@ -257,7 +270,7 @@ struct SigninView: View {
             .padding(.vertical, 12)
             .overlay {
                 RoundedRectangle(cornerRadius: 15)
-                    .stroke(Color.customPrimary, lineWidth: 1)
+                    .stroke(isError ? Color.red : Color.customPrimary, lineWidth: 1)
             }
 
         return returnView

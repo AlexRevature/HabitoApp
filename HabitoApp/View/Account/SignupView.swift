@@ -166,23 +166,23 @@ struct SignupView: View {
         VStack(alignment: .leading) {
             Text("Name")
                 .font(.headline)
-            wrappedTextField(placeholder: "Name", record: $name, isError: nameErr)
+            wrappedTextField(placeholder: "Name", record: $name, isError: nameErr, identifier: "signUpNameField")
                 .padding(.bottom, 10)
             Text("Email")
                 .font(.headline)
-            wrappedTextField(placeholder: "Email", record: $email, isError: emailErr)
+            wrappedTextField(placeholder: "Email", record: $email, isError: emailErr, identifier: "signUpEmailField")
                 .padding(.bottom, 10)
             Text("Phone Number")
                 .font(.headline)
-            wrappedTextField(placeholder: "Phone Number", record: $phone, isError: phoneErr)
+            wrappedTextField(placeholder: "Phone Number", record: $phone, isError: phoneErr, identifier: "signUpPhoneField")
                 .padding(.bottom, 10)
             Text("Password")
                 .font(.headline)
-            wrappedTextField(placeholder: "Password", record: $password, isSecure: true, isError: passwordErr)
+            wrappedTextField(placeholder: "Password", record: $password, isSecure: true, isError: passwordErr, identifier: "signUpPasswordField")
                 .padding(.bottom, 10)
             Text("Verify Password")
                 .font(.headline)
-            wrappedTextField(placeholder: "Password", record: $passwordVerify, isSecure: true, isError: passwordErr)
+            wrappedTextField(placeholder: "Password", record: $passwordVerify, isSecure: true, isError: passwordErr, identifier: "signUpVerifyField")
                 .padding(.bottom, 10)
         }
     }
@@ -196,6 +196,7 @@ struct SignupView: View {
             } label: {
                 Image(systemName: hasReadTerms ? "checkmark.square.fill" : "square")
             }
+            .accessibilityIdentifier("signUpTermsButton")
             Text("I agree to the terms and privacy policy")
         }
         .foregroundStyle(termsErr ? .red : .black)
@@ -213,6 +214,7 @@ struct SignupView: View {
                 .background(.customPrimary)
                 .clipShape(RoundedRectangle(cornerRadius: 20))
         }
+        .accessibilityIdentifier("signUpMainButton")
     }
 
     func signupAction() {
@@ -261,13 +263,25 @@ struct SignupView: View {
         viewModel.currentUser = user
     }
 
-    func wrappedTextField(placeholder: String, record: Binding<String>, isSecure: Bool = false, isError: Bool = false) -> some View {
+    func wrappedTextField(placeholder: String, record: Binding<String>, isSecure: Bool = false, isError: Bool = false, identifier: String? = nil) -> some View {
 
         var textField: AnyView {
             if !isSecure {
-                AnyView(TextField(placeholder, text: record).autocapitalization(.none))
+                AnyView (
+                    TextField(placeholder, text: record)
+                        .autocapitalization(.none)
+                        .if(identifier != nil) {
+                            $0.accessibilityIdentifier(identifier!)
+                        }
+                )
             } else {
-                AnyView(SecureField(placeholder, text: record))
+                AnyView (
+                    SecureField(placeholder, text: record)
+                        .textContentType(.oneTimeCode)
+                        .if(identifier != nil) {
+                            $0.accessibilityIdentifier(identifier!)
+                        }
+                )
             }
         }
 
@@ -280,6 +294,16 @@ struct SignupView: View {
             }
 
         return returnView
+    }
+}
+
+extension View {
+    @ViewBuilder func `if`<Content: View>(_ condition: Bool, transform: (Self) -> Content) -> some View {
+        if condition {
+            transform(self)
+        } else {
+            self
+        }
     }
 }
 

@@ -56,6 +56,7 @@ struct GuideView: View {
                 .background(.customPrimary)
                 .clipShape(RoundedRectangle(cornerRadius: 20))
         }
+        .accessibilityIdentifier("guideSignUpButton")
     }
 
     var signinBar: some View {
@@ -67,6 +68,7 @@ struct GuideView: View {
                     .fontWeight(.semibold)
             }
             .zIndex(1)
+            .accessibilityIdentifier("guideSignInButton")
         }
     }
 }
