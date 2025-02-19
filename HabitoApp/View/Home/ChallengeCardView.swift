@@ -19,12 +19,12 @@ struct ChallengeCardView: View {
     var body: some View {
         VStack {
             Text(viewModel.oldestChallenge(userID: accountViewModel.currentUser?.id)?.title ?? "No challenges")
-                .font(.largeTitle)
+                .font(.title2)
                 .foregroundStyle(.white)
                 .frame(maxWidth: .infinity)
           
             Text(viewModel.oldestChallenge(userID: accountViewModel.currentUser?.id)?.message ?? "")
-                .font(.title2)
+                .font(.headline)
                 .foregroundStyle(.white)
                 .padding(.top, 5)
 
@@ -51,6 +51,6 @@ struct ChallengeCardView: View {
     }
 }
 
-#Preview {
-    ChallengeCardView(dayNumber: 10, totalDays: 30, challengeTitle: "Challenge Title", image: UIImage(named: "sample")!)
-}
+//#Preview {
+//    ChallengeCardView(dayNumber: 10, totalDays: 30, challengeTitle: "Challenge Title", image: UIImage(named: "sample")!)
+//}

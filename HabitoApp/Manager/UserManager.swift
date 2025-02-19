@@ -21,14 +21,11 @@ class UserManager {
     }
 
     func createTable() {
-        var sql = "DROP TABLE if exists USER"
-        if sqlite3_exec(db, sql, nil, nil, nil) != SQLITE_OK {
-            let err = String(cString: sqlite3_errmsg(db)!)
-            print(err)
-            return
-        }
 
-        sql = """
+        // TODO: Remove for final deployment, for now it's convenient for previews
+        dropTable()
+
+        let sql = """
             CREATE TABLE if not exists USER (
                 id INTEGER PRIMARY KEY,
                 name TEXT,
@@ -330,6 +327,15 @@ class UserManager {
         }
 
         if sqlite3_step(stmt) != SQLITE_DONE {
+            let err = String(cString: sqlite3_errmsg(db)!)
+            print(err)
+            return
+        }
+    }
+
+    func dropTable() {
+        var sql = "DROP TABLE if exists USER"
+        if sqlite3_exec(db, sql, nil, nil, nil) != SQLITE_OK {
             let err = String(cString: sqlite3_errmsg(db)!)
             print(err)
             return

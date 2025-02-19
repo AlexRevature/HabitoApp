@@ -13,6 +13,14 @@ struct HabitoApp: App {
     @State var accountViewModel = AccountViewModel()
     @State var habitViewModel = HabitViewModel()
 
+    init() {
+        @AppStorage("keychainCheck") var keychainCheck: Bool?
+        if keychainCheck == nil || keychainCheck == false {
+            try? KeychainManager.deleteCredentials()
+        }
+        keychainCheck = true
+    }
+
     var body: some Scene {
 
         habitViewModel.accountViewModel = accountViewModel

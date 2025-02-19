@@ -21,13 +21,11 @@ class HabitManager {
     }
 
     func createTable() {
-        var sql = "DROP TABLE if exists HABIT"
-        if sqlite3_exec(db, sql, nil, nil, nil) != SQLITE_OK {
-            let err = String(cString: sqlite3_errmsg(db)!)
-            print(err)
-        }
 
-        sql = """
+        // TODO: Remove for final deployment, for now it's convenient for previews
+        dropTable()
+
+        let sql = """
             CREATE TABLE if not exists HABIT (
                 id INTEGER PRIMARY KEY,
                 type INTEGER,
@@ -337,6 +335,14 @@ class HabitManager {
             let err = String(cString: sqlite3_errmsg(db)!)
             print(err)
             return
+        }
+    }
+
+    func dropTable() {
+        var sql = "DROP TABLE if exists HABIT"
+        if sqlite3_exec(db, sql, nil, nil, nil) != SQLITE_OK {
+            let err = String(cString: sqlite3_errmsg(db)!)
+            print(err)
         }
     }
 }
