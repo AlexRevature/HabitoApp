@@ -27,17 +27,6 @@ struct ChallengeCardView: View {
                 .font(.headline)
                 .foregroundStyle(.white)
                 .padding(.top, 5)
-
-            Button {
-                print("Something")
-            } label: {
-                Text("Done")
-                    .tint(.white)
-                    .padding(EdgeInsets(top: 8, leading: 30, bottom: 8, trailing: 30))
-                    .background(.customPrimary)
-                    .clipShape(RoundedRectangle(cornerRadius: 20))
-            }
-            .padding (.top, 0.5)
         }
         .padding()
         .background {
