@@ -23,16 +23,7 @@ struct ChallengeNotifyView: View {
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, 10)
                 .padding(.bottom, 40)
-            Button {
-                print("Challenge Shared")
-            } label: {
-                Text("Share")
-                    .tint(.white)
-                    .padding(EdgeInsets(top: 12, leading: 30, bottom: 12, trailing: 30))
-                    .background(.blue)
-                    .clipShape(RoundedRectangle(cornerRadius: 20))
-            }
-            Spacer()
+            
         }
         .padding(.top, 50)
     }
