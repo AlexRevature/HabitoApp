@@ -19,6 +19,7 @@ struct HomeMainView: View {
         ScrollView {
             userBar
                 .padding(.top, 20)
+                .padding(.horizontal, 20)
 
             habitStack
             challengeStack
@@ -35,8 +36,9 @@ struct HomeMainView: View {
             HStack {
                 getUserImage()
                     .resizable()
-                    .scaledToFit()
-                    .frame(maxWidth: 60, maxHeight: 60)
+                    .scaledToFill()
+                    .clipShape(Circle())
+                    .frame(width: 60, height: 60)
                 VStack(alignment: .leading) {
                     Text("Hello, \(accountViewModel.currentUser?.name ?? "No Name")!")
                     Text("Welcome back!")
@@ -47,12 +49,18 @@ struct HomeMainView: View {
             .frame(maxWidth: .infinity)
             .padding(.horizontal, 30)
         }
+        .padding(.vertical, 10)
+        .padding(.horizontal, 0)
+        .background {
+            RoundedRectangle(cornerRadius: 20)
+                .foregroundStyle(.gray.opacity(0.2))
+        }
     }
 
     var habitStack: some View {
         VStack {
             LongNavigationButton(text: "View all your habits") { HabitMainView() }
-                .padding(.init(top: 15, leading: 20, bottom: 5, trailing: 20))
+                .padding(.init(top: 15, leading: 20, bottom: 4, trailing: 20))
             HabitCardView()
                 .padding(.horizontal, 20)
         }
@@ -70,7 +78,7 @@ struct HomeMainView: View {
     var guideStack: some View {
         VStack {
             LongNavigationButton(text: "View available guides") { GuideMainView() }
-            .padding(.init(top: 15, leading: 20, bottom: 5, trailing: 20))
+            .padding(.init(top: 15, leading: 20, bottom: 4, trailing: 20))
             GuideCardView(title: "Learn new skills!", subtitle: "And some more", image: UIImage(named: "back")!)
                 .padding(.horizontal, 20)
                 .padding(.bottom, 30)
@@ -109,7 +117,13 @@ private struct LongNavigationButton <Destination>: View where Destination: View 
                 Spacer()
                 Image(systemName: "chevron.right")
             }
-            .tint(.black)
+            .tint(.black.opacity(0.9))
+            .padding(8)
+            .background {
+                RoundedRectangle(cornerRadius: 8)
+                    .stroke(.black, lineWidth: 0.5)
+//                    .foregroundStyle(.gray.opacity(0.15))
+            }
         }
         .zIndex(1)
     }
