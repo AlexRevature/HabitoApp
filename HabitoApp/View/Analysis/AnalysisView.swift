@@ -96,15 +96,17 @@ struct AnalysisView: View {
                         RoundedRectangle(cornerRadius: 10)
                             .foregroundStyle(.white)
                         GeometryReader { geometry in
-                            RoundedRectangle(cornerRadius: 10)
-                                .foregroundStyle(.customPrimary)
-                                .frame(height: geometry.size.height * percentage)
-                                .clipped()
+                            VStack {
+                                Spacer()
+                                RoundedRectangle(cornerRadius: 10)
+                                    .foregroundStyle(.customPrimary)
+                                    .frame(height: geometry.size.height * percentage)
+                                    .clipped()
+                            }
                         }
                     }
                     Text(dayName)
                 }
-//                .frame(maxHeight: 170)
             }
         }
     }

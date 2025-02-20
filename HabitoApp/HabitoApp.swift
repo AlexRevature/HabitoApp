@@ -14,6 +14,7 @@ struct HabitoApp: App {
     @State var habitViewModel = HabitViewModel()
 
     init() {
+        // Delete keychain on new installation
         @AppStorage("keychainCheck") var keychainCheck: Bool?
         if keychainCheck == nil || keychainCheck == false {
             try? KeychainManager.deleteCredentials()

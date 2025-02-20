@@ -44,7 +44,7 @@ struct HabitCardView: View {
             HStack {
                 moveButton(imageName: "chevron.left", step: -1)
                 PercentageCircle(percentage: Double(currentHabit.habit.count) / Double(currentHabit.habit.total))
-                    .frame(maxWidth: 70, maxHeight: 70)
+                    .frame(maxWidth: 75, maxHeight: 75)
                     .padding(.leading, 6)
 
                 VStack {
@@ -136,7 +136,7 @@ private struct PercentageCircle: View {
     var body: some View {
         ZStack {
             Circle()
-                .stroke(Color.white.opacity(0.9), lineWidth: 8)
+                .stroke(Color.white.opacity(0.9), lineWidth: 6)
 
             Circle()
                 .trim(from: 0, to: percentage)
@@ -144,7 +144,7 @@ private struct PercentageCircle: View {
                 .rotationEffect(.degrees(-90))
 
             Text("\(Int(percentage * 100))%")
-                .font(.title2)
+                .font(.title3)
                 .foregroundStyle(.white)
                 .bold()
         }

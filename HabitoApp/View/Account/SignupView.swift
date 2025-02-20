@@ -74,7 +74,7 @@ struct SignupView: View {
 
             HStack {
                 Button {
-                    googleAction()
+                    showGoogleSignin()
                 } label: {
                     HStack {
                         Image("google")
@@ -96,28 +96,7 @@ struct SignupView: View {
                 SignInWithAppleButton(.continue) { request in
                     request.requestedScopes = [.fullName, .email]
                 } onCompletion: { result in
-                    switch result {
-                        case .success(let authorization):
-                            if let userCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
-                                let name = userCredential.fullName
-                                let email = userCredential.email
-
-                                guard let name, let email else { return }
-                                let fullname = (name.givenName ?? "") + " " + (name.familyName ?? "")
-
-                                var user = UserManager.shared.fetchDataByEmail(email: email)
-                                if user == nil {
-                                    do {
-                                        user = try viewModel.createUser(name: fullname, email: email, phone: "", password: "", keychain: false)
-                                    } catch {
-                                        print("Google signin error")
-                                    }
-                                }
-                                self.viewModel.currentUser = user
-                            }
-                        default:
-                            return
-                    }
+                    handleGoogleAuth(result: result)
                 }
                 .signInWithAppleButtonStyle(.black)
                 .frame(maxWidth: 150)
@@ -126,7 +105,32 @@ struct SignupView: View {
         }
     }
 
-    func googleAction() {
+    func handleGoogleAuth(result: Result<ASAuthorization, any Error>) {
+        switch result {
+            case .success(let authorization):
+                if let userCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
+                    let name = userCredential.fullName
+                    let email = userCredential.email
+
+                    guard let name, let email else { return }
+                    let fullname = (name.givenName ?? "") + " " + (name.familyName ?? "")
+
+                    var user = UserManager.shared.fetchDataByEmail(email: email)
+                    if user == nil {
+                        do {
+                            user = try viewModel.createUser(name: fullname, email: email, phone: "", password: "", keychain: false)
+                        } catch {
+                            print("Google signin error")
+                        }
+                    }
+                    self.viewModel.currentUser = user
+                }
+            default:
+                return
+        }
+    }
+
+    func showGoogleSignin() {
         let clientID = "706899943928-o8bj68noc80uh5fuopcsd70eer0677dl.apps.googleusercontent.com"
 
         let config = GIDConfiguration(clientID: clientID)
@@ -217,7 +221,16 @@ struct SignupView: View {
         .accessibilityIdentifier("signUpMainButton")
     }
 
+    func resetErrorVars() {
+        nameErr = false
+        emailErr = false
+        phoneErr = false
+        passwordErr = false
+        termsErr = false
+    }
+
     func signupAction() {
+        resetErrorVars()
 
         do {
             try viewModel.verifyInformation(name: name, email: email, phone: phone, password: password, passwordVerify: passwordVerify)

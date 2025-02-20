@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct HabitNotifyView: View {
+
+    @Binding var isShown: Bool
+
     var body: some View {
         VStack {
             Image(systemName: "checkmark.circle")
@@ -25,9 +28,9 @@ struct HabitNotifyView: View {
                 .padding(.horizontal, 10)
                 .padding(.bottom, 40)
             Button {
-                print("Share action")
+                isShown = false
             } label: {
-                Text("Celebrate")
+                Text("Dismiss")
                     .tint(.white)
                     .padding(EdgeInsets(top: 12, leading: 40, bottom: 12, trailing: 40))
                     .background(.customPrimary)
@@ -40,5 +43,6 @@ struct HabitNotifyView: View {
 }
 
 #Preview {
-    HabitNotifyView()
+    @Previewable @State var isShown = true
+    HabitNotifyView(isShown: $isShown)
 }

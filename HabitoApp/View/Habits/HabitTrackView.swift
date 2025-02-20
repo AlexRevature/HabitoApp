@@ -14,11 +14,14 @@ struct HabitTrackView: View {
 
     @State var value: Double
     @State var triggerCompletion = false
+    @State var isCompleted = false
 
     init(info: Binding<HabitPacket>, remainShown: Binding<Bool>) {
         self._info = info
         self._remainShown = remainShown
         self.value = Double(info.wrappedValue.habit.count)
+        self.triggerCompletion = false
+        self.isCompleted = self.info.habit.count == self.info.habit.total
     }
 
     var body: some View {
@@ -33,17 +36,41 @@ struct HabitTrackView: View {
                 .padding(.bottom, 30)
 
             actionButton
-                .navigationDestination(isPresented: $triggerCompletion) {
-                    HabitNotifyView()
-                }
+
             Spacer()
         }
         .padding(.top, 80)
         .onChange(of: value) {
             let count = Int(value)
             info.habit.count = count
+            if count == info.habit.total {
+                triggerCompletion = true
+                isCompleted = true
+            }
         }
         .navigationTitle("\(info.asset.name) Details")
+        .overlay {
+            if (triggerCompletion) {
+                ZStack {
+                    Color(.gray)
+                        .opacity(0.8)
+                        .onTapGesture { triggerCompletion = false }
+                    HabitNotifyView(isShown: $triggerCompletion)
+                        .frame(maxWidth: 300, maxHeight: 500)
+                        .background {
+                            RoundedRectangle(cornerRadius: 30)
+                                .foregroundStyle(.white)
+                                .overlay {
+                                    RoundedRectangle(cornerRadius: 30)
+                                        .stroke(.black, lineWidth: 1.5)
+                                }
+                        }
+                }
+            }
+        }
+        .task {
+            self.isCompleted = self.info.habit.count == self.info.habit.total
+        }
     }
 
     var actionButton: some View {
@@ -51,13 +78,15 @@ struct HabitTrackView: View {
             value = Double(info.habit.total)
             info.habit.count = info.habit.total
             triggerCompletion = true
+            isCompleted = true
         } label: {
             Text("Done")
                 .tint(.white)
                 .padding(EdgeInsets(top: 12, leading: 30, bottom: 12, trailing: 30))
-                .background(.customPrimary)
+                .background(isCompleted ? .gray.opacity(0.5) : .customPrimary)
                 .clipShape(RoundedRectangle(cornerRadius: 15))
         }
+        .disabled(isCompleted)
     }
 
     var textStack: some View {
@@ -78,7 +107,8 @@ struct HabitTrackView: View {
                 in: 0...Double(info.habit.total),
                 step: 1
             )
-            .tint(.customPrimary)
+            .disabled(isCompleted)
+            .tint(isCompleted ? .gray : .customPrimary)
         }
     }
 

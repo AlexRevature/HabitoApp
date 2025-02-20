@@ -45,8 +45,6 @@ struct ProfileMainView: View {
             ActionRow(imageName: "person", text: "Edit profile", tint: .black, trigger: $editTrigger)
                 .navigationDestination(isPresented: $editTrigger) { ProfileEditView()
                 }
-//            ActionRow(imageName: "questionmark.circle", text: "Help", tint: .black, trigger: $helpTrigger)
-
             ActionRow(imageName: "trash", text: "Delete account", tint: .black, trigger: $deleteTrigger)
                 .onChange(of: deleteTrigger) {
                     viewModel.deleteUser()
