@@ -21,7 +21,7 @@ struct AnalysisView: View {
                 PercentageCircle(percentage: Double(waterHabit.habit.count) / Double(waterHabit.habit.total))
             }
             .padding()
-            .background(.customLight)
+            .background(.gray.opacity(0.15))
             .clipShape(RoundedRectangle(cornerRadius: 15))
                 .frame(maxHeight: 100)
                 .padding(.bottom, 15)
@@ -63,7 +63,7 @@ struct AnalysisView: View {
             barGroup
         }
         .padding()
-        .background(.customLight)
+        .background(.gray.opacity(0.15))
         .clipShape(RoundedRectangle(cornerRadius: 15))
     }
 
@@ -122,7 +122,7 @@ struct AnalysisView: View {
             Text("\(sleepHabit.habit.count)/\(sleepHabit.habit.total) \(sleepHabit.asset.unit.capitalized)")
         }
         .padding()
-        .background(.customLight)
+        .background(.gray.opacity(0.15))
         .clipShape(RoundedRectangle(cornerRadius: 15))
     }
 
@@ -140,7 +140,7 @@ struct AnalysisView: View {
         }
         .padding(.vertical)
         .padding(.horizontal, 35)
-        .background(.customLight)
+        .background(.gray.opacity(0.15))
         .clipShape(RoundedRectangle(cornerRadius: 15))
     }
 
