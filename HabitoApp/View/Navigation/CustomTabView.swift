@@ -41,6 +41,9 @@ struct CustomTabView: View {
         .onChange(of: selection) {
             habitViewModel.saveHabits()
         }
+        .onChange(of: accountViewModel.currentUser) {
+            selection = 0
+        }
     }
 }
 
