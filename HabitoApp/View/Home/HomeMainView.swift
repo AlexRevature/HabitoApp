@@ -60,7 +60,7 @@ struct HomeMainView: View {
 
     var challengeStack: some View {
         VStack {
-            LongNavigationButton(text: "View all your challenges") { ChallengeMainView() }
+            LongNavigationButton(text: "Create and view challenges") { ChallengeMainView() }
             .padding(.init(top: 20, leading: 20, bottom: 5, trailing: 20))
             ChallengeCardView(dayNumber: 0, totalDays: 10, challengeTitle: "Weight Lifting", image: UIImage(named: "back")!)
                 .padding(.horizontal, 20)
