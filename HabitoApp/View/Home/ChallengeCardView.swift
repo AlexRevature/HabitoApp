@@ -26,7 +26,6 @@ struct ChallengeCardView: View {
             Text(viewModel.oldestChallenge(userID: accountViewModel.currentUser?.id)?.message ?? "")
                 .font(.headline)
                 .foregroundStyle(.white)
-                .padding(.top, 5)
         }
         .padding()
         .background {
