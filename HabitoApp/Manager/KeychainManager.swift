@@ -74,6 +74,23 @@ class KeychainManager {
         return keychainPassword == password
     }
 
+    static func updatePassword(id: String, newPassword: String) throws {
+        let request: [CFString: Any] = [
+            kSecClass: kSecClassGenericPassword,
+            kSecAttrAccount: id.lowercased()
+        ]
+
+        let attributes: [CFString: Any] = [
+            kSecValueData: newPassword.data(using: .utf8)!
+        ]
+
+        let status = SecItemUpdate(request as CFDictionary, attributes as CFDictionary)
+
+        guard status == errSecSuccess else {
+            throw KeychainError.system
+        }
+    }
+
     static func deleteCredentials() throws {
 
         let status = SecItemDelete([

@@ -23,7 +23,7 @@ class HabitManager {
     func createTable() {
 
         // TODO: Remove for final deployment, for now it's convenient for previews
-        dropTable()
+//        dropTable()
 
         let sql = """
             CREATE TABLE if not exists HABIT (

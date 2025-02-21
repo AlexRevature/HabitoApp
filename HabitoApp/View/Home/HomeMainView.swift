@@ -38,23 +38,33 @@ struct HomeMainView: View {
                     .resizable()
                     .scaledToFill()
                     .clipShape(Circle())
+//                    .foregroundStyle(.customPrimary)
                     .frame(width: 60, height: 60)
                 VStack(alignment: .leading) {
-                    Text("Hello, \(accountViewModel.currentUser?.name ?? "No Name")!")
+                    HStack {
+                        Text("Good morning, ")
+                            .font(.custom("Gill Sans", size: 20))
+                            .fontWeight(.medium)
+                        + Text("\(accountViewModel.currentUser?.name ?? "No Name")")
+                            .foregroundStyle(.customPrimary)
+                            .font(.custom("Gill Sans", size: 20))
+                            .fontWeight(.medium)
+                    }
                     Text("Welcome back!")
+                        .font(.custom("Gill Sans", size: 18))
                 }
                 .padding(.leading, 12)
                 Spacer()
             }
             .frame(maxWidth: .infinity)
-            .padding(.horizontal, 30)
+            .padding(.horizontal, 15)
         }
-        .padding(.vertical, 10)
-        .padding(.horizontal, 0)
-        .background {
-            RoundedRectangle(cornerRadius: 20)
-                .foregroundStyle(.gray.opacity(0.2))
-        }
+//        .padding(.vertical, 10)
+//        .padding(.horizontal, 0)
+//        .background {
+//            RoundedRectangle(cornerRadius: 20)
+//                .foregroundStyle(.gray.opacity(0.2))
+//        }
     }
 
     var habitStack: some View {
@@ -114,17 +124,21 @@ private struct LongNavigationButton <Destination>: View where Destination: View 
         NavigationLink(destination: destination) {
             HStack {
                 Text(text)
+                    .font(.custom("Gill Sans", size: 18))
+                    .fontWeight(.semibold)
+                    .foregroundStyle(.black.opacity(0.7))
                 Spacer()
                 Image(systemName: "chevron.right")
             }
             .tint(.black.opacity(0.9))
-            .padding(8)
-            .background {
-                RoundedRectangle(cornerRadius: 8)
-                    .fill(.white)
-                    .shadow(radius: 3)
-
-            }
+            .padding(.horizontal, 4)
+//            .padding(8)
+//            .background {
+//                RoundedRectangle(cornerRadius: 8)
+//                    .fill(.white)
+//                    .shadow(radius: 3)
+//
+//            }
         }
         .zIndex(1)
     }

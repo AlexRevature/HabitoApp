@@ -18,6 +18,8 @@ struct ProfileEditView: View {
     @State var name: String = ""
     @State var phone: String = ""
 
+    @State var invalidPassword = false
+
     @Environment(AccountViewModel.self) var viewModel
 
     var body: some View {
@@ -25,19 +27,11 @@ struct ProfileEditView: View {
             userInfo
             entries
                 .padding(.horizontal, 25)
-//                .navigationButton
-//            Button {
-//
-//            } label: {
-//                Text("Save")
-//                    .tint(.white)
-//                    .padding(.vertical)
-//                    .frame(maxWidth: .infinity)
-//                    .background(.customPrimary)
-//                    .clipShape(RoundedRectangle(cornerRadius: 20))
-//            }
-//            .padding(.top, 20)
-//            .padding(.horizontal, 60)
+            if (invalidPassword) {
+                Text("Passwords must match")
+                    .foregroundStyle(.red)
+                    .padding(.top, 5)
+            }
         }
         .toolbar {
             Button {
@@ -55,10 +49,20 @@ struct ProfileEditView: View {
     }
 
     func saveInfo() {
+
+        if password != passwordVerify {
+            invalidPassword = true
+            return
+        }
+
         @Bindable var vm = viewModel
         vm.currentUser?.name = name
         vm.currentUser?.phone = phone
         vm.currentUser?.image = imageData
+
+        if viewModel.currentUser != nil {
+            try? KeychainManager.updatePassword(id: "\(viewModel.currentUser!.id)", newPassword: password)
+        }
     }
 
     var userInfo: some View {
@@ -110,7 +114,6 @@ struct ProfileEditView: View {
     }
 
     var entries: some View {
-//        @Bindable var vm = viewModel
         return VStack(alignment: .leading) {
             Text("Name")
                 .font(.headline)
@@ -122,22 +125,34 @@ struct ProfileEditView: View {
                 .padding(.bottom, 10)
             Text("Password")
                 .font(.headline)
-            wrappedTextField(placeholder: "Password", record: $password, isSecure: true)
+            wrappedTextField(placeholder: "Password", record: $password, isSecure: true, isError: invalidPassword)
                 .padding(.bottom, 10)
             Text("Verify Password")
                 .font(.headline)
-            wrappedTextField(placeholder: "Password", record: $passwordVerify, isSecure: true)
+            wrappedTextField(placeholder: "Password", record: $passwordVerify, isSecure: true, isError: invalidPassword)
                 .padding(.bottom, 10)
         }
     }
 
-    func wrappedTextField(placeholder: String, record: Binding<String>, isSecure: Bool = false) -> some View {
+    func wrappedTextField(placeholder: String, record: Binding<String>, isSecure: Bool = false, isError: Bool = false, identifier: String? = nil) -> some View {
 
         var textField: AnyView {
             if !isSecure {
-                AnyView(TextField(placeholder, text: record))
+                AnyView (
+                    TextField(placeholder, text: record)
+                        .autocapitalization(.none)
+                        .if(identifier != nil) {
+                            $0.accessibilityIdentifier(identifier!)
+                        }
+                )
             } else {
-                AnyView(SecureField(placeholder, text: record))
+                AnyView (
+                    SecureField(placeholder, text: record)
+                        .textContentType(.oneTimeCode)
+                        .if(identifier != nil) {
+                            $0.accessibilityIdentifier(identifier!)
+                        }
+                )
             }
         }
 
@@ -146,7 +161,7 @@ struct ProfileEditView: View {
             .padding(.vertical, 12)
             .overlay {
                 RoundedRectangle(cornerRadius: 15)
-                    .stroke(Color.customPrimary, lineWidth: 1)
+                    .stroke(isError ? Color.red : Color.customPrimary, lineWidth: 1)
             }
 
         return returnView

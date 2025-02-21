@@ -37,7 +37,7 @@ struct HabitCellView: View {
     }
 
     var cellBackground: some View {
-        Image(info.asset.backImage)
+        Image(.back)
             .resizable()
             .scaledToFill()
             .opacity(0.5)

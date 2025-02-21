@@ -20,10 +20,10 @@ class HabitViewModel {
     }
 
     let habitAssets: [HabitType:HabitAsset] = [
-        .water: HabitAsset(name: "Water", title: "Water", message: "Almost there!", image: "water", backImage: "back", trackImage: nil, unit: "glasses"),
-        .walking: HabitAsset(name: "Walking", title: "Walking", message: "Keep going!", image: "running", backImage: "back", trackImage: nil, unit: "steps"),
-        .sleep: HabitAsset(name: "Sleep", title: "Sleep", message: "Doing well!", image: "sleep", backImage: "back", trackImage: nil, unit: "hours"),
-        .exercise: HabitAsset(name: "Exercise", title: "Exercise", message: "You can do it!", image: "yoga", backImage: "back", trackImage: nil, unit: "minutes"),
+        .water: HabitAsset(name: "Water", title: "Water", message: "Keep hydrated!", image: "water", backImage: "water_test", trackImage: nil, unit: "glasses"),
+        .walking: HabitAsset(name: "Walking", title: "Walking", message: "Keep going!", image: "running", backImage: "walk_test", trackImage: nil, unit: "steps"),
+        .sleep: HabitAsset(name: "Sleep", title: "Sleep", message: "Get a good rest!", image: "sleep", backImage: "sleep_test", trackImage: nil, unit: "hours"),
+        .exercise: HabitAsset(name: "Exercise", title: "Exercise", message: "You can do it!", image: "yoga", backImage: "exercise_test", trackImage: nil, unit: "minutes"),
     ]
 
     func getHabits(date: Date) -> [HabitPacket]? {
