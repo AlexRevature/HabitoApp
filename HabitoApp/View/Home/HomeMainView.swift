@@ -121,8 +121,9 @@ private struct LongNavigationButton <Destination>: View where Destination: View 
             .padding(8)
             .background {
                 RoundedRectangle(cornerRadius: 8)
-                    .stroke(.black, lineWidth: 0.5)
-//                    .foregroundStyle(.gray.opacity(0.15))
+                    .fill(.white)
+                    .shadow(radius: 3)
+
             }
         }
         .zIndex(1)
