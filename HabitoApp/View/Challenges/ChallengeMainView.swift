@@ -53,6 +53,9 @@ struct ChallengeMainView: View {
                 NavigationLink(destination: ChallengeEditView(onSave: {
                     viewModel.refreshChallenges(for: selection)
                 }).environment(accountViewModel)) {
+                    Text("Add Challenge")
+                        
+                    
                     Image(systemName: "plus")
                         .resizable()
                         .frame(width: 20, height: 20)
